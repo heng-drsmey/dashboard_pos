@@ -34,6 +34,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="com-add.php">Add Company</a>
                 <a class="collapse-item" href="com-list.php">Company List</a>
+                <a class="collapse-item" href="com-list.php">Logo</a>
             </div>
         </div>
     </li>
@@ -50,6 +51,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
         </div>
     </li>
+    <li class="nav-item <?php echo ($current_page == 'cus-add.php' || $current_page == 'cus-list.php') ? 'active' : ''; ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCus" aria-expanded="true" aria-controls="collapseCus">
+            <!-- <i class="fas fa-fw fa-user"></i> -->
+            <i class="fas fa-fw fa-user-circle"></i>
+            <span>Customer</span>
+        </a>
+        <div id="collapseCus" class="collapse" aria-labelledby="headingEmp" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="emp-add.php">Add Customer</a>
+                <a class="collapse-item" href="emp-list.php">Customer List</a>
+            </div>
+        </div>
+    </li>
 
     <li class="nav-item <?php echo ($current_page == 'cate-add.php' || $current_page == 'cate-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCat" aria-expanded="true" aria-controls="collapsePro">
@@ -60,6 +74,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="cate-add.php">Add Category</a>
                 <a class="collapse-item" href="cate-list.php">Category List</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item <?php echo ($current_page == 'cate-add.php' || $current_page == 'cate-list.php') ? 'active' : ''; ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePayroll" aria-expanded="true" aria-controls="collapsePayroll">
+            <i class="fas fa-fw fa-money" aria-hidden="true"></i>
+            <span>Payroll</span>
+        </a>
+        <div id="collapsePayroll" class="collapse" aria-labelledby="headingCat" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="cate-add.php">Payroll By Month</a>
+                <a class="collapse-item" href="cate-list.php">Payroll By Employee</a>
+                <a class="collapse-item" href="cate-list.php">Review Salary</a>
             </div>
         </div>
     </li>
@@ -83,7 +110,35 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <span>Inventory</span>
         </a>
     </li>
+    <li class="nav-item <?php echo ($current_page == 'user-list.php') ? 'active' : ''; ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePOS" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fa fa-laptop" aria-hidden="true"></i>
+            <span>Point Of Sale</span>
+        </a>
+        <div id="collapsePOS" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="user-list.php">Shift</a>
+                <a class="collapse-item" href="user-list.php">Shift Details</a>
+                <a class="collapse-item" href="user-list.php">Sales Details</a>
+                <a class="collapse-item" href="user-list.php">POS</a>
+            </div>
+        </div>
+    </li>
 
+    <li class="nav-item <?php echo ($current_page == 'user-list.php') ? 'active' : ''; ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSet1" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-file"></i>
+            <span>Report</span>
+        </a>
+        <div id="collapseSet1" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="user-list.php">Daily Sales</a>
+                <a class="collapse-item" href="user-list.php">Sales Summary</a>
+                <a class="collapse-item" href="user-list.php">Sales Details</a>
+                <a class="collapse-item" href="user-list.php">Sales By Item</a>
+            </div>
+        </div>
+    </li>
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item <?php echo ($current_page == 'user-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSet" aria-expanded="true" aria-controls="collapseUtilities">
@@ -93,6 +148,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div id="collapseSet" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="user-list.php">User List</a>
+                <a class="collapse-item" href="user-list.php">Table</a>
+                <a class="collapse-item" href="user-list.php">Role</a>
+                <a class="collapse-item" href="user-list.php">Payment Method</a>
             </div>
         </div>
     </li>
