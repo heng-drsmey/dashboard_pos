@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 02:20 PM
+-- Generation Time: Apr 05, 2024 at 04:51 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -194,6 +194,7 @@ CREATE TABLE `invoice` (
   `CustomerId` int(11) DEFAULT NULL,
   `ShiftDetailsId` int(11) DEFAULT NULL,
   `PaymentMethodId` int(11) DEFAULT NULL,
+  `TableId` int(11) NOT NULL,
   `InvoiceStatus` varchar(120) DEFAULT NULL,
   `AmountInUSD` decimal(6,2) DEFAULT NULL,
   `AmountInKHR` decimal(6,2) DEFAULT NULL,
@@ -208,15 +209,15 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(2, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(3, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(4, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(5, 1, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(6, 1, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(7, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(8, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
+INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `TableId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
+(1, 1, 1, 1, 1, 0, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(2, 1, 1, 1, 1, 0, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(3, 1, 1, 1, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(4, 1, 1, 1, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(5, 1, 1, 2, 1, 0, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(6, 1, 1, 2, 1, 0, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(7, 1, 1, 2, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(8, 1, 1, 2, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
 
 -- --------------------------------------------------------
 
@@ -259,6 +260,19 @@ INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `ProductSkuId`, `Quantity`, `Pr
 (18, 7, 2, 3, 2.00, 0.00, 6.00),
 (19, 8, 1, 2, 2.00, 0.00, 4.00),
 (20, 8, 2, 3, 2.00, 0.00, 6.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logo`
+--
+
+CREATE TABLE `logo` (
+  `Id` int(11) NOT NULL,
+  `Code` varchar(120) NOT NULL,
+  `OutletId` tinyint(4) NOT NULL DEFAULT 1,
+  `Logo` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -516,6 +530,37 @@ INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `Closi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `table`
+--
+
+CREATE TABLE `table` (
+  `Id` int(11) UNSIGNED NOT NULL,
+  `Name` varchar(120) NOT NULL,
+  `Code` varchar(120) NOT NULL,
+  `NumberOfCustomers` int(11) UNSIGNED DEFAULT 0,
+  `Status` tinyint(1) DEFAULT 1,
+  `CreatedBy` int(11) DEFAULT NULL,
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `table`
+--
+
+INSERT INTO `table` (`Id`, `Name`, `Code`, `NumberOfCustomers`, `Status`, `CreatedBy`, `CreatedAt`) VALUES
+(1, 'Table 1', 'Table 1', 4, 1, 1, '2024-04-05 13:45:10'),
+(2, 'Table 2', 'Table 2', 4, 1, 1, '2024-04-05 13:45:10'),
+(3, 'Table 3', 'Table 3', 4, 1, 1, '2024-04-05 13:45:10'),
+(4, 'Table 4', 'Table 4', 4, 1, 1, '2024-04-05 13:45:10'),
+(5, 'Table 5', 'Table 5', 4, 1, 1, '2024-04-05 13:45:10'),
+(6, 'Table 6', 'Table 6', 4, 1, 1, '2024-04-05 13:45:10'),
+(7, 'Table 7', 'Table 7', 4, 1, 1, '2024-04-05 13:45:10'),
+(8, 'Table 8', 'Table 8', 4, 1, 1, '2024-04-05 13:45:10'),
+(9, 'Table 9', 'Table 9', 4, 1, 1, '2024-04-05 13:45:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -618,6 +663,12 @@ ALTER TABLE `invoicedetails`
   ADD KEY `ProductSkuId` (`ProductSkuId`);
 
 --
+-- Indexes for table `logo`
+--
+ALTER TABLE `logo`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `outlet`
 --
 ALTER TABLE `outlet`
@@ -675,6 +726,12 @@ ALTER TABLE `shiftdetails`
   ADD KEY `ShiftId` (`ShiftId`);
 
 --
+-- Indexes for table `table`
+--
+ALTER TABLE `table`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -724,6 +781,12 @@ ALTER TABLE `invoicedetails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `logo`
+--
+ALTER TABLE `logo`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `outlet`
 --
 ALTER TABLE `outlet`
@@ -770,6 +833,12 @@ ALTER TABLE `shift`
 --
 ALTER TABLE `shiftdetails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `table`
+--
+ALTER TABLE `table`
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user`
