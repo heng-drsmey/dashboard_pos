@@ -91,7 +91,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ($current_page == 'product-add.php' || $current_page == 'product-list.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'product-add.php' || $current_page == 'product-list.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="true" aria-controls="collapsePro">
             <i class="fas fa-fw fa-mug-hot"></i>
             <span>Product</span>
@@ -100,6 +100,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="product-add.php">Add Product</a>
                 <a class="collapse-item" href="product-list.php">Product List</a>
+                <a class="collapse-item" href="uom.php">Unit Of Measure</a>
             </div>
         </div>
     </li>
