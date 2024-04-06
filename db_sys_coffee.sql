@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 04:51 PM
+-- Generation Time: Apr 06, 2024 at 05:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -228,7 +228,7 @@ INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `Paymen
 CREATE TABLE `invoicedetails` (
   `Id` int(11) NOT NULL,
   `InvoiceId` int(11) DEFAULT NULL,
-  `ProductSkuId` int(11) DEFAULT NULL,
+  `UomId` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
   `Price` decimal(6,2) DEFAULT NULL,
   `Discount` decimal(6,2) DEFAULT NULL,
@@ -239,7 +239,7 @@ CREATE TABLE `invoicedetails` (
 -- Dumping data for table `invoicedetails`
 --
 
-INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `ProductSkuId`, `Quantity`, `Price`, `Discount`, `Total`) VALUES
+INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `UomId`, `Quantity`, `Price`, `Discount`, `Total`) VALUES
 (1, 1, 1, 2, 2.00, 0.00, 2.00),
 (2, 1, 1, 3, 3.00, 0.00, 3.00),
 (3, 1, 1, 3, 3.00, 0.00, 3.00),
@@ -396,62 +396,6 @@ INSERT INTO `product` (`Id`, `CategoryId`, `Name`, `Description`, `Image`, `Stat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productsku`
---
-
-CREATE TABLE `productsku` (
-  `Id` int(11) NOT NULL,
-  `ProductId` int(11) DEFAULT NULL,
-  `SizeName` varchar(120) NOT NULL,
-  `Price` decimal(6,2) NOT NULL,
-  `Unit` varchar(120) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `productsku`
---
-
-INSERT INTO `productsku` (`Id`, `ProductId`, `SizeName`, `Price`, `Unit`) VALUES
-(1, 1, 'Small', 2.00, 'PCS'),
-(2, 1, 'Middle', 2.30, 'PCS'),
-(3, 1, 'Large', 3.00, 'PCS'),
-(4, 2, 'Small', 2.00, 'PCS'),
-(5, 2, 'Middle', 2.30, 'PCS'),
-(6, 2, 'Large', 2.30, 'PCS'),
-(7, 3, 'Small', 2.00, 'PCS'),
-(8, 3, 'Middle', 2.30, 'PCS'),
-(9, 3, 'Large', 2.30, 'PCS'),
-(10, 4, 'Small', 2.00, 'PCS'),
-(11, 4, 'Middle', 2.30, 'PCS'),
-(12, 4, 'Large', 2.30, 'PCS'),
-(13, 5, 'Small', 2.00, 'PCS'),
-(14, 5, 'Middle', 2.30, 'PCS'),
-(15, 5, 'Large', 2.30, 'PCS'),
-(16, 6, 'Small', 2.00, 'PCS'),
-(17, 6, 'Middle', 2.30, 'PCS'),
-(18, 6, 'Large', 2.30, 'PCS'),
-(19, 7, 'Small', 2.00, 'PCS'),
-(20, 7, 'Middle', 2.30, 'PCS'),
-(21, 7, 'Large', 2.30, 'PCS'),
-(22, 8, 'Small', 2.00, 'PCS'),
-(23, 8, 'Middle', 2.30, 'PCS'),
-(24, 8, 'Large', 2.30, 'PCS'),
-(25, 9, 'Small', 2.00, 'PCS'),
-(26, 9, 'Middle', 2.30, 'PCS'),
-(27, 9, 'Large', 2.30, 'PCS'),
-(28, 10, 'Small', 2.00, 'PCS'),
-(29, 10, 'Middle', 2.30, 'PCS'),
-(30, 10, 'Large', 2.30, 'PCS'),
-(31, 11, 'Small', 2.00, 'PCS'),
-(32, 11, 'Middle', 2.30, 'PCS'),
-(33, 11, 'Large', 2.30, 'PCS'),
-(34, 12, 'Small', 2.00, 'PCS'),
-(35, 12, 'Middle', 2.30, 'PCS'),
-(36, 12, 'Large', 2.30, 'PCS');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `role`
 --
 
@@ -561,6 +505,62 @@ INSERT INTO `table` (`Id`, `Name`, `Code`, `NumberOfCustomers`, `Status`, `Creat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `uom`
+--
+
+CREATE TABLE `uom` (
+  `Id` int(11) NOT NULL,
+  `ProductId` int(11) DEFAULT NULL,
+  `SizeName` varchar(120) NOT NULL,
+  `Price` decimal(6,2) NOT NULL,
+  `Unit` varchar(120) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `uom`
+--
+
+INSERT INTO `uom` (`Id`, `ProductId`, `SizeName`, `Price`, `Unit`) VALUES
+(1, 1, 'Small', 2.00, 'PCS'),
+(2, 1, 'Middle', 2.30, 'PCS'),
+(3, 1, 'Large', 3.00, 'PCS'),
+(4, 2, 'Small', 2.00, 'PCS'),
+(5, 2, 'Middle', 2.30, 'PCS'),
+(6, 2, 'Large', 2.30, 'PCS'),
+(7, 3, 'Small', 2.00, 'PCS'),
+(8, 3, 'Middle', 2.30, 'PCS'),
+(9, 3, 'Large', 2.30, 'PCS'),
+(10, 4, 'Small', 2.00, 'PCS'),
+(11, 4, 'Middle', 2.30, 'PCS'),
+(12, 4, 'Large', 2.30, 'PCS'),
+(13, 5, 'Small', 2.00, 'PCS'),
+(14, 5, 'Middle', 2.30, 'PCS'),
+(15, 5, 'Large', 2.30, 'PCS'),
+(16, 6, 'Small', 2.00, 'PCS'),
+(17, 6, 'Middle', 2.30, 'PCS'),
+(18, 6, 'Large', 2.30, 'PCS'),
+(19, 7, 'Small', 2.00, 'PCS'),
+(20, 7, 'Middle', 2.30, 'PCS'),
+(21, 7, 'Large', 2.30, 'PCS'),
+(22, 8, 'Small', 2.00, 'PCS'),
+(23, 8, 'Middle', 2.30, 'PCS'),
+(24, 8, 'Large', 2.30, 'PCS'),
+(25, 9, 'Small', 2.00, 'PCS'),
+(26, 9, 'Middle', 2.30, 'PCS'),
+(27, 9, 'Large', 2.30, 'PCS'),
+(28, 10, 'Small', 2.00, 'PCS'),
+(29, 10, 'Middle', 2.30, 'PCS'),
+(30, 10, 'Large', 2.30, 'PCS'),
+(31, 11, 'Small', 2.00, 'PCS'),
+(32, 11, 'Middle', 2.30, 'PCS'),
+(33, 11, 'Large', 2.30, 'PCS'),
+(34, 12, 'Small', 2.00, 'PCS'),
+(35, 12, 'Middle', 2.30, 'PCS'),
+(36, 12, 'Large', 2.30, 'PCS');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -660,7 +660,7 @@ ALTER TABLE `invoice`
 ALTER TABLE `invoicedetails`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `InvoiceId` (`InvoiceId`),
-  ADD KEY `ProductSkuId` (`ProductSkuId`);
+  ADD KEY `UomId` (`UomId`) USING BTREE;
 
 --
 -- Indexes for table `logo`
@@ -696,13 +696,6 @@ ALTER TABLE `product`
   ADD KEY `CategoryId` (`CategoryId`);
 
 --
--- Indexes for table `productsku`
---
-ALTER TABLE `productsku`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `ProductId` (`ProductId`);
-
---
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -730,6 +723,13 @@ ALTER TABLE `shiftdetails`
 --
 ALTER TABLE `table`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `uom`
+--
+ALTER TABLE `uom`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `ProductId` (`ProductId`);
 
 --
 -- Indexes for table `user`
@@ -811,12 +811,6 @@ ALTER TABLE `product`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `productsku`
---
-ALTER TABLE `productsku`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
---
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
@@ -839,6 +833,12 @@ ALTER TABLE `shiftdetails`
 --
 ALTER TABLE `table`
   MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `uom`
+--
+ALTER TABLE `uom`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -876,7 +876,7 @@ ALTER TABLE `invoice`
 --
 ALTER TABLE `invoicedetails`
   ADD CONSTRAINT `invoicedetails_ibfk_1` FOREIGN KEY (`InvoiceId`) REFERENCES `invoice` (`Id`),
-  ADD CONSTRAINT `invoicedetails_ibfk_2` FOREIGN KEY (`ProductSkuId`) REFERENCES `productsku` (`Id`);
+  ADD CONSTRAINT `invoicedetails_ibfk_2` FOREIGN KEY (`UomId`) REFERENCES `uom` (`Id`);
 
 --
 -- Constraints for table `product`
@@ -885,17 +885,17 @@ ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`Id`);
 
 --
--- Constraints for table `productsku`
---
-ALTER TABLE `productsku`
-  ADD CONSTRAINT `productsku_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`);
-
---
 -- Constraints for table `shiftdetails`
 --
 ALTER TABLE `shiftdetails`
   ADD CONSTRAINT `shiftdetails_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`),
   ADD CONSTRAINT `shiftdetails_ibfk_2` FOREIGN KEY (`ShiftId`) REFERENCES `shift` (`Id`);
+
+--
+-- Constraints for table `uom`
+--
+ALTER TABLE `uom`
+  ADD CONSTRAINT `uom_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`);
 
 --
 -- Constraints for table `user`
