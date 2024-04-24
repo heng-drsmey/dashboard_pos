@@ -1,5 +1,10 @@
 <?php
+session_start();
 include('cn.php');
+if (!isset($_SESSION['session'])) {
+    header("location: login.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,20 +59,20 @@ include('cn.php');
                         <a href="product-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
                     <?php
-                        if(isset($_GET['search'])) {
+                    if (isset($_GET['search'])) {
                         $search = mysqli_real_escape_string($conn, $_GET['search']);
                         $sqlproduct = "SELECT * FROM `product` WHERE `Name` LIKE '%$search%'";
-                        } else {
+                    } else {
                         $sqlproduct = "SELECT * FROM `product`";
-                        }
-                        $qrproduct = $conn->query($sqlproduct);
+                    }
+                    $qrproduct = $conn->query($sqlproduct);
                     ?>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <!-- <div class="input-group sticky">      
+                                    <!-- <div class="input-group sticky">      
                                     <form class="form-inline ml-3 w-100" method="GET">        
                                         <div class="input-group input-group ">
                                         <input class="form-control form-control-navbar" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
@@ -126,32 +131,68 @@ include('cn.php');
                                     }
                                     ?>
                                     <?php
-                                    $sqlPro = "SELECT * FROM `product`";
-                                    $rs = $conn->query($sqlPro);
-                                    while ($rowPro = $rs->fetch_assoc()) {
-                                        $createBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
-                                        $Cate = $conn->query("SELECT * FROM `Category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
-                                        echo '
-                                                <tbody>
-                                                    <tr>
-                                                        <td>' . $rowPro['Name'] . '</td>
-                                                        <td>' . $Cate['Name'] . '</td>
-                                                        <td>' . $rowPro['Description'] . '</td>
-                                                        <td><img src="ImageProduct/' . $rowPro['Image'] . '" alt="" width="150px"></td>
-                                                        <td>' . $rowPro['Status'] . '</td>
-                                                        <td>' . $createBy['Username'] . '</td>
-                                                        <td>' . $rowPro['CreateAt'] . '</td>
-                                                        <td>
-                                                            <a href="product-add.php?ProId=' . $rowPro['Id'] . '"  " class="btn btn-outline-primary btn-sm ">Edit</a>
-                                                            <a href="product-list.php?delId=' . $rowPro['Id'] . '" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this Outlet?\')">Delete</a> 
-                                                    
-                                                        </td>
-                                                    </tr>
-                                                    
-                                                </tbody>
-                                                ';
-                                    }
+                                    // $sqlPro = "SELECT * FROM `product`";
+                                    // $rs = $conn->query($sqlPro);
+                                    // while ($rowPro = $rs->fetch_assoc()) {
+                                    //     $createBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
+                                    //     $Cate = $conn->query("SELECT * FROM `Category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
+                                    //     echo '
+                                    //             <tbody>
+                                    //                 <tr>
+                                    //                     <td>' . $rowPro['Name'] . '</td>
+                                    //                     <td>' . $Cate['Name'] . '</td>
+                                    //                     <td>' . $rowPro['Description'] . '</td>
+                                    //                     <td><img src="ImageProduct/' . $rowPro['Image'] . '" alt="" width="150px"></td>
+                                    //                     <td>' . $rowPro['Status'] . '</td>
+                                    //                     <td>' . $createBy['Username'] . '</td>
+                                    //                     <td>' . $rowPro['CreateAt'] . '</td>
+                                    //                     <td>
+                                    //                         <a href="product-add.php?ProId=' . $rowPro['Id'] . '"  " class="btn btn-outline-primary btn-sm ">Edit</a>
+                                    //                         <a href="product-list.php?delId=' . $rowPro['Id'] . '" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this Outlet?\')">Delete</a> 
+
+                                    //                     </td>
+                                    //                 </tr>
+
+                                    //             </tbody>
+                                    //             ';
+                                    // }  
                                     ?>
+                                    <tbody>
+                                        <?php
+                                        $sqlPro = "SELECT * FROM `product`";
+                                        $item = $conn->query($sqlPro);
+                                        $rowPro = $item->fetch_assoc();
+                                        ?>
+                                        <?php foreach ($item as $rowPro) : 
+                                            $createBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
+                                            $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
+                                       
+                                            ?>
+                                            <tr>
+                                                <td><?= $rowPro['Name'] ?></td>
+                                                <td><?= $Cate['Name'] ?></td>
+                                                <!-- <td><?= $rowPro['CategoryId'] ?></td> -->
+                                                <td><?= $rowPro['Description'] ?></td>
+                                                <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="100px"></td>
+                                                <td><?= $rowPro['Status'] ?>
+                                                <?php
+                                                    if($row['status']==1){
+                                                        echo '<p><a href="status.php?Pro='.$rowPro['status']. '&status=0" class="badge badge-lg badge-success text-white ">Enable</a></p>';
+                                                    }else{
+                                                        echo '<p><a href="status.php?Pro='.$rowPro['status']. '&status=1" class="badge badge-secondary badge-lg text-white ">Disable</a></p>';
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td><?= $createBy['Username'] ?></td>
+                                                <td><?= $rowPro['CreateAt'] ?></td>
+                                                <td>
+                                                    <a href="product-add.php?ProId=' . $rowPro['Id'] . '" class="btn btn-outline-primary btn-sm ">Edit</a>
+                                                    <a href="product-list.php?delId=' . $rowPro['Id'] . '" class="btn btn-outline-danger btn-sm">Delete</a>
+                                                </td>
+                                            </tr>
+
+                                        <?php endforeach ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -176,25 +217,25 @@ include('cn.php');
     <!-- Search -->
     <script>
         function myFunction() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("dataTable");
-        tr = table.getElementsByTagName("tr");
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
 
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
-            }
-        }
         }
     </script>
     <!-- Scroll to Top Button-->
