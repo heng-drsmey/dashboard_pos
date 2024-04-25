@@ -1,0 +1,18 @@
+# ODOM
+---Module
+    +Dashboard
+    +Product
+        -Add product
+        -Product list
+        -Unit of Measure
+    +Inventory
+    +Report
+        -Daily Sales
+        -Sales Summary
+        -Sales Details
+        -Sales By Item
+    +Setting
+        -User list
+        -Table
+        -Role
+        -Paymeth Method
