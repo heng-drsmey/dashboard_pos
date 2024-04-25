@@ -1,8 +1,8 @@
 <?php
-                        include         
-$id = $_GET['Id'];
-$status = $_GET['status'];
-$query = "UPDATE `product` SET `status`=$status WHERE Id=$id";
+    include ('cn.php');      
+$id = $_REQUEST['Id'];
+$status = $_REQUEST['Status'];
+$query = "UPDATE `product` SET `Status`=$status WHERE Id=$id";
 mysqli_query($conn,$query);
-header('location: index.php');
+header('location: product-list.php');
 ?>
