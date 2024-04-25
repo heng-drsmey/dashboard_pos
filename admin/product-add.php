@@ -1,32 +1,4 @@
-<?php
-session_start();
-include('cn.php');
-if(!isset($_SESSION['session'])){
-    header("location: login.php");
-}
-
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>SB Admin 2 - Add Product</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-</head>
+<?php include('include/head.php')  ?>
 
 <body id="page-top">
 
@@ -52,44 +24,61 @@ if(!isset($_SESSION['session'])){
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Add Product</h1>
-
                     <div class="row">
-
-                        <div class="col-lg-6">
-
-                            <!-- Circle Buttons -->
-                            <div class="card shadow mb-4">
-                                <div class="card-body">
-                                    <label for="firstName">Product Name:</label>
-                                    <input type="text" class="form-control">
-                                    <label for="LastName">Eg:</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <!-- Brand Buttons -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Brand Buttons</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Google and Facebook buttons are available featuring each company's respective
-                                        brand color. They are used on the user login and registration pages.</p>
-                                    <p>You can create more custom buttons by adding a new color variable in the
-                                        <code>_variables.scss</code> file and then using the Bootstrap button variant
-                                        mixin to create a new style, as demonstrated in the <code>_buttons.scss</code>
-                                        file.
-                                    </p>
-                                    <a href="#" class="btn btn-google btn-block"><i class="fab fa-google fa-fw"></i>
-                                        .btn-google</a>
-                                    <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f fa-fw"></i> .btn-facebook</a>
-
-                                </div>
-                            </div>
-
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <label for="Code">code</label>
+                                            <input type="text" class="form-control">
+                                            <label for="Name">Name</label>
+                                            <input type="text" class="form-control">                                          
+                                            <label for="Category">Category</label>
+                                            <select class="form-control form-select-sm">
+                                                <option value="ice1" selected>Ice 1</option>
+                                                <option value="ice1">Ice 2</option>
+                                                <option value="ice1">Ice 3</option>
+                                                <option value="ice1"> Ice 4</option>
+                                            </select>
+                                            <label for="Size">Size</label>
+                                            <select class="form-control form-select-sm">
+                                                <option value="ice1" selected>Ice 1</option>
+                                                <option value="ice1">Ice 2</option>
+                                                <option value="ice1">Ice 3</option>
+                                                <option value="ice1"> Ice 4</option>
+                                            </select>
+                                            <label for="Price">Price</label>
+                                            <input type="number" class="form-control">
+                                            <label for="Unit">Unit</label>
+                                            <select class="form-control form-select-sm">
+                                                <option value="ice1" selected>Ice 1</option>
+                                                <option value="ice1">Ice 2</option>
+                                                <option value="ice1">Ice 3</option>
+                                                <option value="ice1"> Ice 4</option>
+                                            </select>
+                                            <label for="Description">Description</label>
+                                            <input type="text" class="form-control">
+                                            <label for="CreateBy">CreateBy</label>
+                                            <input type="text" class="form-control">
+                                            <div class="form-check form-switch ms-4 mt-3">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="status">
+                                                <label class="form-check-label" for="status">Disable</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-lg-4">
+                                    <div class="card shadow mb-4 p-3">
+                                        <img src="" alt="" width="200px" height="300px" style="background-color: gray;">
+                                        <input type="file" name="" id="" accept="*/file" class="mt-2">
+                                        <button type="button" class="btn btn-primary mt-5">Submit</button>
+                                    </div>
+                                </div>   
+                            </div>                                                  
                         </div>
 
-                        <div class="col-lg-6">
+                        <!-- <div class="col-lg-6">
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -167,7 +156,7 @@ if(!isset($_SESSION['session'])){
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
 
                     </div>
 
