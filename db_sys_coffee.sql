@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2024 at 05:18 PM
+-- Generation Time: Apr 26, 2024 at 12:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -194,7 +194,6 @@ CREATE TABLE `invoice` (
   `CustomerId` int(11) DEFAULT NULL,
   `ShiftDetailsId` int(11) DEFAULT NULL,
   `PaymentMethodId` int(11) DEFAULT NULL,
-  `TableId` int(11) NOT NULL,
   `InvoiceStatus` varchar(120) DEFAULT NULL,
   `AmountInUSD` decimal(6,2) DEFAULT NULL,
   `AmountInKHR` decimal(6,2) DEFAULT NULL,
@@ -209,15 +208,15 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `TableId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 1, 1, 0, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(2, 1, 1, 1, 1, 0, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(3, 1, 1, 1, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(4, 1, 1, 1, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(5, 1, 1, 2, 1, 0, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(6, 1, 1, 2, 1, 0, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(7, 1, 1, 2, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(8, 1, 1, 2, 1, 0, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
+INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
+(1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(2, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(3, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(4, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(5, 1, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(6, 1, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(7, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(8, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
 
 -- --------------------------------------------------------
 
@@ -228,7 +227,7 @@ INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `Paymen
 CREATE TABLE `invoicedetails` (
   `Id` int(11) NOT NULL,
   `InvoiceId` int(11) DEFAULT NULL,
-  `UomId` int(11) DEFAULT NULL,
+  `ProductSkuId` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
   `Price` decimal(6,2) DEFAULT NULL,
   `Discount` decimal(6,2) DEFAULT NULL,
@@ -239,7 +238,7 @@ CREATE TABLE `invoicedetails` (
 -- Dumping data for table `invoicedetails`
 --
 
-INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `UomId`, `Quantity`, `Price`, `Discount`, `Total`) VALUES
+INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `ProductSkuId`, `Quantity`, `Price`, `Discount`, `Total`) VALUES
 (1, 1, 1, 2, 2.00, 0.00, 2.00),
 (2, 1, 1, 3, 3.00, 0.00, 3.00),
 (3, 1, 1, 3, 3.00, 0.00, 3.00),
@@ -260,19 +259,6 @@ INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `UomId`, `Quantity`, `Price`, `
 (18, 7, 2, 3, 2.00, 0.00, 6.00),
 (19, 8, 1, 2, 2.00, 0.00, 4.00),
 (20, 8, 2, 3, 2.00, 0.00, 6.00);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `logo`
---
-
-CREATE TABLE `logo` (
-  `Id` int(11) NOT NULL,
-  `Code` varchar(120) NOT NULL,
-  `OutletId` tinyint(4) NOT NULL DEFAULT 1,
-  `Logo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -299,14 +285,13 @@ CREATE TABLE `outlet` (
 INSERT INTO `outlet` (`Id`, `Name`, `Code`, `Status`, `Address`, `CreateBy`, `CreateAt`, `ApproveBy`, `ApproveAt`) VALUES
 (1, 'Beong Kok-I', 'BK-I', 1, '#123, st345, Beong kok, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
 (2, 'Beong Kok-II', 'BK-II', 1, '#143, st3475, Beong kokII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
-(3, 'Beong Kok-III', 'BK-III', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 2, '2024-03-12 08:36:53', NULL, NULL),
+(3, 'Beong Kok-III', 'BK-III', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
 (5, 'Test101', 'Test101', 1, '#143, st3475, Beong kokII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL),
-(6, 'Beong Kok-103', 'BK-103', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 3, '2024-03-12 09:02:27', NULL, NULL),
+(6, 'Beong Kok-103', 'BK-103', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL),
 (7, 'SKI-TK', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL),
-(8, 'SKI-TTP', 'SKI-TTP', 1, '#125, st48, Toul Tom Pong, Phnom Phenh', 1, '2024-03-06 07:03:18', NULL, NULL),
-(9, 'SKI-BKK', 'SKI-BKK', 1, '#13, st47, Beong Keng Kong, Phnom Phenh', 1, '2024-03-06 07:03:18', NULL, NULL),
-(10, 'SKI-TK11', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 4, '2024-03-06 07:24:43', NULL, NULL),
-(11, 'Test101', 'Test101', 1, '#125, st48, Toul Tom Pong, Phnom Phenh', 4, '2024-03-06 07:24:43', NULL, NULL);
+(8, 'SKI-TTP', 'SKI-TTP', 1, '#125, st48, Toul Tom Pong, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL),
+(9, 'SKI-BKK', 'SKI-BKK', 1, '#13, st47, Beong Keng Kong, Phnom Phenh', 4, '2024-03-06 07:03:18', NULL, NULL),
+(10, 'SKI-TK11', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 4, '2024-03-06 07:24:43', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -366,7 +351,11 @@ INSERT INTO `payroll` (`Id`, `Name`, `Note`, `ApprovedAt`, `ApprovedBy`, `Create
 
 CREATE TABLE `product` (
   `Id` int(11) NOT NULL,
+  `ProCode` varchar(10) DEFAULT NULL,
   `CategoryId` int(11) DEFAULT NULL,
+  `SkuId` int(11) NOT NULL,
+  `Pro_In_Id` int(11) DEFAULT NULL,
+  `Pro_Out_Id` int(11) DEFAULT NULL,
   `Name` varchar(120) NOT NULL,
   `Description` text DEFAULT NULL,
   `Image` varchar(255) DEFAULT NULL,
@@ -379,19 +368,123 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`Id`, `CategoryId`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 'Iced-latte', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(2, 2, 'Hot-latte', 'Hot-latte my favourite coffee', 'Hot-latte_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(3, 3, 'Passion-soda', 'Passion-soda my favourite coffee', 'Passion-soda_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(4, 4, 'Iced-lemon-tea', 'Iced-lemon-tea my favourite coffee', 'Iced-lemon-tea_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(5, 5, 'Chocolate-frappe', 'Chocolate-frappe my favourite coffee', 'Chocolate-frappe_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(6, 6, 'Passion-cream', 'Passion-cream my favourite coffee', 'Passion-cream_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(7, 1, 'Iced-americano', 'Iced-americano my favourite coffee', 'Iced-americano_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(8, 2, 'Hot-cappucino', 'Hot-cappucino my favourite coffee', 'Hot-cappucino_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(9, 3, 'Blue-soda', 'Blue-soda my favourite coffee', 'Blue-soda_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(10, 4, 'Mint-ice-greentea', 'Mint-ice-greentea my favourite coffee', 'Mint-ice-greentea_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(11, 5, 'Cookie-frappe', 'Cookie-frappe my favourite coffee', 'Cookie-frappe_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(12, 6, 'Mango-cream', 'Mango-cream my favourite coffee', 'Mango_image.jpg', 1, 1, '2024-03-11 07:10:06');
+INSERT INTO `product` (`Id`, `ProCode`, `CategoryId`, `SkuId`, `Pro_In_Id`, `Pro_Out_Id`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`) VALUES
+(1, NULL, 1, 1, NULL, NULL, 'Iced-latte', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 1, 1, '2024-03-11 07:10:06'),
+(2, NULL, 2, 2, NULL, NULL, 'Hot-latte', 'Hot-latte my favourite coffee', 'Hot-latte_image.jpg', 1, 1, '2024-03-11 07:10:06'),
+(3, NULL, 3, 1, NULL, NULL, 'Passion-soda', 'Passion-soda my favourite coffee', 'Passion-soda_image.jpg', 1, 2, '2024-03-11 07:10:06'),
+(4, NULL, 4, 4, NULL, NULL, 'Iced-lemon-tea', 'Iced-lemon-tea my favourite coffee', 'Iced-lemon-tea_image.jpg', 1, 2, '2024-03-11 07:10:06'),
+(5, NULL, 5, 5, NULL, NULL, 'Chocolate-frappe', 'Chocolate-frappe my favourite coffee', 'Chocolate-frappe_image.jpg', 1, 3, '2024-03-11 07:10:06'),
+(6, NULL, 6, 7, NULL, NULL, 'Passion-cream', 'Passion-cream my favourite coffee', 'Passion-cream_image.jpg', 1, 3, '2024-03-11 07:10:06'),
+(7, NULL, 1, 8, NULL, NULL, 'Iced-americano', 'Iced-americano my favourite coffee', 'Iced-americano_image.jpg', 0, 1, '2024-03-11 07:10:06'),
+(8, NULL, 2, 4, NULL, NULL, 'Hot-cappucino', 'Hot-cappucino my favourite coffee', 'Hot-cappucino_image.jpg', 1, 1, '2024-03-11 07:10:06'),
+(9, NULL, 3, 8, NULL, NULL, 'Blue-soda', 'Blue-soda my favourite coffee', 'Blue-soda_image.jpg', 1, 2, '2024-03-11 07:10:06'),
+(10, NULL, 4, 4, NULL, NULL, 'Mint-ice-greentea', 'Mint-ice-greentea my favourite coffee', 'Mint-ice-greentea_image.jpg', 1, 1, '2024-03-11 07:10:06'),
+(11, NULL, 5, 9, NULL, NULL, 'Cookie-frappe', 'Cookie-frappe my favourite coffee', 'Cookie-frappe_image.jpg', 0, 2, '2024-03-11 07:10:06'),
+(12, NULL, 6, 11, NULL, NULL, 'Mango-cream', 'Mango-cream my favourite coffee', 'Mango_image.jpg', 1, 1, '2024-03-11 07:10:06'),
+(13, 'Ice-0012', 1, 2, NULL, NULL, 'Iced-latte002', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 1, 1, '2024-03-11 07:10:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productsku`
+--
+
+CREATE TABLE `productsku` (
+  `Id` int(11) NOT NULL,
+  `ProductId` int(11) DEFAULT NULL,
+  `SizeName` varchar(120) NOT NULL,
+  `Price` decimal(6,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `productsku`
+--
+
+INSERT INTO `productsku` (`Id`, `ProductId`, `SizeName`, `Price`) VALUES
+(1, 1, 'Small', 2.00),
+(2, 1, 'Middle', 2.30),
+(3, 1, 'Large', 3.00),
+(4, 2, 'Small', 2.00),
+(5, 2, 'Middle', 2.30),
+(6, 2, 'Large', 2.30),
+(7, 3, 'Small', 2.00),
+(8, 3, 'Middle', 2.30),
+(9, 3, 'Large', 2.30),
+(10, 4, 'Small', 2.00),
+(11, 4, 'Middle', 2.30),
+(12, 4, 'Large', 2.30),
+(13, 5, 'Small', 2.00),
+(14, 5, 'Middle', 2.30),
+(15, 5, 'Large', 2.30),
+(16, 6, 'Small', 2.00),
+(17, 6, 'Middle', 2.30),
+(18, 6, 'Large', 2.30),
+(19, 7, 'Small', 2.00),
+(20, 7, 'Middle', 2.30),
+(21, 7, 'Large', 2.30),
+(22, 8, 'Small', 2.00),
+(23, 8, 'Middle', 2.30),
+(24, 8, 'Large', 2.30),
+(25, 9, 'Small', 2.00),
+(26, 9, 'Middle', 2.30),
+(27, 9, 'Large', 2.30),
+(28, 10, 'Small', 2.00),
+(29, 10, 'Middle', 2.30),
+(30, 10, 'Large', 2.30),
+(31, 11, 'Small', 2.00),
+(32, 11, 'Middle', 2.30),
+(33, 11, 'Large', 2.30),
+(34, 12, 'Small', 2.00),
+(35, 12, 'Middle', 2.30),
+(36, 12, 'Large', 2.30);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pro_in`
+--
+
+CREATE TABLE `pro_in` (
+  `Id` int(11) NOT NULL,
+  `ProId` int(11) NOT NULL,
+  `Qty_In` int(11) NOT NULL,
+  `Price_In` decimal(10,2) DEFAULT NULL,
+  `Description` varchar(255) NOT NULL,
+  `CreateBy` int(11) DEFAULT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pro_moment`
+--
+
+CREATE TABLE `pro_moment` (
+  `Id` int(11) NOT NULL,
+  `ProId` int(11) NOT NULL,
+  `Pro_Out_Id` int(11) NOT NULL,
+  `Pro_In_Id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pro_out`
+--
+
+CREATE TABLE `pro_out` (
+  `Id` int(11) NOT NULL,
+  `ProId` int(11) NOT NULL,
+  `Qty_Out` int(11) NOT NULL,
+  `Price_Out` int(11) NOT NULL,
+  `Disc_Amount` decimal(10,2) DEFAULT NULL,
+  `Disc_Percent` int(11) NOT NULL,
+  `Qty_Out_Free` int(11) NOT NULL,
+  `Description` varchar(255) NOT NULL,
+  `CreateBy` int(11) DEFAULT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -474,93 +567,6 @@ INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `Closi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `table`
---
-
-CREATE TABLE `table` (
-  `Id` int(11) UNSIGNED NOT NULL,
-  `Name` varchar(120) NOT NULL,
-  `Code` varchar(120) NOT NULL,
-  `NumberOfCustomers` int(11) UNSIGNED DEFAULT 0,
-  `Status` tinyint(1) DEFAULT 1,
-  `CreatedBy` int(11) DEFAULT NULL,
-  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `table`
---
-
-INSERT INTO `table` (`Id`, `Name`, `Code`, `NumberOfCustomers`, `Status`, `CreatedBy`, `CreatedAt`) VALUES
-(1, 'Table 1', 'Table 1', 4, 1, 1, '2024-04-05 13:45:10'),
-(2, 'Table 2', 'Table 2', 4, 1, 1, '2024-04-05 13:45:10'),
-(3, 'Table 3', 'Table 3', 4, 1, 1, '2024-04-05 13:45:10'),
-(4, 'Table 4', 'Table 4', 4, 1, 1, '2024-04-05 13:45:10'),
-(5, 'Table 5', 'Table 5', 4, 1, 1, '2024-04-05 13:45:10'),
-(6, 'Table 6', 'Table 6', 4, 1, 1, '2024-04-05 13:45:10'),
-(7, 'Table 7', 'Table 7', 4, 1, 1, '2024-04-05 13:45:10'),
-(8, 'Table 8', 'Table 8', 4, 1, 1, '2024-04-05 13:45:10'),
-(9, 'Table 9', 'Table 9', 4, 1, 1, '2024-04-05 13:45:10');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `uom`
---
-
-CREATE TABLE `uom` (
-  `Id` int(11) NOT NULL,
-  `ProductId` int(11) DEFAULT NULL,
-  `SizeName` varchar(120) NOT NULL,
-  `Price` decimal(6,2) NOT NULL,
-  `Unit` varchar(120) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `uom`
---
-
-INSERT INTO `uom` (`Id`, `ProductId`, `SizeName`, `Price`, `Unit`) VALUES
-(1, 1, 'Small', 2.00, 'PCS'),
-(2, 1, 'Middle', 2.30, 'PCS'),
-(3, 1, 'Large', 3.00, 'PCS'),
-(4, 2, 'Small', 2.00, 'PCS'),
-(5, 2, 'Middle', 2.30, 'PCS'),
-(6, 2, 'Large', 2.30, 'PCS'),
-(7, 3, 'Small', 2.00, 'PCS'),
-(8, 3, 'Middle', 2.30, 'PCS'),
-(9, 3, 'Large', 2.30, 'PCS'),
-(10, 4, 'Small', 2.00, 'PCS'),
-(11, 4, 'Middle', 2.30, 'PCS'),
-(12, 4, 'Large', 2.30, 'PCS'),
-(13, 5, 'Small', 2.00, 'PCS'),
-(14, 5, 'Middle', 2.30, 'PCS'),
-(15, 5, 'Large', 2.30, 'PCS'),
-(16, 6, 'Small', 2.00, 'PCS'),
-(17, 6, 'Middle', 2.30, 'PCS'),
-(18, 6, 'Large', 2.30, 'PCS'),
-(19, 7, 'Small', 2.00, 'PCS'),
-(20, 7, 'Middle', 2.30, 'PCS'),
-(21, 7, 'Large', 2.30, 'PCS'),
-(22, 8, 'Small', 2.00, 'PCS'),
-(23, 8, 'Middle', 2.30, 'PCS'),
-(24, 8, 'Large', 2.30, 'PCS'),
-(25, 9, 'Small', 2.00, 'PCS'),
-(26, 9, 'Middle', 2.30, 'PCS'),
-(27, 9, 'Large', 2.30, 'PCS'),
-(28, 10, 'Small', 2.00, 'PCS'),
-(29, 10, 'Middle', 2.30, 'PCS'),
-(30, 10, 'Large', 2.30, 'PCS'),
-(31, 11, 'Small', 2.00, 'PCS'),
-(32, 11, 'Middle', 2.30, 'PCS'),
-(33, 11, 'Large', 2.30, 'PCS'),
-(34, 12, 'Small', 2.00, 'PCS'),
-(35, 12, 'Middle', 2.30, 'PCS'),
-(36, 12, 'Large', 2.30, 'PCS');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user`
 --
 
@@ -583,8 +589,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`Id`, `OutletId`, `EmployeeId`, `RoleId`, `Username`, `Password`, `ActivedAt`, `Status`, `CreateBy`, `CreateAt`) VALUES
 (1, 1, 1, 1, 'admin', '123', '2024-03-01 10:00:00', 1, 1, '2024-03-11 06:58:57'),
-(2, 1, 3, 2, '098764321', '123456', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
-(3, 1, 3, 3, '098764321', '123456', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
+(2, 1, 3, 2, 'sale', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
+(3, 1, 3, 3, 'HR', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
 (4, 2, 4, 1, '05556777', '123456', '2024-03-03 12:00:00', 1, 1, '2024-03-11 06:58:57'),
 (5, 2, 5, 2, '01112333', '123456', '2024-03-04 13:00:00', 1, 1, '2024-03-11 06:58:57'),
 (6, 2, 6, 3, '04447888', '123456', '2024-03-05 14:00:00', 1, 1, '2024-03-11 06:58:57');
@@ -660,13 +666,7 @@ ALTER TABLE `invoice`
 ALTER TABLE `invoicedetails`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `InvoiceId` (`InvoiceId`),
-  ADD KEY `UomId` (`UomId`) USING BTREE;
-
---
--- Indexes for table `logo`
---
-ALTER TABLE `logo`
-  ADD PRIMARY KEY (`Id`);
+  ADD KEY `ProductSkuId` (`ProductSkuId`);
 
 --
 -- Indexes for table `outlet`
@@ -696,6 +696,31 @@ ALTER TABLE `product`
   ADD KEY `CategoryId` (`CategoryId`);
 
 --
+-- Indexes for table `productsku`
+--
+ALTER TABLE `productsku`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `ProductId` (`ProductId`);
+
+--
+-- Indexes for table `pro_in`
+--
+ALTER TABLE `pro_in`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `pro_moment`
+--
+ALTER TABLE `pro_moment`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `pro_out`
+--
+ALTER TABLE `pro_out`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -717,19 +742,6 @@ ALTER TABLE `shiftdetails`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `UserId` (`UserId`),
   ADD KEY `ShiftId` (`ShiftId`);
-
---
--- Indexes for table `table`
---
-ALTER TABLE `table`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indexes for table `uom`
---
-ALTER TABLE `uom`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `ProductId` (`ProductId`);
 
 --
 -- Indexes for table `user`
@@ -781,12 +793,6 @@ ALTER TABLE `invoicedetails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `logo`
---
-ALTER TABLE `logo`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `outlet`
 --
 ALTER TABLE `outlet`
@@ -808,7 +814,31 @@ ALTER TABLE `payroll`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `productsku`
+--
+ALTER TABLE `productsku`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `pro_in`
+--
+ALTER TABLE `pro_in`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pro_moment`
+--
+ALTER TABLE `pro_moment`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pro_out`
+--
+ALTER TABLE `pro_out`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -827,18 +857,6 @@ ALTER TABLE `shift`
 --
 ALTER TABLE `shiftdetails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `table`
---
-ALTER TABLE `table`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `uom`
---
-ALTER TABLE `uom`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -876,7 +894,7 @@ ALTER TABLE `invoice`
 --
 ALTER TABLE `invoicedetails`
   ADD CONSTRAINT `invoicedetails_ibfk_1` FOREIGN KEY (`InvoiceId`) REFERENCES `invoice` (`Id`),
-  ADD CONSTRAINT `invoicedetails_ibfk_2` FOREIGN KEY (`UomId`) REFERENCES `uom` (`Id`);
+  ADD CONSTRAINT `invoicedetails_ibfk_2` FOREIGN KEY (`ProductSkuId`) REFERENCES `productsku` (`Id`);
 
 --
 -- Constraints for table `product`
@@ -885,17 +903,17 @@ ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`Id`);
 
 --
+-- Constraints for table `productsku`
+--
+ALTER TABLE `productsku`
+  ADD CONSTRAINT `productsku_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`);
+
+--
 -- Constraints for table `shiftdetails`
 --
 ALTER TABLE `shiftdetails`
   ADD CONSTRAINT `shiftdetails_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`),
   ADD CONSTRAINT `shiftdetails_ibfk_2` FOREIGN KEY (`ShiftId`) REFERENCES `shift` (`Id`);
-
---
--- Constraints for table `uom`
---
-ALTER TABLE `uom`
-  ADD CONSTRAINT `uom_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`);
 
 --
 -- Constraints for table `user`
