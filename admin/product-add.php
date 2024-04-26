@@ -1,4 +1,7 @@
-<?php include('include/head.php')  ?>
+<?php 
+    include('include/head.php');
+    include('cn.php');
+?>
 
 <body id="page-top">
 
@@ -32,35 +35,45 @@
                                         <div class="card-body">
                                             <label for="Code">code</label>
                                             <input type="text" class="form-control">
-                                            <label for="Name">Name</label>
+                                            <label for="Name">Item Name</label>
                                             <input type="text" class="form-control">                                          
                                             <label for="Category">Category</label>
                                             <select class="form-control form-select-sm">
-                                                <option value="ice1" selected>Ice 1</option>
-                                                <option value="ice1">Ice 2</option>
-                                                <option value="ice1">Ice 3</option>
-                                                <option value="ice1"> Ice 4</option>
+                                            <?php
+                                                $sqlCate = "SELECT * FROM `category`";
+                                                $rsCate = $conn->query($sqlCate);
+                                                while($rowCate = $rsCate->fetch_assoc()){
+                                                    echo '<option value="'.$rowCate['Id'].'" >'.$rowCate['Name'].'</option>';
+                                                }
+                                            ?>
                                             </select>
                                             <label for="Size">Size</label>
                                             <select class="form-control form-select-sm">
-                                                <option value="ice1" selected>Ice 1</option>
-                                                <option value="ice1">Ice 2</option>
-                                                <option value="ice1">Ice 3</option>
-                                                <option value="ice1"> Ice 4</option>
+                                            <?php
+                                                $sqlSku = "SELECT * FROM `productsku`";
+                                                $rsSku = $conn->query($sqlSku);
+                                                while($rowSku = $rsSku->fetch_assoc()){
+                                                    echo '<option value="'.$rowSku['Id'].'" >'.$rowSku['SizeName'].' ~ '.$rowSku['Price'].'</option>';
+                                                }
+                                            ?>
                                             </select>
                                             <label for="Price">Price</label>
                                             <input type="number" class="form-control">
-                                            <label for="Unit">Unit</label>
-                                            <select class="form-control form-select-sm">
-                                                <option value="ice1" selected>Ice 1</option>
-                                                <option value="ice1">Ice 2</option>
-                                                <option value="ice1">Ice 3</option>
-                                                <option value="ice1"> Ice 4</option>
-                                            </select>
+                                            
                                             <label for="Description">Description</label>
                                             <input type="text" class="form-control">
                                             <label for="CreateBy">CreateBy</label>
-                                            <input type="text" class="form-control">
+                                            <select class="form-control form-select-sm">
+                                            <?php
+                                                $sqlUser = "SELECT * FROM `user`";
+                                                $rsUser = $conn->query($sqlUser);
+                                                
+                                                while($rowUser = $rsUser->fetch_assoc()){
+                                                    $Emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowUser['EmployeeId'])->fetch_assoc();
+                                                    echo '<option value="'.$rowUser['Id'].'" >'.$rowUser['Username'].' ~ '.$Emp['Lastname'].'</option>';
+                                                }
+                                            ?>
+                                            </select>
                                             <div class="form-check form-switch ms-4 mt-3">
                                                 <input class="form-check-input" type="checkbox" role="switch" id="status">
                                                 <label class="form-check-label" for="status">Disable</label>
