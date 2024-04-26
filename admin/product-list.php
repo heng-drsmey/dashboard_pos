@@ -70,7 +70,6 @@ if (!isset($_SESSION['session'])) {
                                             <th>Name</th>
                                             <th>Size</th>
                                             <th>Price</th>
-                                            <th>Unit</th>
                                             <th>Category</th>
                                             <th>Description</th>
                                             <th>Image</th>
@@ -85,7 +84,6 @@ if (!isset($_SESSION['session'])) {
                                             <th>Name</th>
                                             <th>Size</th>
                                             <th>Price</th>
-                                            <th>Unit</th>
                                             <th>Category</th>
                                             <th>Description</th>
                                             <th>Image</th>
@@ -133,7 +131,6 @@ if (!isset($_SESSION['session'])) {
                                                 <td><?= $rowPro['Name'] ?></td>
                                                 <td><?= $productsku['SizeName'] ?></td>
                                                 <td><?= $productsku['Price'] ?></td>
-                                                <td><?= $productsku['Unit'] ?></td>
                                                 <td><?= $Cate['Name'] ?></td>
                                                 <td><?= $rowPro['Description'] ?></td>
                                                 <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="100px"></td>
