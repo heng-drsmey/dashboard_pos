@@ -1,3 +1,10 @@
+<?php
+include('../admin/cn.php');
+if (empty($_SESSION['session'])) {
+    header("location: login.php");
+}
+
+?>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -152,10 +159,19 @@
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->
+        <?php
+        $id = $_SESSION['session'];
+        $sql = "SELECT * FROM `user` WHERE `Id` = '$id'";
+        $rs = $conn->query($sql);
+        $row = mysqli_fetch_assoc($rs);
+        $Profile = $conn->query("SELECT * FROM `Employee` WHERE Id=" . $row['EmployeeId'])->fetch_assoc();
+        ?>
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['Username'] ?></span>
+
+                <img class="img-profile rounded-circle" src="../admin/ImageEmp/<?php echo $Profile['Image'] ?>" id="imgInp">
+            <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -180,5 +196,14 @@
         </li>
 
     </ul>
+
+    <script>
+        imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            imgbox.src = URL.createObjectURL(file)
+        }
+    }
+    </script>
 
 </nav>
