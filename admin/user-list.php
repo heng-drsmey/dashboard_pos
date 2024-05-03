@@ -1,3 +1,10 @@
+<!-- Session user  -->
+<?php
+include('cn.php');
+if (!isset($_SESSION['session'])) {
+    header("location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
