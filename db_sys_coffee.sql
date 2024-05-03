@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2024 at 12:14 PM
+-- Generation Time: May 03, 2024 at 12:03 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -191,6 +191,7 @@ CREATE TABLE `employeereviewsalary` (
 CREATE TABLE `invoice` (
   `Id` int(11) NOT NULL,
   `OutletId` int(11) DEFAULT NULL,
+  `TableId` int(11) NOT NULL,
   `CustomerId` int(11) DEFAULT NULL,
   `ShiftDetailsId` int(11) DEFAULT NULL,
   `PaymentMethodId` int(11) DEFAULT NULL,
@@ -208,15 +209,15 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Id`, `OutletId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(2, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(3, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(4, 1, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(5, 1, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(6, 1, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(7, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(8, 1, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
+INSERT INTO `invoice` (`Id`, `OutletId`, `TableId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
+(1, 1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(2, 1, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(3, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(4, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(5, 1, 3, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(6, 1, 3, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(7, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
+(8, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
 
 -- --------------------------------------------------------
 
@@ -476,6 +477,7 @@ CREATE TABLE `pro_moment` (
 CREATE TABLE `pro_out` (
   `Id` int(11) NOT NULL,
   `ProId` int(11) NOT NULL,
+  `TableId` int(11) NOT NULL,
   `Qty_Out` int(11) NOT NULL,
   `Price_Out` int(11) NOT NULL,
   `Disc_Amount` decimal(10,2) DEFAULT NULL,
@@ -563,6 +565,31 @@ INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `Closi
 (2, 2, 2, 90.00, 90.00, 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
 (3, 1, 1, 20.00, 20.00, 0, NULL, NULL, 1, '2024-03-06 10:00:00'),
 (4, 2, 2, 30.00, 30.00, 0, NULL, NULL, 1, '2024-03-06 10:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `table`
+--
+
+CREATE TABLE `table` (
+  `Id` int(11) NOT NULL,
+  `Name` varchar(20) NOT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `table`
+--
+
+INSERT INTO `table` (`Id`, `Name`, `Description`, `CreateAt`) VALUES
+(1, 'Table1', 'Table1', '2024-05-03 09:49:33'),
+(2, 'Table2', 'Table2', '2024-05-03 09:49:33'),
+(3, 'Table3', 'Table3', '2024-05-03 09:49:33'),
+(4, 'Table4', 'Table4', '2024-05-03 09:49:33'),
+(5, 'Table5', 'Table5', '2024-05-03 09:49:33'),
+(6, 'Table6', 'Table6', '2024-05-03 09:49:33');
 
 -- --------------------------------------------------------
 
@@ -744,6 +771,12 @@ ALTER TABLE `shiftdetails`
   ADD KEY `ShiftId` (`ShiftId`);
 
 --
+-- Indexes for table `table`
+--
+ALTER TABLE `table`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -857,6 +890,12 @@ ALTER TABLE `shift`
 --
 ALTER TABLE `shiftdetails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `table`
+--
+ALTER TABLE `table`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
