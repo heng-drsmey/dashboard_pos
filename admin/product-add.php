@@ -1,6 +1,10 @@
 <?php 
+session_start();
     include('include/head.php');
     include('cn.php');
+    if (!isset($_SESSION['session'])) {
+        header("location: login.php");
+    }
 ?>
 
 <body id="page-top">
