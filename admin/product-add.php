@@ -1,10 +1,11 @@
-<?php 
-session_start();
-    include('include/head.php');
-    include('cn.php');
-    if (!isset($_SESSION['session'])) {
-        header("location: login.php");
-    }
+<?php
+// session_start();
+include('include/head.php');
+include('cn.php');
+include('function_pro.php');
+if (!isset($_SESSION['session'])) {
+    header("location: login.php");
+}
 ?>
 
 <body id="page-top">
@@ -32,149 +33,81 @@ session_start();
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Add Product</h1>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <label for="Code">code</label>
-                                            <input type="text" class="form-control">
-                                            <label for="Name">Item Name</label>
-                                            <input type="text" class="form-control">                                          
-                                            <label for="Category">Category</label>
-                                            <select class="form-control form-select-sm">
-                                            <?php
-                                                $sqlCate = "SELECT * FROM `category`";
-                                                $rsCate = $conn->query($sqlCate);
-                                                while($rowCate = $rsCate->fetch_assoc()){
-                                                    echo '<option value="'.$rowCate['Id'].'" >'.$rowCate['Name'].'</option>';
-                                                }
-                                            ?>
-                                            </select>
-                                            <label for="Size">Size</label>
-                                            <select class="form-control form-select-sm">
-                                            <?php
-                                                $sqlSku = "SELECT * FROM `productsku`";
-                                                $rsSku = $conn->query($sqlSku);
-                                                while($rowSku = $rsSku->fetch_assoc()){
-                                                    echo '<option value="'.$rowSku['Id'].'" >'.$rowSku['SizeName'].' ~ '.$rowSku['Price'].'</option>';
-                                                }
-                                            ?>
-                                            </select>
-                                            <label for="Price">Price</label>
-                                            <input type="number" class="form-control">
-                                            
-                                            <label for="Description">Description</label>
-                                            <input type="text" class="form-control">
-                                            <label for="CreateBy">CreateBy</label>
-                                            <select class="form-control form-select-sm">
-                                            <?php
-                                                $sqlUser = "SELECT * FROM `user`";
-                                                $rsUser = $conn->query($sqlUser);
-                                                
-                                                while($rowUser = $rsUser->fetch_assoc()){
-                                                    $Emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowUser['EmployeeId'])->fetch_assoc();
-                                                    echo '<option value="'.$rowUser['Id'].'" >'.$rowUser['Username'].' ~ '.$Emp['Lastname'].'</option>';
-                                                }
-                                            ?>
-                                            </select>
-                                            <div class="form-check form-switch ms-4 mt-3">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="status">
-                                                <label class="form-check-label" for="status">Disable</label>
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="card shadow mb-4">
+                                            <div class="card-body">
+                                                <label for="Code">code</label>
+                                                <input type="text" class="form-control" name="txtcode">
+                                                <label for="Name">Item Name</label>
+                                                <input type="text" class="form-control" name="txtname">
+                                                <label for="Category">Category</label>
+                                                <select class="form-control form-select-sm" name="txtcate">
+                                                    <?php
+                                                    $sqlCate = "SELECT * FROM `category`";
+                                                    $rsCate = $conn->query($sqlCate);
+                                                    while ($rowCate = $rsCate->fetch_assoc()) {
+                                                        echo '<option value="' . $rowCate['Id'] . '" >' . $rowCate['Name'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <label for="Size">Size</label>
+                                                <select class="form-control form-select-sm" name="txtsku">
+                                                    <?php
+                                                    // $sqlSku = "SELECT * FROM `productsku`";
+                                                    $sqlSku = "SELECT SizeName FROM `productsku` GROUP BY `SizeName`";
+                                                    $rsSku = $conn->query($sqlSku);
+                                                    while ($rowSku = $rsSku->fetch_assoc()) {
+                                                        echo '<option value="' . $rowSku['Id'] . '" >' . $rowSku['SizeName'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <label for="Price">Price</label>
+                                                <input type="number" class="form-control" name="txtprice">
+
+                                                <label for="Description">Description</label>
+                                                <input type="text" class="form-control" name="txtdesc">
+                                                <label for="CreateBy">CreateBy</label>
+                                                <select class="form-control form-select-sm" name="txtcreateby">
+                                                    <?php
+                                                    $sqlUser = "SELECT * FROM `user`";
+                                                    $rsUser = $conn->query($sqlUser);
+
+                                                    while ($rowUser = $rsUser->fetch_assoc()) {
+                                                        $Emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowUser['EmployeeId'])->fetch_assoc();
+                                                        echo '<option value="' . $rowUser['Id'] . '" >' . $rowUser['Username'] . ' ~ ' . $Emp['Lastname'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <div class="form-check form-switch ms-4 mt-3">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="status">
+                                                    <label class="form-check-label" for="status">Disable</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
-                                <div class="col-lg-4">
-                                    <div class="card shadow mb-4 p-3">
-                                        <img src="" alt="" width="200px" height="300px" style="background-color: gray;">
-                                        <input type="file" name="" id="" accept="*/file" class="mt-2">
-                                        <button type="button" class="btn btn-primary mt-5">Submit</button>
+                                    <div class="col-lg-4">
+                                        <div class="card shadow mb-4 p-3">
+                                            <!-- Display the image -->
+                                            <img src="ImageProduct/<?php echo $row['Image'] ?>" alt="" style="max-width:100%; height:258px;" id="demo">
+                                            <br>
+                                            <div class="form-group mt-2">
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <!-- File input field -->
+                                                        <input type="file" class="custom-file-input" id="myid" accept="image/*" name="txtImage" onchange="previewImage(event)">
+                                                        <label class="custom-file-label" for="myid">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-primary mt-5" name="btnAdd">Submit</button>
+                                        </div>
                                     </div>
-                                </div>   
-                            </div>                                                  
-                        </div>
-
-                        <!-- <div class="col-lg-6">
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-                                        the markup in the examples below. The examples below also use the
-                                        <code>.text-white-50</code> helper class on the icons for additional styling,
-                                        but it is not required.
-                                    </p>
-                                    <a href="#" class="btn btn-primary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Primary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">Split Button Success</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Split Button Info</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-warning btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="text">Split Button Warning</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Split Button Danger</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-secondary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Secondary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-light btn-icon-split">
-                                        <span class="icon text-gray-600">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Light</span>
-                                    </a>
-                                    <div class="mb-4"></div>
-                                    <p>Also works with small and large button classes!</p>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Small</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Large</span>
-                                    </a>
                                 </div>
                             </div>
-
-                        </div> -->
-
+                        </form>
                     </div>
 
                 </div>
@@ -208,7 +141,41 @@ session_start();
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script>
+  function previewImage(event) {
+    // Get the selected file
+    var input = event.target;
+    var file = input.files[0];
 
+    // If a file is selected
+    if (file) {
+      var reader = new FileReader();
+
+      // Set up the FileReader onload function
+      reader.onload = function(e) {
+        // Update the image src attribute with the data URL
+        document.getElementById('demo').src = e.target.result;
+      }
+
+      // Read the file as a data URL
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function display(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        $('#myid').attr('src', event.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#demo").change(function() {
+    display(this);
+  });
+</script>
 </body>
 
 </html>
