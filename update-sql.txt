@@ -1,0 +1,30 @@
+### Create tbl UOM
+
+create table UOM(
+    Id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    Code VARCHAR(120),
+    Name VARCHAR(120),
+    Remark VARCHAR(255),
+    Status TINYINT(1) DEFAULT 1,
+    CreateAt timestamp NOT NULL DEFAULT current_timestamp()
+    );
+
+#### ADD Forein KEY
+
+ALTER table `pro_moment`
+ADD FOREIGN KEY (ProId) REFERENCES `product` (Id);
+
+ALTER table `pro_moment`
+ADD FOREIGN KEY (Pro_Out_Id) REFERENCES `pro_out` (Id);
+
+ALTER table `pro_moment`
+ADD FOREIGN KEY (Pro_In_Id) REFERENCES `pro_in` (Id);
+
+ALTER table `pro_in`
+ADD FOREIGN KEY (ProId) REFERENCES `product` (Id);
+
+ALTER table `pro_out`
+ADD FOREIGN KEY (ProId) REFERENCES `product` (Id);
+
+ALTER table `pro_out`
+ADD FOREIGN KEY (TableId) REFERENCES `Table` (Id);
