@@ -133,7 +133,7 @@ if (!isset($_SESSION['session'])) {
                                                 <td><?= $productsku['Price'] ?></td>
                                                 <td><?= $Cate['Name'] ?></td>
                                                 <td><?= $rowPro['Description'] ?></td>
-                                                <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="100px"></td>
+                                                <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="50px"></td>
                                                 <td >
                                                 <?php
                                                     if($rowPro['Status']==1){
