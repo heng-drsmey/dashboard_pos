@@ -5,6 +5,7 @@ if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
 include('function_uom.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,25 +67,47 @@ include('function_uom.php');
                                 <!-- Add UOM -->
                                 <div class="col-6">
                                     <form method="post" enctype="multipart/form-data">
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <label for="Code">code</label>
-                                            <input type="text" class="form-control" name="txtcode">
-                                            <label for="Name">Name</label>
-                                            <input type="text" class="form-control" name="txtname">
-                                            <label for="Remark">Remark</label>
-                                            <input type="text" class="form-control" name="txtremark">
-                                            <div class="form-check form-switch ms-4 mt-3">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="status">
-                                                <label class="form-check-label" for="status">Disable</label>
-                                            </div>
-                                            <?php
-                                                Add();
+                                    <?php
+                                    //call function Add()
+                                    Add();
+                                    // Select data for update
+                                    if (isset($_REQUEST['Id'])) {
+                                        $uomId = $_REQUEST['Id'];                                   
+                                        update();
+                                        $rowFrm = $conn->query("SELECT * FROM `uom` WHERE Id=$uomId")->fetch_assoc();
+                                    } else {
+                                        $rowFrm = array("Name" => "", "Code" => "", "Remark" => "",);
+                                    }
+                                    ?>
+                                        <div class="card shadow mb-4">
+                                            <div class="card-body">
+                                                <label for="Code">code</label>
+                                                <input type="text" class="form-control" name="txtcode" required value="<?php echo '' . $rowFrm['Code'] . '' ?>">
+                                                <label for="Name">Name</label>
+                                                <input type="text" class="form-control" name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>">
+                                                <label for="Remark">Remark</label>
+                                                <input type="text" class="form-control" name="txtremark" value="<?php echo '' . $rowFrm['Remark'] . '' ?>">
+                                                <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
+                                                <div class="form-check form-switch ms-4 mt-3">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="status">
+                                                    <label class="form-check-label mb-2" for="status">Disable</label>
+                                                </div>
                                                 
-                                            ?>
-                                            <input type="submit" class="btn btn-primary mt-5" name="btnAdd" value="Save">
+                                                <!-- <input type="submit" class="btn btn-primary mt-5" name="btnAdd" value="Save"> -->
+                                                <?php
+                                                if (isset($_REQUEST['Id'])) {
+                                                    echo '
+                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm" name="btnUpdate">
+                                                        <a href="uom.php" class="btn btn-info btn-sm"> NEW </a>
+                                                    ';
+                                                } else {
+                                                    echo '
+                                                        <button type="submit" class="btn btn-primary btn-sm" name="btnAdd">Save</button>
+                                                        ';
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
-                                    </div>
                                     </form>
                                 </div>
                                 <!-- List UOM -->
@@ -97,6 +120,7 @@ include('function_uom.php');
                                                     <th>Name</th>
                                                     <th>Remark</th>
                                                     <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
@@ -105,29 +129,9 @@ include('function_uom.php');
                                                     <th>Name</th>
                                                     <th>Remark</th>
                                                     <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </tfoot>
-                                            <?php
-                                            if (isset($_GET['delId'])) {
-                                                $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-                                                $sqlDeleteOutlet = "DELETE FROM `product` WHERE `Id`='$delId'";
-                                                if ($conn->query($sqlDeleteOutlet) === TRUE) {
-                                                    echo '
-                                        <script>
-                                            swal({
-                                                title: "Success",
-                                                text: "Data delete success",
-                                                icon: "success",
-                                            });
-                                        </script> 
-                                        ';
-                                                } else {
-                                                    echo "Error deleting record: " . $conn->error;
-                                                }
-                                            } else {
-                                                echo "";
-                                            }
-                                            ?>
                                             <tbody>
                                                 <?php
                                                 $sqlPro = "SELECT * FROM `uom`";
@@ -143,16 +147,19 @@ include('function_uom.php');
                                                         <td><?= $rowuom['Remark'] ?></td>
                                                         <td>
                                                             <?php
-                                                            if ($rowPro['Status'] == 1) {
-                                                                echo '<p><a href="statusPro.php?Id=' . $rowPro['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                            if ($rowuom['Status'] == 1) {
+                                                                echo '<p><a href="statusUOM.php?Id=' . $rowuom['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
                                                             } else {
-                                                                echo '<p><a href="statusPro.php?Id=' . $rowPro['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                                echo '<p><a href="statusUOM.php?Id=' . $rowuom['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                             }
                                                             ?>
                                                         </td>
+                                                        <?php
+                                                        delete();
+                                                        ?>
                                                         <td>
-                                                            <a href="product-add.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <a href="product-list.php?delId=<?= $rowPro['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="uom.php?Id=<?= $rowuom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                            <a href="uom.php?delId=<?= $rowuom['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
                                                     </tr>
 
