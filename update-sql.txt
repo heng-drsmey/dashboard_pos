@@ -28,3 +28,7 @@ ADD FOREIGN KEY (ProId) REFERENCES `product` (Id);
 
 ALTER table `pro_out`
 ADD FOREIGN KEY (TableId) REFERENCES `Table` (Id);
+
+#### Add column UpdateAt on table UOM
+
+ALTER TABLE `uom` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
