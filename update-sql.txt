@@ -29,6 +29,17 @@ ADD FOREIGN KEY (ProId) REFERENCES `product` (Id);
 ALTER table `pro_out`
 ADD FOREIGN KEY (TableId) REFERENCES `Table` (Id);
 
+ALTER TABLE `invoice` 
+ADD FOREIGN KEY (TableId) REFERENCES `table` (Id);
+
+ALTER TABLE `productsku` 
+ADD FOREIGN KEY (UomId) REFERENCES `uom` (Id);
+
 #### Add column UpdateAt on table UOM
 
 ALTER TABLE `uom` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+
+#### Change name column sizename on table productsku
+
+ALTER TABLE `productsku` 
+CHANGE   `SizeName`  `UomId`varchar(50);
