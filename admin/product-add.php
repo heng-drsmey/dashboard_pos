@@ -1,12 +1,37 @@
 <?php
-// session_start();
-include('include/head.php');
+session_start();
 include('cn.php');
-include('function_pro.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
+include('function_Pro.php');
+
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Unit Of Measure</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
 
 <body id="page-top">
 
@@ -31,83 +56,151 @@ if (!isset($_SESSION['session'])) {
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Add Product</h1>
-                    <div class="row">
-                        <form method="post" enctype="multipart/form-data">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <div class="card shadow mb-4">
-                                            <div class="card-body">
-                                                <label for="Code">code</label>
-                                                <input type="text" class="form-control" name="txtcode">
-                                                <label for="Name">Item Name</label>
-                                                <input type="text" class="form-control" name="txtname">
-                                                <label for="Category">Category</label>
-                                                <select class="form-control form-select-sm" name="txtcate">
-                                                    <?php
-                                                    $sqlCate = "SELECT * FROM `category`";
-                                                    $rsCate = $conn->query($sqlCate);
-                                                    while ($rowCate = $rsCate->fetch_assoc()) {
-                                                        echo '<option value="' . $rowCate['Id'] . '" >' . $rowCate['Name'] . '</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <label for="Size">Size</label>
-                                                <select class="form-control form-select-sm" name="txtsku">
-                                                    <?php
-                                                    // $sqlSku = "SELECT * FROM `productsku`";
-                                                    $sqlSku = "SELECT SizeName FROM `productsku` GROUP BY `SizeName`";
-                                                    $rsSku = $conn->query($sqlSku);
-                                                    while ($rowSku = $rsSku->fetch_assoc()) {
-                                                        echo '<option value="' . $rowSku['Id'] . '" >' . $rowSku['SizeName'] . '</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <label for="Price">Price</label>
-                                                <input type="number" class="form-control" name="txtprice">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">UOM</h1>
+                        <!-- <a href="product-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm" disabled><i class="fas fa-user text-white-50"></i> Add New</a> -->
+                    </div>
+                    <!-- DataTales -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Add UOM -->
+                                <div class="col-12">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <?php
+                                                // //call function Add()
+                                                // Add();
+                                                // // Select data for update
+                                                // if (isset($_REQUEST['Id'])) {
+                                                //     $uomId = $_REQUEST['Id'];                                   
+                                                //     update();
+                                                //     $rowFrm = $conn->query("SELECT * FROM `uom` WHERE Id=$uomId")->fetch_assoc();
+                                                // } else {
+                                                //     $rowFrm = array("Name" => "", "Code" => "", "Remark" => "",);
+                                                // }
+                                                ?>
+                                                <div class="mb-4">
+                                                    <div class="card-body">
+                                                        <label for="Code">code</label>
+                                                        <input type="text" class="form-control" name="txtcode" required value="<?php //echo '' . $rowFrm['Code'] . '' 
+                                                                                                                                ?>">
+                                                        <label for="Name">Name</label>
+                                                        <input type="text" class="form-control" name="txtname">
+                                                        <label for="Category">Category</label>
+                                                        <input type="text" class="form-control" name="txtcategory">
+                                                        <label for="UOM">UOM</label>
+                                                        <input type="text" class="form-control" name="txtuom">
+                                                        <label for="Price">Price</label>
+                                                        <input type="text" class="form-control" name="txtprice">
+                                                        <label for="Description">Description</label>
+                                                        <input type="text" class="form-control" name="txtdescription">
+                                                        <label for="CreateBy">CreateBy</label>
+                                                        <input type="text" class="form-control" name="txtcreateBy">
+                                                        <!-- <label for="Category">Category</label>
+                                                <input type="text" class="form-control" name="txtcategory" > -->
 
-                                                <label for="Description">Description</label>
-                                                <input type="text" class="form-control" name="txtdesc">
-                                                <label for="CreateBy">CreateBy</label>
-                                                <select class="form-control form-select-sm" name="txtcreateby">
-                                                    <?php
-                                                    $sqlUser = "SELECT * FROM `user`";
-                                                    $rsUser = $conn->query($sqlUser);
+                                                        <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
+                                                        <div class="form-check form-switch ms-4 mt-3">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="status">
+                                                            <label class="form-check-label mb-2" for="status">Disable</label>
+                                                        </div>
 
-                                                    while ($rowUser = $rsUser->fetch_assoc()) {
-                                                        $Emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowUser['EmployeeId'])->fetch_assoc();
-                                                        echo '<option value="' . $rowUser['Id'] . '" >' . $rowUser['Username'] . ' ~ ' . $Emp['Lastname'] . '</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <div class="form-check form-switch ms-4 mt-3">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="status">
-                                                    <label class="form-check-label" for="status">Disable</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="card shadow mb-4 p-3">
-                                            <!-- Display the image -->
-                                            <img src="ImageProduct/<?php echo $row['Image'] ?>" alt="" style="max-width:100%; height:258px;" id="demo">
-                                            <br>
-                                            <div class="form-group mt-2">
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <!-- File input field -->
-                                                        <input type="file" class="custom-file-input" id="myid" accept="image/*" name="txtImage" onchange="previewImage(event)">
-                                                        <label class="custom-file-label" for="myid">Choose file</label>
+                                                        <!-- <input type="submit" class="btn btn-primary mt-5" name="btnAdd" value="Save"> -->
+                                                        <?php
+                                                        if (isset($_REQUEST['Id'])) {
+                                                            echo '
+                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm" name="btnUpdate">
+                                                        <a href="uom.php" class="btn btn-info btn-sm"> NEW </a>
+                                                    ';
+                                                        } else {
+                                                            echo '
+                                                        <button type="submit" class="btn btn-primary btn-sm" name="btnAdd">Save</button>
+                                                        ';
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-primary mt-5" name="btnAdd">Submit</button>
+                                            <div class="col-lg-4">
+                                                <!-- <div class="col-4"> -->
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-body">
+                                                            <label for="Code">code</label>
+                                                            <input type="text" class="form-control" name="txtcode" required>
+                                                            <label for="Name">Name</label>
+                                                        </div>
+                                                    </div>
+                                                <!-- </div> -->
+                                            </div>
                                         </div>
-                                    </div>
+
+
+                                    </form>
                                 </div>
+
+                                <!-- List UOM -->
+                                <!-- <div class="col-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
+                                                    <th>Remark</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
+                                                    <th>Remark</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <?php
+                                                $sqlPro = "SELECT * FROM `uom`";
+                                                $item = $conn->query($sqlPro);
+                                                $rowPro = $item->fetch_assoc();
+                                                ?>
+                                                <?php foreach ($item as $rowuom) :
+
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $rowuom['Code'] ?></td>
+                                                        <td><?= $rowuom['Name'] ?></td>
+                                                        <td><?= $rowuom['Remark'] ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($rowuom['Status'] == 1) {
+                                                                echo '<p><a href="statusUOM.php?Id=' . $rowuom['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                            } else {
+                                                                echo '<p><a href="statusUOM.php?Id=' . $rowuom['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                            }
+                                                            ?>
+                                                        </td>
+                                                        <?php
+                                                        delete();
+                                                        ?>
+                                                        <td>
+                                                            <a href="uom.php?Id=<?= $rowuom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                            <a href="uom.php?delId=<?= $rowuom['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+
+                                                <?php endforeach ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> -->
                             </div>
-                        </form>
+
+                        </div>
                     </div>
 
                 </div>
@@ -126,6 +219,30 @@ if (!isset($_SESSION['session'])) {
     </div>
     <!-- End of Page Wrapper -->
 
+    <!-- Search -->
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
@@ -141,41 +258,14 @@ if (!isset($_SESSION['session'])) {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    <script>
-  function previewImage(event) {
-    // Get the selected file
-    var input = event.target;
-    var file = input.files[0];
 
-    // If a file is selected
-    if (file) {
-      var reader = new FileReader();
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-      // Set up the FileReader onload function
-      reader.onload = function(e) {
-        // Update the image src attribute with the data URL
-        document.getElementById('demo').src = e.target.result;
-      }
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 
-      // Read the file as a data URL
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function display(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $('#myid').attr('src', event.target.result);
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  $("#demo").change(function() {
-    display(this);
-  });
-</script>
 </body>
 
 </html>
