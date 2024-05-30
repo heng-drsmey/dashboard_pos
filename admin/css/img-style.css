@@ -1,0 +1,179 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap);
+    /* body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #F1F3F6;
+        height: calc(var(--vh, 1vh) * 100);
+        overflow: hidden;
+    } */
+    * {
+        list-style: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        box-sizing: border-box;
+    }
+    .con-input-file {
+        border: 2px dashed rgba(0,0,0,.08);
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 300px;
+        height: 300px;
+        transition: all .25s ease, border 0s;
+    }
+    .hasFile {
+        border: 0px dashed rgba(0,0,0,0);
+        background: rgba(0,0,0,.03);
+    }
+    .hasFile .img-1, .hasFile .img-2, .hasFile .img-3{
+        opacity: 0;
+    }
+    .hasFile .con-text{
+        opacity: 0;
+    }
+    .hasFile .remove-image {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+    .hasFile .bg {
+        transform: scale(1);
+        opacity: 1;
+    }
+    .drop {
+        background: rgba(0,0,0,.03);
+        border: 2px dashed rgba(0,0,0,0);
+        transform: scale(1.05);
+    }
+    .drop .img-1 svg{
+        transform: scale(1);
+    }
+    .drop .img-2 .square-1{
+        transform: scale(.95) rotate(-10deg);
+    }
+    .drop .img-3 .square-2{
+        transform: scale(.9) rotate(10deg);
+    }
+    .drop .con-text {
+        opacity: 0;
+        transform: scale(.85) translate(0,-15px);
+    }
+    .con-input-file input {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        z-index: 10;
+        opacity: 0;
+        display: block;
+    }
+    .remove-image {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border-radius: 50%;
+        border: 0px;
+        font-size: 1.5rem;
+        margin: 10px;
+        cursor: pointer;
+        z-index: 1500;
+        opacity: 0;
+        transform: scale(.5);
+        visibility: hidden;
+        transition: all .25s ease;
+        background: #F1F3F6;
+        box-shadow: 0px 5px 30px 0px rgba(0,0,0,.08);
+    }
+    .con-bg {
+        position: absolute;
+        border-radius: inherit;
+        max-width: 100%;
+        max-height: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .bg {
+        z-index: 200;
+        pointer-events: none;
+        transition: all .25s ease;
+        opacity: 0;
+        transform: scale(.2);
+        height: 100%;
+    }
+    .con-text {
+        position: absolute;
+        z-index: 100;
+        pointer-events: none;
+        margin-top: 140px;
+        font-weight: 600;
+        opacity: .5;
+        font-size: .75rem;
+        transition: all .25s ease;
+    }
+    .img-1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        pointer-events: none;
+    }
+    .img-1 {
+        position: absolute;
+        pointer-events: none;
+    }
+    .img-1 svg {
+        width: 100px;
+        transition: all .25s ease;
+    }
+    .img-2 {
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+    }
+    .square-1 {
+        width: 90px;
+        height: 76px;
+        background: linear-gradient(0deg, #93e5b0 0%, #65e0db 100%);
+        border-radius: 10px;
+        margin-top: -10px;
+        margin-left: 0px;
+        transform: rotate(-10deg);
+        pointer-events: none;
+    }
+    .img-3 {
+        position: absolute;
+        z-index: -2;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+    }
+    .square-2 {
+        transform: rotate(10deg);
+        width: 90px;
+        height: 76px;
+        background: linear-gradient(90deg, #ffa936 0%, #ff6359 100%);
+        border-radius: 10px;
+        margin-top: -4px;
+        transform: rotate(10deg);
+        pointer-events: none;
+    }
