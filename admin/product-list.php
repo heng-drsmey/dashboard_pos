@@ -68,7 +68,7 @@ if (!isset($_SESSION['session'])) {
                                         <tr>
                                             <th>Code</th>
                                             <th>Name</th>
-                                            <th>Size</th>
+                                            <th>UOM</th>
                                             <th>Price</th>
                                             <th>Category</th>
                                             <th>Description</th>
@@ -82,7 +82,7 @@ if (!isset($_SESSION['session'])) {
                                         <tr>
                                             <th>Code</th>
                                             <th>Name</th>
-                                            <th>Size</th>
+                                            <th>UOM</th>
                                             <th>Price</th>
                                             <th>Category</th>
                                             <th>Description</th>
@@ -96,8 +96,8 @@ if (!isset($_SESSION['session'])) {
                                     <?php
                                     if (isset($_GET['delId'])) {
                                         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-                                        $sqlDeleteOutlet = "DELETE FROM `product` WHERE `Id`='$delId'";
-                                        if ($conn->query($sqlDeleteOutlet) === TRUE) {
+                                        $sqlDeletePro = "DELETE FROM `product` WHERE `Id`='$delId'";
+                                        if ($conn->query($sqlDeletePro) === TRUE) {
                                             echo '
                                         <script>
                                             swal({
@@ -124,12 +124,13 @@ if (!isset($_SESSION['session'])) {
                                             $createBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
                                             $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
                                             $productsku = $conn->query("SELECT * FROM `productsku` WHERE Id=" . $rowPro['SkuId'])->fetch_assoc();
+                                            $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $productsku['UomId'])->fetch_assoc();
                                        
                                             ?>
                                             <tr>
                                                 <td><?= $rowPro['ProCode'] ?></td>
                                                 <td><?= $rowPro['Name'] ?></td>
-                                                <td><?= $productsku['SizeName'] ?></td>
+                                                <td><?= $Uom['Name'] ?></td>
                                                 <td><?= $productsku['Price'] ?></td>
                                                 <td><?= $Cate['Name'] ?></td>
                                                 <td><?= $rowPro['Description'] ?></td>
