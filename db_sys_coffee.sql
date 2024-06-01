@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2024 at 11:21 AM
+-- Generation Time: Jun 01, 2024 at 08:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,7 +32,6 @@ CREATE TABLE `category` (
   `Name` varchar(120) NOT NULL,
   `Description` text DEFAULT NULL,
   `Image` varchar(255) DEFAULT NULL,
-  `ParentId` int(11) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
   `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
@@ -42,13 +41,37 @@ CREATE TABLE `category` (
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`Id`, `Name`, `Description`, `Image`, `ParentId`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 'Ice', 'iced coffee is a cold version of your favourite coffee', 'ice_image1.jpg', NULL, 1, 1, '2024-03-11 07:03:27'),
-(2, 'Hot', 'hot coffee is a cold version of your favourite coffee', 'hot_image.jpg', NULL, 1, 1, '2024-03-11 07:03:27'),
-(3, 'Soda', 'soda coffee is a cold version of your favourite coffee', 'soda_image.jpg', NULL, 1, 1, '2024-03-11 07:03:27'),
-(4, 'Juice', 'juice coffee is a cold version of your favourite coffee', 'juice_image.jpg', NULL, 1, 1, '2024-03-11 07:03:27'),
-(5, 'Frappe', 'frappe coffee is a cold version of your favourite coffee', 'frappe_image.jpg', NULL, 1, 1, '2024-03-11 07:03:27'),
-(6, 'Cream', 'cream coffee is a cold version of your favourite coffee', 'cream_image.jpg', NULL, 1, 1, '2024-03-11 07:03:27');
+INSERT INTO `category` (`Id`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`) VALUES
+(1, 'Ice', 'iced coffee is a cold version of your favourite coffee', 'ice_image1.jpg', 1, 1, '2024-03-11 07:03:27'),
+(2, 'Hot', 'hot coffee is a cold version of your favourite coffee', 'hot_image.jpg', 1, 1, '2024-03-11 07:03:27'),
+(3, 'Soda', 'soda coffee is a cold version of your favourite coffee', 'soda_image.jpg', 1, 1, '2024-03-11 07:03:27'),
+(4, 'Juice', 'juice coffee is a cold version of your favourite coffee', 'juice_image.jpg', 1, 1, '2024-03-11 07:03:27'),
+(5, 'Frappe', 'frappe coffee is a cold version of your favourite coffee', 'frappe_image.jpg', 1, 1, '2024-03-11 07:03:27'),
+(6, 'Cream', 'cream coffee is a cold version of your favourite coffee', 'cream_image.jpg', 1, 1, '2024-03-11 07:03:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency`
+--
+
+CREATE TABLE `currency` (
+  `Id` int(11) NOT NULL,
+  `Code` varchar(11) NOT NULL,
+  `Name` varchar(11) NOT NULL,
+  `Symbol` varchar(11) DEFAULT NULL,
+  `Remark` varchar(100) DEFAULT NULL,
+  `CreateBy` varchar(100) DEFAULT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `currency`
+--
+
+INSERT INTO `currency` (`Id`, `Code`, `Name`, `Symbol`, `Remark`, `CreateBy`, `CreateAt`) VALUES
+(1, 'USD', 'USD', '$', 'USD', '1', '2024-06-01 03:59:02'),
+(2, 'KHR', 'KHR', '៛', 'Khmer riel', '2', '2024-06-01 03:59:02');
 
 -- --------------------------------------------------------
 
@@ -96,6 +119,7 @@ CREATE TABLE `employee` (
   `Email` varchar(120) DEFAULT NULL,
   `Tel` varchar(18) NOT NULL,
   `Salary` decimal(6,2) DEFAULT 0.00,
+  `Currency` int(11) DEFAULT 1,
   `Position` varchar(120) NOT NULL,
   `Image` varchar(255) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
@@ -110,13 +134,13 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`Id`, `OutletId`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Salary`, `Position`, `Image`, `Status`, `JoinAT`, `ResignAt`, `ReasonResign`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', 0.00, 'Web Developer', 'mouk.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:00:00'),
-(2, 1, 'Rorn', 'Mony', 1, '2002-05-20 00:00:00', 'rornmony@gmail.com', '098764321', 0.00, 'IT Support', 'rorn.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:10:00'),
-(3, 2, 'Souy', 'Sovichea', 1, '2003-08-10 00:00:00', 'souysovichea@gmail.com', '05556777', 0.00, 'Customer Service', 'souy.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:20:00'),
-(4, 2, 'Muth', 'Sinthean', 1, '2001-03-25 00:00:00', 'muthsinthean@gmail.com', '01112333', 0.00, 'Accountant', 'muth.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:30:00'),
-(5, 3, 'Sok', 'Sreyphea', 0, '2004-12-05 00:00:00', 'soksreyphea@gmail.com', '04447888', 0.00, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00'),
-(6, 3, 'So', 'Dara', 0, '2004-12-05 00:00:00', 'sodara@gmail.com', '04447886', 0.00, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00');
+INSERT INTO `employee` (`Id`, `OutletId`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Salary`, `Currency`, `Position`, `Image`, `Status`, `JoinAT`, `ResignAt`, `ReasonResign`, `CreateBy`, `CreateAt`) VALUES
+(1, 1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', 0.00, 1, 'Web Developer', 'mouk.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:00:00'),
+(2, 1, 'Rorn', 'Mony', 1, '2002-05-20 00:00:00', 'rornmony@gmail.com', '098764321', 0.00, 1, 'IT Support', 'rorn.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:10:00'),
+(3, 2, 'Souy', 'Sovichea', 1, '2003-08-10 00:00:00', 'souysovichea@gmail.com', '05556777', 0.00, 1, 'Customer Service', 'souy.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:20:00'),
+(4, 2, 'Muth', 'Sinthean', 1, '2001-03-25 00:00:00', 'muthsinthean@gmail.com', '01112333', 0.00, 1, 'Accountant', 'muth.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:30:00'),
+(5, 3, 'Sok', 'Sreyphea', 0, '2004-12-05 00:00:00', 'soksreyphea@gmail.com', '04447888', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00'),
+(6, 3, 'So', 'Dara', 0, '2004-12-05 00:00:00', 'sodara@gmail.com', '04447886', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00');
 
 -- --------------------------------------------------------
 
@@ -133,6 +157,7 @@ CREATE TABLE `employeepayroll` (
   `Food` decimal(6,2) DEFAULT NULL,
   `OT` decimal(6,2) DEFAULT NULL,
   `Total` decimal(6,2) DEFAULT NULL,
+  `Currency` int(11) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
   `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -141,25 +166,25 @@ CREATE TABLE `employeepayroll` (
 -- Dumping data for table `employeepayroll`
 --
 
-INSERT INTO `employeepayroll` (`Id`, `EmployeeId`, `PayrollId`, `BaseSalary`, `Bunus`, `Food`, `OT`, `Total`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 500.00, 1300.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(2, 2, 1, 500.00, 1200.00, 50.00, 50.00, 1800.00, 1, '2024-03-11 07:07:48'),
-(3, 3, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(4, 4, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(5, 5, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(6, 6, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(7, 1, 2, 500.00, 1300.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(8, 2, 2, 500.00, 1200.00, 50.00, 50.00, 1800.00, 1, '2024-03-11 07:07:48'),
-(9, 3, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(10, 4, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(11, 5, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(12, 6, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(13, 1, 3, 500.00, 1300.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(14, 2, 3, 500.00, 1200.00, 50.00, 50.00, 1800.00, 1, '2024-03-11 07:07:48'),
-(15, 3, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(16, 4, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(17, 5, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48'),
-(18, 6, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, 1, '2024-03-11 07:07:48');
+INSERT INTO `employeepayroll` (`Id`, `EmployeeId`, `PayrollId`, `BaseSalary`, `Bunus`, `Food`, `OT`, `Total`, `Currency`, `CreateBy`, `CreateAt`) VALUES
+(1, 1, 1, 500.00, 1300.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(2, 2, 1, 500.00, 1200.00, 50.00, 50.00, 1800.00, NULL, 1, '2024-03-11 07:07:48'),
+(3, 3, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(4, 4, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(5, 5, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(6, 6, 1, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(7, 1, 2, 500.00, 1300.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(8, 2, 2, 500.00, 1200.00, 50.00, 50.00, 1800.00, NULL, 1, '2024-03-11 07:07:48'),
+(9, 3, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(10, 4, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(11, 5, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(12, 6, 2, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(13, 1, 3, 500.00, 1300.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(14, 2, 3, 500.00, 1200.00, 50.00, 50.00, 1800.00, NULL, 1, '2024-03-11 07:07:48'),
+(15, 3, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(16, 4, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(17, 5, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48'),
+(18, 6, 3, 600.00, 1200.00, 50.00, 50.00, 1900.00, NULL, 1, '2024-03-11 07:07:48');
 
 -- --------------------------------------------------------
 
@@ -173,6 +198,7 @@ CREATE TABLE `employeereviewsalary` (
   `OldSalary` decimal(6,2) DEFAULT NULL,
   `IncreaseSalary` decimal(6,2) DEFAULT NULL,
   `NewSalary` decimal(6,2) DEFAULT NULL,
+  `Currency` int(11) DEFAULT 1,
   `ReviewAt` decimal(6,2) DEFAULT NULL,
   `ReviewBy` int(11) DEFAULT NULL,
   `ApproveAt` datetime DEFAULT NULL,
@@ -230,6 +256,7 @@ CREATE TABLE `invoicedetails` (
   `InvoiceId` int(11) DEFAULT NULL,
   `ProductSkuId` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
+  `Currency` int(11) DEFAULT 1,
   `Price` decimal(6,2) DEFAULT NULL,
   `Discount` decimal(6,2) DEFAULT NULL,
   `Total` decimal(6,2) DEFAULT NULL
@@ -239,27 +266,27 @@ CREATE TABLE `invoicedetails` (
 -- Dumping data for table `invoicedetails`
 --
 
-INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `ProductSkuId`, `Quantity`, `Price`, `Discount`, `Total`) VALUES
-(1, 1, 1, 2, 2.00, 0.00, 2.00),
-(2, 1, 1, 3, 3.00, 0.00, 3.00),
-(3, 1, 1, 3, 3.00, 0.00, 3.00),
-(4, 1, 1, 4, 4.00, 0.00, 4.00),
-(5, 2, 1, 2, 2.00, 0.00, 2.00),
-(6, 2, 1, 3, 3.00, 0.00, 3.00),
-(7, 3, 1, 2, 2.00, 0.00, 2.00),
-(8, 3, 2, 3, 2.00, 0.00, 6.00),
-(9, 4, 1, 2, 2.00, 0.00, 2.00),
-(10, 4, 2, 3, 2.00, 0.00, 6.00),
-(11, 5, 1, 2, 2.00, 0.00, 2.00),
-(12, 5, 1, 3, 2.00, 0.00, 3.00),
-(13, 5, 1, 3, 1.00, 0.00, 3.00),
-(14, 5, 1, 4, 1.00, 0.00, 4.00),
-(15, 6, 1, 1, 2.00, 0.00, 2.00),
-(16, 6, 1, 1, 3.00, 0.00, 3.00),
-(17, 7, 1, 2, 2.00, 0.00, 4.00),
-(18, 7, 2, 3, 2.00, 0.00, 6.00),
-(19, 8, 1, 2, 2.00, 0.00, 4.00),
-(20, 8, 2, 3, 2.00, 0.00, 6.00);
+INSERT INTO `invoicedetails` (`Id`, `InvoiceId`, `ProductSkuId`, `Quantity`, `Currency`, `Price`, `Discount`, `Total`) VALUES
+(1, 1, 1, 2, NULL, 2.00, 0.00, 2.00),
+(2, 1, 1, 3, NULL, 3.00, 0.00, 3.00),
+(3, 1, 1, 3, NULL, 3.00, 0.00, 3.00),
+(4, 1, 1, 4, NULL, 4.00, 0.00, 4.00),
+(5, 2, 1, 2, NULL, 2.00, 0.00, 2.00),
+(6, 2, 1, 3, NULL, 3.00, 0.00, 3.00),
+(7, 3, 1, 2, NULL, 2.00, 0.00, 2.00),
+(8, 3, 2, 3, NULL, 2.00, 0.00, 6.00),
+(9, 4, 1, 2, NULL, 2.00, 0.00, 2.00),
+(10, 4, 2, 3, NULL, 2.00, 0.00, 6.00),
+(11, 5, 1, 2, NULL, 2.00, 0.00, 2.00),
+(12, 5, 1, 3, NULL, 2.00, 0.00, 3.00),
+(13, 5, 1, 3, NULL, 1.00, 0.00, 3.00),
+(14, 5, 1, 4, NULL, 1.00, 0.00, 4.00),
+(15, 6, 1, 1, NULL, 2.00, 0.00, 2.00),
+(16, 6, 1, 1, NULL, 3.00, 0.00, 3.00),
+(17, 7, 1, 2, NULL, 2.00, 0.00, 4.00),
+(18, 7, 2, 3, NULL, 2.00, 0.00, 6.00),
+(19, 8, 1, 2, NULL, 2.00, 0.00, 4.00),
+(20, 8, 2, 3, NULL, 2.00, 0.00, 6.00);
 
 -- --------------------------------------------------------
 
@@ -392,50 +419,51 @@ CREATE TABLE `productsku` (
   `Id` int(11) NOT NULL,
   `ProductId` int(11) DEFAULT NULL,
   `UomId` int(11) DEFAULT NULL,
-  `Price` decimal(6,2) NOT NULL
+  `Price` decimal(6,2) NOT NULL,
+  `Currency` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `productsku`
 --
 
-INSERT INTO `productsku` (`Id`, `ProductId`, `UomId`, `Price`) VALUES
-(1, 1, 1, 2.00),
-(2, 1, 2, 2.30),
-(3, 1, 3, 3.00),
-(4, 2, 1, 2.00),
-(5, 2, 2, 2.30),
-(6, 2, 3, 2.30),
-(7, 3, 1, 2.00),
-(8, 3, 2, 2.30),
-(9, 3, 3, 2.30),
-(10, 4, 1, 2.00),
-(11, 4, 2, 2.30),
-(12, 4, 3, 2.30),
-(13, 5, 1, 2.00),
-(14, 5, 2, 2.30),
-(15, 5, 3, 2.30),
-(16, 6, 1, 2.00),
-(17, 6, 2, 2.30),
-(18, 6, 3, 2.30),
-(19, 7, 1, 2.00),
-(20, 7, 2, 2.30),
-(21, 7, 3, 2.30),
-(22, 8, 1, 2.00),
-(23, 8, 2, 2.30),
-(24, 8, 3, 2.30),
-(25, 9, 1, 2.00),
-(26, 9, 2, 2.30),
-(27, 9, 3, 2.30),
-(28, 10, 1, 2.00),
-(29, 10, 2, 2.30),
-(30, 10, 3, 2.30),
-(31, 11, 1, 2.00),
-(32, 11, 2, 2.30),
-(33, 11, 3, 2.30),
-(34, 12, 1, 2.00),
-(35, 12, 2, 2.30),
-(36, 12, 3, 2.30);
+INSERT INTO `productsku` (`Id`, `ProductId`, `UomId`, `Price`, `Currency`) VALUES
+(1, 1, 1, 2.00, 1),
+(2, 1, 2, 2.30, 1),
+(3, 1, 3, 3.00, 1),
+(4, 2, 1, 2.00, 1),
+(5, 2, 2, 2.30, 1),
+(6, 2, 3, 2.30, 1),
+(7, 3, 1, 2.00, 1),
+(8, 3, 2, 2.30, 1),
+(9, 3, 3, 2.30, 1),
+(10, 4, 1, 2.00, 1),
+(11, 4, 2, 2.30, 1),
+(12, 4, 3, 2.30, 1),
+(13, 5, 1, 2.00, 1),
+(14, 5, 2, 2.30, 1),
+(15, 5, 3, 2.30, 1),
+(16, 6, 1, 2.00, 1),
+(17, 6, 2, 2.30, 1),
+(18, 6, 3, 2.30, 1),
+(19, 7, 1, 2.00, 1),
+(20, 7, 2, 2.30, 1),
+(21, 7, 3, 2.30, 1),
+(22, 8, 1, 2.00, 1),
+(23, 8, 2, 2.30, 1),
+(24, 8, 3, 2.30, 1),
+(25, 9, 1, 2.00, 1),
+(26, 9, 2, 2.30, 1),
+(27, 9, 3, 2.30, 1),
+(28, 10, 1, 2.00, 1),
+(29, 10, 2, 2.30, 1),
+(30, 10, 3, 2.30, 1),
+(31, 11, 1, 2.00, 1),
+(32, 11, 2, 2.30, 1),
+(33, 11, 3, 2.30, 1),
+(34, 12, 1, 2.00, 1),
+(35, 12, 2, 2.30, 1),
+(36, 12, 3, 2.30, 1);
 
 -- --------------------------------------------------------
 
@@ -448,6 +476,7 @@ CREATE TABLE `pro_in` (
   `ProId` int(11) NOT NULL,
   `Qty_In` int(11) NOT NULL,
   `Price_In` decimal(10,2) DEFAULT NULL,
+  `Currency` int(11) DEFAULT 1,
   `Description` varchar(255) NOT NULL,
   `CreateBy` int(11) DEFAULT NULL,
   `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
@@ -482,6 +511,7 @@ CREATE TABLE `pro_out` (
   `Disc_Percent` int(11) NOT NULL,
   `Qty_Out_Free` int(11) NOT NULL,
   `Description` varchar(255) NOT NULL,
+  `Currency` int(11) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
   `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -547,6 +577,7 @@ CREATE TABLE `shiftdetails` (
   `UserId` int(11) DEFAULT NULL,
   `OpenningBalance` decimal(6,2) DEFAULT NULL,
   `ClosingBalance` decimal(6,2) DEFAULT NULL,
+  `Currency` varchar(11) DEFAULT NULL,
   `Isclosed` tinyint(1) DEFAULT 0,
   `CloseBy` int(11) DEFAULT NULL,
   `CloseAt` datetime DEFAULT NULL,
@@ -558,11 +589,11 @@ CREATE TABLE `shiftdetails` (
 -- Dumping data for table `shiftdetails`
 --
 
-INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `ClosingBalance`, `Isclosed`, `CloseBy`, `CloseAt`, `Status`, `CreateAt`) VALUES
-(1, 1, 1, 80.00, 80.00, 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
-(2, 2, 2, 90.00, 90.00, 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
-(3, 1, 1, 20.00, 20.00, 0, NULL, NULL, 1, '2024-03-06 10:00:00'),
-(4, 2, 2, 30.00, 30.00, 0, NULL, NULL, 1, '2024-03-06 10:00:00');
+INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `ClosingBalance`, `Currency`, `Isclosed`, `CloseBy`, `CloseAt`, `Status`, `CreateAt`) VALUES
+(1, 1, 1, 80.00, 80.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
+(2, 2, 2, 90.00, 90.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
+(3, 1, 1, 20.00, 20.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00'),
+(4, 2, 2, 30.00, 30.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -611,7 +642,7 @@ CREATE TABLE `uom` (
 
 INSERT INTO `uom` (`Id`, `Code`, `Name`, `Remark`, `Status`, `CreateAt`, `UpdateAt`) VALUES
 (1, 'Small', 'Small', 'Small', 1, '2024-05-24 02:31:09', NULL),
-(2, 'Midlle', 'Midlle', 'Midlle', 0, '2024-05-24 02:35:01', NULL),
+(2, 'Midlle', 'Midlle', 'Midlle', 1, '2024-05-24 02:35:01', NULL),
 (3, 'Large', 'Large', 'Large', 1, '2024-05-24 02:35:40', NULL),
 (4, 'Couple', 'Couple', 'Couple', 1, '2024-05-24 08:14:03', '2024-05-24 10:32:36');
 
@@ -682,6 +713,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indexes for table `currency`
+--
+ALTER TABLE `currency`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
@@ -692,20 +729,23 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `OutleteId` (`OutletId`);
+  ADD KEY `OutleteId` (`OutletId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `employeepayroll`
 --
 ALTER TABLE `employeepayroll`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `employeereviewsalary`
 --
 ALTER TABLE `employeereviewsalary`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `EmployeeId` (`EmployeeId`);
+  ADD KEY `EmployeeId` (`EmployeeId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `invoice`
@@ -724,7 +764,8 @@ ALTER TABLE `invoice`
 ALTER TABLE `invoicedetails`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `InvoiceId` (`InvoiceId`),
-  ADD KEY `ProductSkuId` (`ProductSkuId`);
+  ADD KEY `ProductSkuId` (`ProductSkuId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `outlet`
@@ -759,14 +800,16 @@ ALTER TABLE `product`
 ALTER TABLE `productsku`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `ProductId` (`ProductId`),
-  ADD KEY `UomId` (`UomId`);
+  ADD KEY `UomId` (`UomId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `pro_in`
 --
 ALTER TABLE `pro_in`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `ProId` (`ProId`);
+  ADD KEY `ProId` (`ProId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `pro_moment`
@@ -783,7 +826,8 @@ ALTER TABLE `pro_moment`
 ALTER TABLE `pro_out`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `ProId` (`ProId`),
-  ADD KEY `TableId` (`TableId`);
+  ADD KEY `TableId` (`TableId`),
+  ADD KEY `Currency` (`Currency`);
 
 --
 -- Indexes for table `role`
@@ -838,6 +882,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `category`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `currency`
+--
+ALTER TABLE `currency`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
