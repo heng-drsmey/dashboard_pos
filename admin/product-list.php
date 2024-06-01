@@ -116,36 +116,38 @@ if (!isset($_SESSION['session'])) {
                                     ?>
                                     <tbody>
                                         <?php
-                                        $sqlPro = "SELECT * FROM `product`";
+                                        $sqlPro = "SELECT * FROM `productsku`";
                                         $item = $conn->query($sqlPro);
                                         $rowPro = $item->fetch_assoc();
                                         ?>
                                         <?php foreach ($item as $rowPro) : 
-                                            $createBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
-                                            $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
-                                            $productsku = $conn->query("SELECT * FROM `productsku` WHERE Id=" . $rowPro['SkuId'])->fetch_assoc();
-                                            $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $productsku['UomId'])->fetch_assoc();
+                                            $product = $conn->query("SELECT * FROM `product` WHERE Id=" . $rowPro['ProductId'])->fetch_assoc();
+                                            $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPro['UomId'])->fetch_assoc();
+                                            $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $product['CategoryId'])->fetch_assoc();
+                                            $CreateBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $product['CreateBy'])->fetch_assoc();
+                                            $Currency = $conn->query("SELECT * FROM `currency` WHERE Id=" . $rowPro['Currency'])->fetch_assoc();
                                        
                                             ?>
+                                            
                                             <tr>
-                                                <td><?= $rowPro['ProCode'] ?></td>
-                                                <td><?= $rowPro['Name'] ?></td>
+                                                <td><?= $product['ProCode'] ?></td>
+                                                <td><?= $product['Name'] ?></td>
                                                 <td><?= $Uom['Name'] ?></td>
-                                                <td><?= $productsku['Price'] ?></td>
+                                                <td><?= $Currency['Symbol'] ?><?= $rowPro['Price'] ?></td>
                                                 <td><?= $Cate['Name'] ?></td>
-                                                <td><?= $rowPro['Description'] ?></td>
-                                                <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="50px"></td>
+                                                <td><?= $product['Description'] ?></td>
+                                                <td><img src="ImageProduct/<?= $product['Image'] ?>" alt="" width="50px"></td>
                                                 <td >
                                                 <?php
-                                                    if($rowPro['Status']==1){
-                                                        echo '<p><a href="statusPro.php?Id='.$rowPro['Id']. '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                    if($product['Status']==1){
+                                                        echo '<p><a href="statusPro.php?Id='.$product['Id']. '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
                                                     }else{
-                                                        echo '<p><a href="statusPro.php?Id='.$rowPro['Id']. '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                        echo '<p><a href="statusPro.php?Id='.$product['Id']. '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                     }
                                                     ?>
                                                 </td>
                                                 <!-- <td><?= $rowPro['CreateAt'] ?></td> -->
-                                                <td><?= $createBy['Username'] ?></td>
+                                                <td><?= $CreateBy['Username'] ?></td>
                                                 <td>
                                                     <a href="product-add.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                     <a href="product-list.php?delId=<?= $rowPro['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
