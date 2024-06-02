@@ -23,7 +23,7 @@ if (!isset($_SESSION['session'])) {
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Font awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -57,7 +57,10 @@ if (!isset($_SESSION['session'])) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Product List</h1>
-                        <a href="product-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <a href="product.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add New</a>
+                            <a href="product-addOn-uom.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add On UOM</a>
+                        </div>
                     </div>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
@@ -120,15 +123,15 @@ if (!isset($_SESSION['session'])) {
                                         $item = $conn->query($sqlPro);
                                         $rowPro = $item->fetch_assoc();
                                         ?>
-                                        <?php foreach ($item as $rowPro) : 
+                                        <?php foreach ($item as $rowPro) :
                                             $product = $conn->query("SELECT * FROM `product` WHERE Id=" . $rowPro['ProductId'])->fetch_assoc();
                                             $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPro['UomId'])->fetch_assoc();
                                             $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $product['CategoryId'])->fetch_assoc();
                                             $CreateBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $product['CreateBy'])->fetch_assoc();
                                             $Currency = $conn->query("SELECT * FROM `currency` WHERE Id=" . $rowPro['Currency'])->fetch_assoc();
-                                       
-                                            ?>
-                                            
+
+                                        ?>
+
                                             <tr>
                                                 <td><?= $product['ProCode'] ?></td>
                                                 <td><?= $product['Name'] ?></td>
@@ -137,12 +140,12 @@ if (!isset($_SESSION['session'])) {
                                                 <td><?= $Cate['Name'] ?></td>
                                                 <td><?= $product['Description'] ?></td>
                                                 <td><img src="ImageProduct/<?= $product['Image'] ?>" alt="" width="50px"></td>
-                                                <td >
-                                                <?php
-                                                    if($product['Status']==1){
-                                                        echo '<p><a href="statusPro.php?Id='.$product['Id']. '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
-                                                    }else{
-                                                        echo '<p><a href="statusPro.php?Id='.$product['Id']. '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                <td>
+                                                    <?php
+                                                    if ($product['Status'] == 1) {
+                                                        echo '<p><a href="statusPro.php?Id=' . $product['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                    } else {
+                                                        echo '<p><a href="statusPro.php?Id=' . $product['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                     }
                                                     ?>
                                                 </td>
