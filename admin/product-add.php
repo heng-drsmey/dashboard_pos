@@ -3,8 +3,8 @@ session_start();
 include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
-}
 include('function_Pro.php');
+}
 
 ?>
 <!DOCTYPE html>
@@ -61,13 +61,18 @@ include('function_Pro.php');
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Add Product</h1>
-                        <a href="product-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm" disabled><i class="fas fa-user text-white-50"></i> Product List</a>
+                        <a href="product-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm" ><i class="fas fa-user text-white-50"></i> Product List</a>
                     </div>
                     <!-- Add Product -->
                     <div class="col-lg-12">
                         <div class="card shadow mb-4">
                             <div class="card-body">
                                 <form method="post" enctype="multipart/form-data">
+                                    <?php
+                                        // call function add product
+                                        addProduct()
+                                    ?>
+                                    
                                     <div class="row">
                                         <div class="col-8">
                                             <div class="card-body">
@@ -103,8 +108,27 @@ include('function_Pro.php');
 
                                                     ?>
                                                 </select>
-                                                <label for="Price">Price</label>
-                                                <input type="text" class="form-control" name="txtprice">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                    <label for="Price">Price</label>
+                                                    <input type="text" class="form-control" name="txtprice">                                   
+                                                    </div>
+                                                    <div class="col-6">
+                                                    <label for="Currency">Currency</label>
+                                                    <select class="form-control" style="width: 100%;" name="txtcurrency">
+                                                    <?php
+                                                    $sqlCurrency = "SELECT * FROM `Currency`";
+                                                    $qrCurrency = $conn->query($sqlCurrency);
+                                                    while ($rowCurrency = $qrCurrency->fetch_assoc()) {
+                                                        if ($rowCurrency['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                                        else $sel = '';
+                                                        echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Code'] . '</option>';
+                                                    }
+
+                                                    ?>
+                                                </select>                                  
+                                                    </div>
+                                                </div>
                                                 <label for="Description">Description</label>
                                                 <input type="text" class="form-control" name="txtdescription">
                                                 <label for="CreateBy">CreateBy</label>
@@ -205,26 +229,27 @@ include('function_Pro.php');
                                                     <div class="con-text">
                                                         Drop your image here, or Browse
                                                     </div class="d-flex justify-content-center">
-                                                    <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" name="" id="">
+                                                    <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="txtImage">
                                                 </div>                                              
                                                 <?php
-                                                if (isset($_REQUEST['Id'])) {
-                                                    echo '
-                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
-                                                            <a href="product-add.php" class="btn btn-info btn-sm mt-5"> NEW </a>
-                                                        ';
-                                                } else {
-                                                    echo '
-                                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd">Save</button>
-                                                        ';
-                                                }
+                                                // if (isset($_REQUEST['Id'])) {
+                                                //     echo '
+                                                //         <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
+                                                //             <a href="product-add.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                                //         ';
+                                                // } else {
+                                                //     echo '
+                                                //         <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd">Save</button>
+                                                //         ';
+                                                // }
                                                 ?>                                                
                                             </div>
                                             
                                         </div>
-                                                                          
+                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd" >Save</button>                             
                                     </div>
-                                </form>
+                                </form> 
+                                <!-- end form  -->
                             </div>
                         </div>
                     </div>
