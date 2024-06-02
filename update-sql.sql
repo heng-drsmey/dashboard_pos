@@ -89,3 +89,10 @@ ALTER TABLE `invoicedetails` CHANGE `Currency` `Currency` INT(11) NULL DEFAULT '
 ALTER TABLE `pro_in` CHANGE `Currency` `Currency` INT(11) NULL DEFAULT '1';
 ALTER TABLE `pro_out` CHANGE `Currency` `Currency` INT(11) NULL DEFAULT '1';
 ALTER TABLE `productsku` CHANGE `Currency` `Currency` INT(11) NULL DEFAULT '1';
+
+
+
+
+-- alter date: 06/02/2024 at night
+ALTER TABLE `productsku` ADD `UpdateAt` DATETIME NULL AFTER `Currency`;
+ALTER TABLE `productsku` CHANGE `Price` `Price` DECIMAL(11,2) NOT NULL;
