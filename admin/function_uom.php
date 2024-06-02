@@ -5,17 +5,17 @@ include('cn.php');
 
 function add()
 {
-    global $conn;
-    if (isset($_POST['btnAdd'])) {
-        $txtcode = $_POST['txtcode'];
-        $txtname = $_POST['txtname'];
-        $txtremark = $_POST['txtremark'];
+  global $conn;
+  if (isset($_POST['btnAdd'])) {
+    $txtcode = $_POST['txtcode'];
+    $txtname = $_POST['txtname'];
+    $txtremark = $_POST['txtremark'];
 
-        $sql = " INSERT INTO `uom`(`Code`, `Name`, `Remark`) VALUES ('$txtcode','$txtname','$txtremark') ";
+    $sql = " INSERT INTO `uom`(`Code`, `Name`, `Remark`) VALUES ('$txtcode','$txtname','$txtremark') ";
 
-        $rs = $conn->query($sql);
-        if ($rs == true) {
-            echo '
+    $rs = $conn->query($sql);
+    if ($rs == true) {
+      echo '
                 <script>
                   swal({
                     title: "Success",
@@ -24,8 +24,8 @@ function add()
                   });
                 </script>
                 ';
-        } else {
-            echo '
+    } else {
+      echo '
                 <script>
                   swal({
                     title: "Try Again",
@@ -34,17 +34,18 @@ function add()
                   });
                 </script>
                 ';
-        }
     }
+  }
 }
 
-function delete() {
-    global $conn;
-    if (isset($_GET['delId'])) {
-        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        $sqlDeleteuom = "DELETE FROM `uom` WHERE `Id`='$delId'";
-        if ($conn->query($sqlDeleteuom) == TRUE) {
-            echo '
+function delete()
+{
+  global $conn;
+  if (isset($_GET['delId'])) {
+    $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+    $sqlDeleteuom = "DELETE FROM `uom` WHERE `Id`='$delId'";
+    if ($conn->query($sqlDeleteuom) == TRUE) {
+      echo '
                 <script>
                 swal({
                     title: "Success",
@@ -53,28 +54,30 @@ function delete() {
                 });
                 </script> 
     ';
-        } else {
-            echo "Error deleting record: " . $conn->error;
-        }
     } else {
-        echo "";
+      echo "Error deleting record: " . $conn->error;
     }
+  } else {
+    echo "";
+  }
 }
 
-function update() {
-    global $conn;
-    // selece data for update
-    if (isset($_REQUEST['btnUpdate'])) {
-        $uomId = $_REQUEST['Id'];
-        $name = $_REQUEST['txtname'];
-        $code = $_REQUEST['txtcode'];
-        $remark = $_REQUEST['txtremark'];
-        $curentDate = date("Y_m_d_H_i_s");
-        $update_at = $_REQUEST['txtupdate_at'];
-        $update = $update_at.$curentDate;
-        $sqlUpdate = "UPDATE `uom` SET `Code`='$code',`Name`='$name',`Remark`='$remark',`UpdateAt`='$update' WHERE Id=$uomId";
-        if ($conn->query($sqlUpdate) === TRUE) {
-            echo '
+
+function update()
+{
+  global $conn;
+  // selece data for update
+  if (isset($_REQUEST['btnUpdate'])) {
+    $uomId = $_REQUEST['Id'];
+    $name = $_REQUEST['txtname'];
+    $code = $_REQUEST['txtcode'];
+    $remark = $_REQUEST['txtremark'];
+    $curentDate = date("Y_m_d_H_i_s");
+    $update_at = $_REQUEST['txtupdate_at'];
+    $update = $update_at . $curentDate;
+    $sqlUpdate = "UPDATE `uom` SET `Code`='$code',`Name`='$name',`Remark`='$remark',`UpdateAt`='$update' WHERE Id=$uomId";
+    if ($conn->query($sqlUpdate) === TRUE) {
+      echo '
                                 <script>
                                   swal({
                                     title: "Success",
@@ -83,8 +86,8 @@ function update() {
                                   });
                                 </script>
                                 ';
-        } else {
-            echo '
+    } else {
+      echo '
                                 <script>
                                   swal({
                                     title: "Try again",
@@ -93,7 +96,7 @@ function update() {
                                   });
                                 </script>
                                 ';
-        }
     }
+  }
 }
 ?>
