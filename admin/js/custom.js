@@ -1,6 +1,6 @@
 
-    swal({
-        title: "Success",
-        text: "Data delete success",
-        icon: "success",
-        });
+    // swal({
+    //     title: "Success",
+    //     text: "Data delete successaaaaaaaaaaaaaaaaaaa",
+    //     icon: "success",
+    //     });
