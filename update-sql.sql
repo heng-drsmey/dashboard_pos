@@ -96,3 +96,22 @@ ALTER TABLE `productsku` CHANGE `Currency` `Currency` INT(11) NULL DEFAULT '1';
 -- alter date: 06/02/2024 at night
 ALTER TABLE `productsku` ADD `UpdateAt` DATETIME NULL AFTER `Currency`;
 ALTER TABLE `productsku` CHANGE `Price` `Price` DECIMAL(11,2) NOT NULL;
+
+-- alter column UpdateAt
+
+ALTER TABLE `user` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `table` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `shiftdetails` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `shift` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `role` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `pro_out` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `pro_in` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `product` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `paymentmethod` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `outlet` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `invoice` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `employeereviewsalary` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `employee` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `customer` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `currency` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
+ALTER TABLE `category` ADD `UpdateAt` DATETIME NULL AFTER `CreateAt`;
