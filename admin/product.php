@@ -54,19 +54,27 @@ include('function_Pro.php');
                 <form method="post" enctype="multipart/form-data">
                     <?php
                     // call function add product
-                    addProduct()
+                    addProduct();
+                    // call data for update
+                    if (isset($_REQUEST['Id'])) {
+                        $productId = $_REQUEST['Id'];                                   
+                        // update();
+                        $rowFrm = $conn->query("SELECT * FROM `productsku` WHERE Id=$productId")->fetch_assoc();
+                        // $pro = $conn->query("SELECT * FROM `product` WHERE Id=" . $productId['ProductId'])->fetch_assoc();
+                    } else {
+                        $rowFrm = array("Name" => "", "Code" => "", "Remark" => "",);
+                    }
                     ?>
 
                     <div class="row">
                         <div class="col-8">
                             <div class="card-body">
                                 <label for="Code">code</label>
-                                <input type="text" class="form-control" name="txtcode" required value="<?php //echo '' . $rowFrm['Code'] . '' 
-                                                                                                        ?>">
+                                <input type="text" class="form-control" name="txtcode" required value="<?php // echo '' . $ProId['Code'] . '' ?>">
                                 <label for="Name">Name</label>
-                                <input type="text" class="form-control" name="txtname">
+                                <input type="text" class="form-control" name="txtname" required value="<?php echo '' . $rowFrm['ProductId'] . '' ?>">
+                                
                                 <label for="Category">Category</label>
-                                <!-- <input type="text" class="form-control" name="txtcategory"> -->
                                 <select class="form-control" style="width: 100%;" name="txtcategory">
                                     <?php
                                     $sqlCate = "SELECT * FROM `category`";
