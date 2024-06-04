@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2024 at 08:37 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 04, 2024 at 06:40 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,20 +34,21 @@ CREATE TABLE `category` (
   `Image` varchar(255) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`Id`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 'Ice', 'iced coffee is a cold version of your favourite coffee', 'ice_image1.jpg', 1, 1, '2024-03-11 07:03:27'),
-(2, 'Hot', 'hot coffee is a cold version of your favourite coffee', 'hot_image.jpg', 1, 1, '2024-03-11 07:03:27'),
-(3, 'Soda', 'soda coffee is a cold version of your favourite coffee', 'soda_image.jpg', 1, 1, '2024-03-11 07:03:27'),
-(4, 'Juice', 'juice coffee is a cold version of your favourite coffee', 'juice_image.jpg', 1, 1, '2024-03-11 07:03:27'),
-(5, 'Frappe', 'frappe coffee is a cold version of your favourite coffee', 'frappe_image.jpg', 1, 1, '2024-03-11 07:03:27'),
-(6, 'Cream', 'cream coffee is a cold version of your favourite coffee', 'cream_image.jpg', 1, 1, '2024-03-11 07:03:27');
+INSERT INTO `category` (`Id`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'Ice', 'iced coffee is a cold version of your favourite coffee', 'ice_image1.jpg', 1, 1, '2024-03-11 07:03:27', NULL),
+(2, 'Hot', 'hot coffee is a cold version of your favourite coffee', 'hot_image.jpg', 1, 1, '2024-03-11 07:03:27', NULL),
+(3, 'Soda', 'soda coffee is a cold version of your favourite coffee', 'soda_image.jpg', 1, 1, '2024-03-11 07:03:27', NULL),
+(4, 'Juice', 'juice coffee is a cold version of your favourite coffee', 'juice_image.jpg', 1, 1, '2024-03-11 07:03:27', NULL),
+(5, 'Frappe', 'frappe coffee is a cold version of your favourite coffee', 'frappe_image.jpg', 1, 1, '2024-03-11 07:03:27', NULL),
+(6, 'Cream', 'cream coffee is a cold version of your favourite coffee', 'cream_image.jpg', 1, 1, '2024-03-11 07:03:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -62,16 +63,17 @@ CREATE TABLE `currency` (
   `Symbol` varchar(11) DEFAULT NULL,
   `Remark` varchar(100) DEFAULT NULL,
   `CreateBy` varchar(100) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `currency`
 --
 
-INSERT INTO `currency` (`Id`, `Code`, `Name`, `Symbol`, `Remark`, `CreateBy`, `CreateAt`) VALUES
-(1, 'USD', 'USD', '$', 'USD', '1', '2024-06-01 03:59:02'),
-(2, 'KHR', 'KHR', '៛', 'Khmer riel', '2', '2024-06-01 03:59:02');
+INSERT INTO `currency` (`Id`, `Code`, `Name`, `Symbol`, `Remark`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'USD', 'USD', '$', 'USD', '1', '2024-06-01 03:59:02', NULL),
+(2, 'KHR', 'KHR', '៛', 'Khmer riel', '2', '2024-06-01 03:59:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -91,17 +93,18 @@ CREATE TABLE `customer` (
   `Status` tinyint(1) DEFAULT 1,
   `Address` text DEFAULT NULL,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`Id`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Image`, `Status`, `Address`, `CreateBy`, `CreateAt`) VALUES
-(1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', NULL, 1, 'phnom penh', NULL, '2024-03-11 07:27:29'),
-(2, 'Dara', 'Makara', 0, '2004-01-20 00:00:00', 'daramakara@gmail.com', '013456789', NULL, 1, 'takeo', NULL, '2024-03-11 07:27:29'),
-(3, 'Sopheak', 'Bopha', 0, '2004-01-23 00:00:00', 'sopheakbopha@gmail.com', '013456789', NULL, 1, 'kamport', NULL, '2024-03-11 07:27:29');
+INSERT INTO `customer` (`Id`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Image`, `Status`, `Address`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', NULL, 1, 'phnom penh', NULL, '2024-03-11 07:27:29', NULL),
+(2, 'Dara', 'Makara', 0, '2004-01-20 00:00:00', 'daramakara@gmail.com', '013456789', NULL, 1, 'takeo', NULL, '2024-03-11 07:27:29', NULL),
+(3, 'Sopheak', 'Bopha', 0, '2004-01-23 00:00:00', 'sopheakbopha@gmail.com', '013456789', NULL, 1, 'kamport', NULL, '2024-03-11 07:27:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -127,20 +130,21 @@ CREATE TABLE `employee` (
   `ResignAt` datetime DEFAULT NULL,
   `ReasonResign` text DEFAULT NULL,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`Id`, `OutletId`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Salary`, `Currency`, `Position`, `Image`, `Status`, `JoinAT`, `ResignAt`, `ReasonResign`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', 0.00, 1, 'Web Developer', 'mouk.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:00:00'),
-(2, 1, 'Rorn', 'Mony', 1, '2002-05-20 00:00:00', 'rornmony@gmail.com', '098764321', 0.00, 1, 'IT Support', 'rorn.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:10:00'),
-(3, 2, 'Souy', 'Sovichea', 1, '2003-08-10 00:00:00', 'souysovichea@gmail.com', '05556777', 0.00, 1, 'Customer Service', 'souy.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:20:00'),
-(4, 2, 'Muth', 'Sinthean', 1, '2001-03-25 00:00:00', 'muthsinthean@gmail.com', '01112333', 0.00, 1, 'Accountant', 'muth.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:30:00'),
-(5, 3, 'Sok', 'Sreyphea', 0, '2004-12-05 00:00:00', 'soksreyphea@gmail.com', '04447888', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00'),
-(6, 3, 'So', 'Dara', 0, '2004-12-05 00:00:00', 'sodara@gmail.com', '04447886', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00');
+INSERT INTO `employee` (`Id`, `OutletId`, `Firstname`, `Lastname`, `Gender`, `Dob`, `Email`, `Tel`, `Salary`, `Currency`, `Position`, `Image`, `Status`, `JoinAT`, `ResignAt`, `ReasonResign`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 1, 'Mouk', 'Makara', 1, '2004-01-15 00:00:00', 'moukmakara@gmail.com', '013456789', 0.00, 1, 'Web Developer', 'mouk.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:00:00', NULL),
+(2, 1, 'Rorn', 'Mony', 1, '2002-05-20 00:00:00', 'rornmony@gmail.com', '098764321', 0.00, 1, 'IT Support', 'rorn.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:10:00', NULL),
+(3, 2, 'Souy', 'Sovichea', 1, '2003-08-10 00:00:00', 'souysovichea@gmail.com', '05556777', 0.00, 1, 'Customer Service', 'souy.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:20:00', NULL),
+(4, 2, 'Muth', 'Sinthean', 1, '2001-03-25 00:00:00', 'muthsinthean@gmail.com', '01112333', 0.00, 1, 'Accountant', 'muth.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:30:00', NULL),
+(5, 3, 'Sok', 'Sreyphea', 0, '2004-12-05 00:00:00', 'soksreyphea@gmail.com', '04447888', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00', NULL),
+(6, 3, 'So', 'Dara', 0, '2004-12-05 00:00:00', 'sodara@gmail.com', '04447886', 0.00, 1, 'App Developer', 'sok.jpg', 1, NULL, NULL, NULL, 1, '2024-03-06 22:40:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -205,7 +209,8 @@ CREATE TABLE `employeereviewsalary` (
   `ApproveBy` int(11) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -228,22 +233,24 @@ CREATE TABLE `invoice` (
   `PaidInKHR` decimal(6,2) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL,
+  `del` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`Id`, `OutletId`, `TableId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(2, 1, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(3, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(4, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(5, 1, 3, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(6, 1, 3, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(7, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04'),
-(8, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04');
+INSERT INTO `invoice` (`Id`, `OutletId`, `TableId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceStatus`, `AmountInUSD`, `AmountInKHR`, `PaidInUSD`, `PaidInKHR`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`, `del`) VALUES
+(1, 1, 1, 1, 1, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(2, 1, 1, 1, 1, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(3, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(4, 1, 2, 1, 1, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(5, 1, 3, 1, 2, 1, NULL, 10.00, 0.00, 10.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(6, 1, 3, 1, 2, 1, NULL, 5.00, 0.00, 5.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(7, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1),
+(8, 1, 4, 1, 2, 1, NULL, 6.00, 0.00, 6.00, 0.00, 1, 1, '2024-03-15 04:40:04', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -302,6 +309,7 @@ CREATE TABLE `outlet` (
   `Address` text DEFAULT NULL,
   `CreateBy` int(11) DEFAULT NULL,
   `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL,
   `ApproveBy` int(11) DEFAULT NULL,
   `ApproveAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -310,16 +318,16 @@ CREATE TABLE `outlet` (
 -- Dumping data for table `outlet`
 --
 
-INSERT INTO `outlet` (`Id`, `Name`, `Code`, `Status`, `Address`, `CreateBy`, `CreateAt`, `ApproveBy`, `ApproveAt`) VALUES
-(1, 'Beong Kok-I', 'BK-I', 1, '#123, st345, Beong kok, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
-(2, 'Beong Kok-II', 'BK-II', 1, '#143, st3475, Beong kokII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
-(3, 'Beong Kok-III', 'BK-III', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL),
-(5, 'Test101', 'Test101', 1, '#143, st3475, Beong kokII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL),
-(6, 'Beong Kok-103', 'BK-103', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL),
-(7, 'SKI-TK', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL),
-(8, 'SKI-TTP', 'SKI-TTP', 1, '#125, st48, Toul Tom Pong, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL),
-(9, 'SKI-BKK', 'SKI-BKK', 1, '#13, st47, Beong Keng Kong, Phnom Phenh', 4, '2024-03-06 07:03:18', NULL, NULL),
-(10, 'SKI-TK11', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 4, '2024-03-06 07:24:43', NULL, NULL);
+INSERT INTO `outlet` (`Id`, `Name`, `Code`, `Status`, `Address`, `CreateBy`, `CreateAt`, `UpdateAt`, `ApproveBy`, `ApproveAt`) VALUES
+(1, 'Beong Kok-I', 'BK-I', 1, '#123, st345, Beong kok, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL, NULL),
+(2, 'Beong Kok-II', 'BK-II', 1, '#143, st3475, Beong kokII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL, NULL),
+(3, 'Beong Kok-III', 'BK-III', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 1, '2024-03-12 08:36:53', NULL, NULL, NULL),
+(5, 'Test101', 'Test101', 1, '#143, st3475, Beong kokII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL, NULL),
+(6, 'Beong Kok-103', 'BK-103', 1, '#1243, st3545, Beong kokIII, Phnom Penh', 2, '2024-03-12 09:02:27', NULL, NULL, NULL),
+(7, 'SKI-TK', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL, NULL),
+(8, 'SKI-TTP', 'SKI-TTP', 1, '#125, st48, Toul Tom Pong, Phnom Phenh', 3, '2024-03-06 07:03:18', NULL, NULL, NULL),
+(9, 'SKI-BKK', 'SKI-BKK', 1, '#13, st47, Beong Keng Kong, Phnom Phenh', 4, '2024-03-06 07:03:18', NULL, NULL, NULL),
+(10, 'SKI-TK11', 'SKI-TK', 1, '#123, st45, Toul Kok, Phnom Phenh', 4, '2024-03-06 07:24:43', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -333,18 +341,19 @@ CREATE TABLE `paymentmethod` (
   `Code` varchar(120) NOT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `paymentmethod`
 --
 
-INSERT INTO `paymentmethod` (`Id`, `Name`, `Code`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 'cash', 'cash', 1, 1, '2024-03-07 01:30:00'),
-(2, 'aba', 'aba', 1, 1, '2024-03-07 01:30:00'),
-(3, 'aceleda', 'aceleda', 1, 1, '2024-03-07 02:30:00'),
-(4, 'wing', 'wing', 1, 1, '2024-03-07 03:30:00');
+INSERT INTO `paymentmethod` (`Id`, `Name`, `Code`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'cash', 'cash', 1, 1, '2024-03-07 01:30:00', NULL),
+(2, 'aba', 'aba', 1, 1, '2024-03-07 01:30:00', NULL),
+(3, 'aceleda', 'aceleda', 1, 1, '2024-03-07 02:30:00', NULL),
+(4, 'wing', 'wing', 1, 1, '2024-03-07 03:30:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -387,27 +396,31 @@ CREATE TABLE `product` (
   `Image` varchar(255) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL,
+  `del` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`Id`, `ProCode`, `CategoryId`, `SkuId`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, NULL, 1, 1, 'Iced-latte', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 0, 1, '2024-03-11 07:10:06'),
-(2, NULL, 2, 2, 'Hot-latte', 'Hot-latte my favourite coffee', 'Hot-latte_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(3, NULL, 3, 1, 'Passion-soda', 'Passion-soda my favourite coffee', 'Passion-soda_image.jpg', 1, 2, '2024-03-11 07:10:06'),
-(4, NULL, 4, 4, 'Iced-lemon-tea', 'Iced-lemon-tea my favourite coffee', 'Iced-lemon-tea_image.jpg', 1, 2, '2024-03-11 07:10:06'),
-(5, NULL, 5, 5, 'Chocolate-frappe', 'Chocolate-frappe my favourite coffee', 'Chocolate-frappe_image.jpg', 1, 3, '2024-03-11 07:10:06'),
-(6, NULL, 6, 7, 'Passion-cream', 'Passion-cream my favourite coffee', 'Passion-cream_image.jpg', 1, 3, '2024-03-11 07:10:06'),
-(7, NULL, 1, 8, 'Iced-americano', 'Iced-americano my favourite coffee', 'Iced-americano_image.jpg', 0, 1, '2024-03-11 07:10:06'),
-(8, NULL, 2, 4, 'Hot-cappucino', 'Hot-cappucino my favourite coffee', 'Hot-cappucino_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(9, NULL, 3, 8, 'Blue-soda', 'Blue-soda my favourite coffee', 'Blue-soda_image.jpg', 1, 2, '2024-03-11 07:10:06'),
-(10, NULL, 4, 4, 'Mint-ice-greentea', 'Mint-ice-greentea my favourite coffee', 'Mint-ice-greentea_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(11, NULL, 5, 9, 'Cookie-frappe', 'Cookie-frappe my favourite coffee', 'Cookie-frappe_image.jpg', 0, 2, '2024-03-11 07:10:06'),
-(12, NULL, 6, 11, 'Mango-cream', 'Mango-cream my favourite coffee', 'Mango_image.jpg', 1, 1, '2024-03-11 07:10:06'),
-(13, 'Ice-0012', 1, 2, 'Iced-latte002', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 1, 1, '2024-03-11 07:10:06');
+INSERT INTO `product` (`Id`, `ProCode`, `CategoryId`, `SkuId`, `Name`, `Description`, `Image`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`, `del`) VALUES
+(1, NULL, 1, 1, 'Iced-latte', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 0, 1, '2024-03-11 07:10:06', NULL, 1),
+(2, NULL, 2, 2, 'Hot-latte', 'Hot-latte my favourite coffee', 'Hot-latte_image.jpg', 1, 1, '2024-03-11 07:10:06', NULL, 1),
+(3, NULL, 3, 1, 'Passion-soda', 'Passion-soda my favourite coffee', 'Passion-soda_image.jpg', 1, 2, '2024-03-11 07:10:06', NULL, 1),
+(4, NULL, 4, 4, 'Iced-lemon-tea', 'Iced-lemon-tea my favourite coffee', 'Iced-lemon-tea_image.jpg', 1, 2, '2024-03-11 07:10:06', NULL, 1),
+(5, NULL, 5, 5, 'Chocolate-frappe', 'Chocolate-frappe my favourite coffee', 'Chocolate-frappe_image.jpg', 1, 3, '2024-03-11 07:10:06', NULL, 1),
+(6, NULL, 6, 7, 'Passion-cream', 'Passion-cream my favourite coffee', 'Passion-cream_image.jpg', 1, 3, '2024-03-11 07:10:06', NULL, 1),
+(7, NULL, 1, 8, 'Iced-americano', 'Iced-americano my favourite coffee', 'Iced-americano_image.jpg', 0, 1, '2024-03-11 07:10:06', NULL, 1),
+(8, NULL, 2, 4, 'Hot-cappucino', 'Hot-cappucino my favourite coffee', 'Hot-cappucino_image.jpg', 1, 1, '2024-03-11 07:10:06', NULL, 1),
+(9, NULL, 3, 8, 'Blue-soda', 'Blue-soda my favourite coffee', 'Blue-soda_image.jpg', 1, 2, '2024-03-11 07:10:06', NULL, 1),
+(10, NULL, 4, 4, 'Mint-ice-greentea', 'Mint-ice-greentea my favourite coffee', 'Mint-ice-greentea_image.jpg', 1, 1, '2024-03-11 07:10:06', NULL, 1),
+(11, NULL, 5, 9, 'Cookie-frappe', 'Cookie-frappe my favourite coffee', 'Cookie-frappe_image.jpg', 1, 2, '2024-03-11 07:10:06', NULL, 1),
+(12, NULL, 6, 11, 'Mango-cream', 'Mango-cream my favourite coffee', 'Mango_image.jpg', 1, 1, '2024-03-11 07:10:06', NULL, 1),
+(13, 'Ice-0012', 1, 2, 'Iced-latte002', 'Iced-latte my favourite coffee', 'Iced-latte_image.jpg', 1, 1, '2024-03-11 07:10:06', NULL, 1),
+(16, 'sdf', 4, 0, 'sd', 'sdf', 'no_image.png', 0, 1, '2024-06-01 18:28:32', NULL, 1),
+(17, 'Ice_cycold', 1, 0, 'Ice_cycold', 'Ice_cycold', '2024_06_01_20_33_44_28973892_ភូមិ(១).png', 1, 3, '2024-06-01 18:33:44', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -419,51 +432,58 @@ CREATE TABLE `productsku` (
   `Id` int(11) NOT NULL,
   `ProductId` int(11) DEFAULT NULL,
   `UomId` int(11) DEFAULT NULL,
-  `Price` decimal(6,2) NOT NULL,
-  `Currency` int(11) DEFAULT 1
+  `Price` decimal(11,2) NOT NULL,
+  `Currency` int(11) DEFAULT 1,
+  `UpdateAt` datetime DEFAULT NULL,
+  `del` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `productsku`
 --
 
-INSERT INTO `productsku` (`Id`, `ProductId`, `UomId`, `Price`, `Currency`) VALUES
-(1, 1, 1, 2.00, 1),
-(2, 1, 2, 2.30, 1),
-(3, 1, 3, 3.00, 1),
-(4, 2, 1, 2.00, 1),
-(5, 2, 2, 2.30, 1),
-(6, 2, 3, 2.30, 1),
-(7, 3, 1, 2.00, 1),
-(8, 3, 2, 2.30, 1),
-(9, 3, 3, 2.30, 1),
-(10, 4, 1, 2.00, 1),
-(11, 4, 2, 2.30, 1),
-(12, 4, 3, 2.30, 1),
-(13, 5, 1, 2.00, 1),
-(14, 5, 2, 2.30, 1),
-(15, 5, 3, 2.30, 1),
-(16, 6, 1, 2.00, 1),
-(17, 6, 2, 2.30, 1),
-(18, 6, 3, 2.30, 1),
-(19, 7, 1, 2.00, 1),
-(20, 7, 2, 2.30, 1),
-(21, 7, 3, 2.30, 1),
-(22, 8, 1, 2.00, 1),
-(23, 8, 2, 2.30, 1),
-(24, 8, 3, 2.30, 1),
-(25, 9, 1, 2.00, 1),
-(26, 9, 2, 2.30, 1),
-(27, 9, 3, 2.30, 1),
-(28, 10, 1, 2.00, 1),
-(29, 10, 2, 2.30, 1),
-(30, 10, 3, 2.30, 1),
-(31, 11, 1, 2.00, 1),
-(32, 11, 2, 2.30, 1),
-(33, 11, 3, 2.30, 1),
-(34, 12, 1, 2.00, 1),
-(35, 12, 2, 2.30, 1),
-(36, 12, 3, 2.30, 1);
+INSERT INTO `productsku` (`Id`, `ProductId`, `UomId`, `Price`, `Currency`, `UpdateAt`, `del`) VALUES
+(1, 1, 1, 2.00, 1, NULL, 1),
+(2, 1, 2, 2.30, 1, NULL, 1),
+(3, 3, 3, 12300.00, 2, NULL, 1),
+(4, 2, 1, 2.00, 1, NULL, 1),
+(5, 2, 2, 2.30, 1, NULL, 1),
+(6, 2, 3, 2.30, 1, NULL, 1),
+(7, 3, 1, 2.00, 1, NULL, 1),
+(8, 3, 2, 2.30, 1, NULL, 1),
+(9, 3, 3, 2.30, 1, NULL, 1),
+(10, 4, 1, 2.00, 1, NULL, 1),
+(11, 4, 2, 2.30, 1, NULL, 1),
+(12, 4, 3, 2.30, 1, NULL, 1),
+(13, 5, 1, 2.00, 1, NULL, 1),
+(14, 5, 2, 9000.00, 2, NULL, 1),
+(15, 5, 3, 2.30, 1, NULL, 1),
+(16, 6, 1, 2.00, 1, NULL, 1),
+(17, 6, 2, 2.30, 1, NULL, 1),
+(18, 6, 3, 2.30, 1, NULL, 1),
+(19, 7, 1, 2.00, 1, NULL, 1),
+(20, 7, 2, 2.30, 1, NULL, 1),
+(21, 7, 3, 2.30, 1, NULL, 1),
+(22, 8, 1, 2.00, 1, NULL, 1),
+(23, 8, 2, 2.30, 1, NULL, 1),
+(24, 8, 3, 2.30, 1, NULL, 1),
+(25, 1, 1, 8000.00, 2, NULL, 1),
+(27, 9, 3, 2.30, 1, '0000-00-00 00:00:00', 1),
+(28, 10, 1, 2.00, 1, NULL, 1),
+(29, 10, 2, 2.30, 1, NULL, 1),
+(30, 10, 3, 2.30, 1, NULL, 1),
+(31, 11, 1, 2.00, 1, NULL, 1),
+(32, 11, 2, 2.30, 1, NULL, 1),
+(33, 11, 3, 2.30, 1, NULL, 1),
+(34, 12, 1, 2.00, 1, NULL, 1),
+(35, 12, 2, 2.30, 1, NULL, 1),
+(36, 12, 3, 2.30, 1, NULL, 1),
+(38, 17, 2, 15.00, 1, NULL, 1),
+(39, 17, 2, 16.00, 1, NULL, 1),
+(40, 1, 1, 1.00, 1, NULL, 1),
+(41, 9, 1, 8000.00, 2, NULL, 1),
+(45, 16, 1, 123.00, 1, NULL, 1),
+(47, 16, 1, 1111.00, 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -479,7 +499,9 @@ CREATE TABLE `pro_in` (
   `Currency` int(11) DEFAULT 1,
   `Description` varchar(255) NOT NULL,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL,
+  `del` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -513,7 +535,9 @@ CREATE TABLE `pro_out` (
   `Description` varchar(255) NOT NULL,
   `Currency` int(11) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL,
+  `del` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -528,20 +552,21 @@ CREATE TABLE `role` (
   `Code` varchar(120) NOT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `role`
 --
 
-INSERT INTO `role` (`Id`, `Name`, `Code`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 'Admin', 'ADM', 1, 1, '2024-03-06 22:00:00'),
-(2, 'Manager', 'MGR', 1, 1, '2024-03-05 20:30:00'),
-(3, 'Cashair', 'Cashair', 1, 1, '2024-03-05 20:30:00'),
-(4, 'Service', 'Service', 1, 103, '2024-03-05 01:45:00'),
-(5, 'Accountant', 'ACC', 1, 1, '2024-03-03 18:20:00'),
-(6, 'IT', 'IT', 1, 1, '2024-03-03 00:10:00');
+INSERT INTO `role` (`Id`, `Name`, `Code`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'Admin', 'ADM', 1, 1, '2024-03-06 22:00:00', NULL),
+(2, 'Manager', 'MGR', 1, 1, '2024-03-05 20:30:00', NULL),
+(3, 'Cashair', 'Cashair', 1, 1, '2024-03-05 20:30:00', NULL),
+(4, 'Service', 'Service', 1, 103, '2024-03-05 01:45:00', NULL),
+(5, 'Accountant', 'ACC', 1, 1, '2024-03-03 18:20:00', NULL),
+(6, 'IT', 'IT', 1, 1, '2024-03-03 00:10:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -554,16 +579,17 @@ CREATE TABLE `shift` (
   `Name` varchar(120) NOT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `shift`
 --
 
-INSERT INTO `shift` (`Id`, `Name`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 'Morning Shift', 1, 1, '2024-03-11 06:48:57'),
-(2, 'Evening Shift', 1, 1, '2024-03-11 06:48:57');
+INSERT INTO `shift` (`Id`, `Name`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'Morning Shift', 1, 1, '2024-03-11 06:48:57', NULL),
+(2, 'Evening Shift', 1, 1, '2024-03-11 06:48:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -582,18 +608,19 @@ CREATE TABLE `shiftdetails` (
   `CloseBy` int(11) DEFAULT NULL,
   `CloseAt` datetime DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `shiftdetails`
 --
 
-INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `ClosingBalance`, `Currency`, `Isclosed`, `CloseBy`, `CloseAt`, `Status`, `CreateAt`) VALUES
-(1, 1, 1, 80.00, 80.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
-(2, 2, 2, 90.00, 90.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00'),
-(3, 1, 1, 20.00, 20.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00'),
-(4, 2, 2, 30.00, 30.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00');
+INSERT INTO `shiftdetails` (`Id`, `ShiftId`, `UserId`, `OpenningBalance`, `ClosingBalance`, `Currency`, `Isclosed`, `CloseBy`, `CloseAt`, `Status`, `CreateAt`, `UpdateAt`) VALUES
+(1, 1, 1, 80.00, 80.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00', NULL),
+(2, 2, 2, 90.00, 90.00, '1', 0, NULL, NULL, 1, '2024-03-05 10:00:00', NULL),
+(3, 1, 1, 20.00, 20.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00', NULL),
+(4, 2, 2, 30.00, 30.00, '1', 0, NULL, NULL, 1, '2024-03-06 10:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -605,20 +632,21 @@ CREATE TABLE `table` (
   `Id` int(11) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `Description` varchar(255) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `table`
 --
 
-INSERT INTO `table` (`Id`, `Name`, `Description`, `CreateAt`) VALUES
-(1, 'Table1', 'Table1', '2024-05-03 09:49:33'),
-(2, 'Table2', 'Table2', '2024-05-03 09:49:33'),
-(3, 'Table3', 'Table3', '2024-05-03 09:49:33'),
-(4, 'Table4', 'Table4', '2024-05-03 09:49:33'),
-(5, 'Table5', 'Table5', '2024-05-03 09:49:33'),
-(6, 'Table6', 'Table6', '2024-05-03 09:49:33');
+INSERT INTO `table` (`Id`, `Name`, `Description`, `CreateAt`, `UpdateAt`) VALUES
+(1, 'Table1', 'Table1', '2024-05-03 09:49:33', NULL),
+(2, 'Table2', 'Table2', '2024-05-03 09:49:33', NULL),
+(3, 'Table3', 'Table3', '2024-05-03 09:49:33', NULL),
+(4, 'Table4', 'Table4', '2024-05-03 09:49:33', NULL),
+(5, 'Table5', 'Table5', '2024-05-03 09:49:33', NULL),
+(6, 'Table6', 'Table6', '2024-05-03 09:49:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -642,9 +670,9 @@ CREATE TABLE `uom` (
 
 INSERT INTO `uom` (`Id`, `Code`, `Name`, `Remark`, `Status`, `CreateAt`, `UpdateAt`) VALUES
 (1, 'Small', 'Small', 'Small', 1, '2024-05-24 02:31:09', NULL),
-(2, 'Midlle', 'Midlle', 'Midlle', 1, '2024-05-24 02:35:01', NULL),
+(2, 'Midlle', 'Midlle', 'Midlle', 1, '2024-05-24 02:35:01', '2024-06-01 22:27:25'),
 (3, 'Large', 'Large', 'Large', 1, '2024-05-24 02:35:40', NULL),
-(4, 'Couple', 'Couple', 'Couple', 1, '2024-05-24 08:14:03', '2024-05-24 10:32:36');
+(4, 'Couple', 'Couple', 'Couple', 1, '2024-05-24 08:14:03', '2024-06-01 22:27:22');
 
 -- --------------------------------------------------------
 
@@ -662,20 +690,21 @@ CREATE TABLE `user` (
   `ActivedAt` datetime DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 1,
   `CreateBy` int(11) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`Id`, `OutletId`, `EmployeeId`, `RoleId`, `Username`, `Password`, `ActivedAt`, `Status`, `CreateBy`, `CreateAt`) VALUES
-(1, 1, 1, 1, 'admin', '123', '2024-03-01 10:00:00', 1, 1, '2024-03-11 06:58:57'),
-(2, 1, 3, 2, 'sale', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
-(3, 1, 3, 3, 'HR', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57'),
-(4, 2, 4, 1, '05556777', '123456', '2024-03-03 12:00:00', 1, 1, '2024-03-11 06:58:57'),
-(5, 2, 5, 2, '01112333', '123456', '2024-03-04 13:00:00', 1, 1, '2024-03-11 06:58:57'),
-(6, 2, 6, 3, '04447888', '123456', '2024-03-05 14:00:00', 1, 1, '2024-03-11 06:58:57');
+INSERT INTO `user` (`Id`, `OutletId`, `EmployeeId`, `RoleId`, `Username`, `Password`, `ActivedAt`, `Status`, `CreateBy`, `CreateAt`, `UpdateAt`) VALUES
+(1, 1, 1, 1, 'admin', '123', '2024-03-01 10:00:00', 1, 1, '2024-03-11 06:58:57', NULL),
+(2, 1, 3, 2, 'sale', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57', NULL),
+(3, 1, 3, 3, 'HR', '123', '2024-03-02 11:00:00', 1, 1, '2024-03-11 06:58:57', NULL),
+(4, 2, 4, 1, '05556777', '123456', '2024-03-03 12:00:00', 1, 1, '2024-03-11 06:58:57', NULL),
+(5, 2, 5, 2, '01112333', '123456', '2024-03-04 13:00:00', 1, 1, '2024-03-11 06:58:57', NULL),
+(6, 2, 6, 3, '04447888', '123456', '2024-03-05 14:00:00', 1, 1, '2024-03-11 06:58:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -947,13 +976,13 @@ ALTER TABLE `payroll`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `productsku`
 --
 ALTER TABLE `productsku`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `pro_in`
