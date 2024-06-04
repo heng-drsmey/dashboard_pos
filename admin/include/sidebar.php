@@ -94,7 +94,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <li class="nav-item <?php echo ( $current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="false" aria-controls="collapsePro">
         <i class="fas fa-fw fa-mug-hot"></i>
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        
         <span>Product</span>
     </a>
     <div id="collapsePro" class="collapse" aria-labelledby="headingPro" data-parent="#accordionSidebar">
