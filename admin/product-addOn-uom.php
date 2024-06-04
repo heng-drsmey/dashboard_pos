@@ -65,7 +65,7 @@ include('function_Pro.php');
                                                 $rowFrm = $conn->query("SELECT * FROM `productsku` WHERE Id=$Pro_Add_Uom")->fetch_assoc();
                                             } else {
                                                 $rowFrm = array("ProductId" => "", "UomId" => "", "Price" => "", "Currency" => "",);
-                                            }  
+                                            }
                                             // echo var_dump($rowFrm);
                                             ?>
                                             <!-- </pre> -->
@@ -120,13 +120,13 @@ include('function_Pro.php');
                                                         </div>
                                                         <div class="col-12" style="display: none;">
                                                             <label for="update">update</label>
-                                                            <input type="text" class="form-control " name="txtupdate_at" value="<?php echo ''.$rowFrm['UpdateAt'].'' ?>" readonly>
+                                                            <input type="text" class="form-control " name="txtupdate_at" value="<?php echo '' . $rowFrm['UpdateAt'] . '' ?>" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <?php
-                                            
+
                                             if (isset($_REQUEST['Id'])) {
                                                 echo '
                                                     <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
@@ -197,8 +197,8 @@ include('function_Pro.php');
                                                     ?>
                                                     <td>
                                                         <a href="product-addOn-uom.php?Id=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                        <!-- <a href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a> -->
-                                                        <button class="btn btn-outline-danger btn-sm delete_add_on_uom" data-product-id="1" value="<?= $rowPro_add_uom['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                        <a href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-danger btn-sm" ><i class="fas fa-trash"></i></a>
+
                                                     </td>
                                                 </tr>
 
@@ -213,7 +213,7 @@ include('function_Pro.php');
             </div><!--content-->
         </div> <!--content-wrapper-->
     </div> <!--wrapper-->
-    <?php  include('include/footer.php') ?>
+    <?php include('include/footer.php') ?>
     </script>
     <!-- Search -->
     <script>
