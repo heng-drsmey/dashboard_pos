@@ -152,7 +152,7 @@ if (!isset($_SESSION['session'])) {
                                                 <!-- <td><?= $rowPro['CreateAt'] ?></td> -->
                                                 <td><?= $CreateBy['Username'] ?></td>
                                                 <td>
-                                                    <a href="product-add.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                    <a href="product.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                     <a href="product-list.php?delId=<?= $rowPro['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
