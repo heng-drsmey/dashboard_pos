@@ -123,8 +123,11 @@ include('function_user.php');
                                                     delete_user();
                                                 ?>
                                                 <td>
-                                                    <a href="user-add.php?UserId=<?= $rowUser['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                    <a href="user-list.php?delId=<?= $rowUser['Id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this user?'\)"><i class="fas fa-trash"></i></a>
+                                                    <a href="user-add.php?Id=<?= $rowUser['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                    <?php
+                                                    echo '<a href="user-list.php?delId='. $rowUser['Id'] .'" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this user?\')"><i class="fas fa-trash"></i></a>';
+                                                    ?>
+                                                    
                                                 </td>
                                             </tr>
                                         <?php endforeach ?>
