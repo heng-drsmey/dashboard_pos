@@ -34,7 +34,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="com-add.php">Add Company</a>
                 <a class="collapse-item" href="com-list.php">Company List</a>
-                <a class="collapse-item" href="com-list.php">Logo</a>
+                <!-- <a class="collapse-item" href="com-list.php">Logo</a> -->
             </div>
         </div>
     </li>

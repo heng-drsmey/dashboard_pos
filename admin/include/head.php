@@ -1,8 +1,9 @@
 <?php
 session_start();
 include('cn.php');
-if(!isset($_SESSION['session'])){
+if (!isset($_SESSION['session'])) {
     header("location: login.php");
+    exit();
 }
 
 ?>
@@ -26,6 +27,9 @@ if(!isset($_SESSION['session'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- link sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
