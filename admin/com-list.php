@@ -1,8 +1,14 @@
 <?php
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
+include('include/head.php');
+
+//include call com-function.php
+    include('com-function.php'); 
+
+// call function delete company.
+    if (isset($_GET['delId'])) {
+        $delId = $conn->real_escape_string($_GET['delId']);
+        company_delete($delId);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +26,12 @@ if (!isset($_SESSION['session'])) {
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
+    <!-- Link bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <!-- link sweet alert -->
@@ -59,27 +70,6 @@ if (!isset($_SESSION['session'])) {
                         <h1 class="h3 mb-0 text-gray-800">Companies List</h1>
                         <a href="com-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
-                    <?php 
-                    if(isset($_GET['delId'])) {
-                        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-                        $sqlDeleteOutlet = "DELETE FROM `outlet` WHERE `Id`='$delId'";
-                        if($conn->query($sqlDeleteOutlet) === TRUE) {
-                            echo'
-                            <script>
-                                swal({
-                                    title: "Success",
-                                    text: "Data delete success",
-                                    icon: "success",
-                                });
-                            </script> 
-                            ';
-                        } else {
-                            echo "Error deleting record: " . $conn->error;
-                        }
-                    } else {
-                        echo "";
-                    }
-                ?>
                     <!-- DataTales  -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -87,40 +77,20 @@ if (!isset($_SESSION['session'])) {
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
                                             <th>Code</th>
+                                            <th>Name</th>
                                             <th>Address</th>
-                                            <th>Status</th>
+                                            <th>Logo</th>
                                             <th>CreateBy</th>
+                                            <th>Status</th>
                                             <th>CreateAt</th>
                                             <th>Action</th>
                                         </tr>
-                                    </thead>    
-                                    <?php
-                                    $sqloutlet = "SELECT * FROM `outlet`";
-                                    $rs = $conn->query($sqloutlet);
-                                    while ($rowOutlet = $rs->fetch_assoc()) {
-                                        $Createby = $conn->query("SELECT * FROM `user` WHERE Id=" .$rowOutlet['CreateBy'])->fetch_assoc();
-                                        echo '
-                                            <tbody>
-                                                <tr>
-                                                    <td>'.$rowOutlet['Name'].'</td>
-                                                    <td>'.$rowOutlet['Code'].'</td>
-                                                    <td>'.$rowOutlet['Address'].'</td>
-                                                    <td>'.$rowOutlet['Status'].'</td>
-                                                    <td>'.$Createby['Username'].'</td>
-                                                    <td>'.$rowOutlet['CreateAt'].'</td>
-                                                    <td>
-                                                        <a href="com-add.php?OutId='.$rowOutlet['Id'].'"  " class="btn btn-outline-primary btn-sm ">Edit</a>
-                                                        <a href="com-list.php?delId='.$rowOutlet['Id'].'" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this Outlet?\')">Delete</a> 
-                                                
-                                                    </td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                            ';
-                                    }
-                                    ?>
+                                    </thead>     
+                                    <tbody>  
+                                        <!-- view data in table -->
+                                            <?php display_companies_table(); ?>
+                                    </tbody>
 
                                 </table>
                             </div>
