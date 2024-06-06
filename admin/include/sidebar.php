@@ -25,29 +25,29 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item <?php echo ($current_page == 'com-add.php' || $current_page == 'com-list.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'company-add.php' || $current_page == 'company-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCom" aria-expanded="true" aria-controls="collapseCom">
             <i class="fas fa-fw fa-building"></i>
             <span>Company</span>
         </a>
         <div id="collapseCom" class="collapse" aria-labelledby="headingCom" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="com-add.php">Add Company</a>
-                <a class="collapse-item" href="com-list.php">Company List</a>
-                <!-- <a class="collapse-item" href="com-list.php">Logo</a> -->
+                <a class="collapse-item" href="company-add.php">Add Company</a>
+                <a class="collapse-item" href="company-list.php">Company List</a>
+                <!-- <a class="collapse-item" href="company-list.php">Logo</a> -->
             </div>
         </div>
     </li>
 
-    <li class="nav-item <?php echo ($current_page == 'emp-add.php' || $current_page == 'emp-list.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'employee-add.php' || $current_page == 'employee-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmp" aria-expanded="true" aria-controls="collapseEmp">
             <i class="fas fa-fw fa-user"></i>
             <span>Employees</span>
         </a>
         <div id="collapseEmp" class="collapse" aria-labelledby="headingEmp" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="emp-add.php">Add Employee</a>
-                <a class="collapse-item" href="emp-list.php">Employees List</a>
+                <a class="collapse-item" href="employee-add.php">Add Employee</a>
+                <a class="collapse-item" href="employee-list.php">Employees List</a>
             </div>
         </div>
     </li>
@@ -59,8 +59,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseCus" class="collapse" aria-labelledby="headingEmp" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="emp-add.php">Add Customer</a>
-                <a class="collapse-item" href="emp-list.php">Customer List</a>
+                <a class="collapse-item" href="employee-add.php">Add Customer</a>
+                <a class="collapse-item" href="employee-list.php">Customer List</a>
             </div>
         </div>
     </li>
