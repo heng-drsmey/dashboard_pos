@@ -16,3 +16,6 @@
         -Table
         -Role
         -Paymeth Method
+
+add columm logo on outlet
+ALTER TABLE `outlet` ADD `Logo` VARCHAR(255) NULL AFTER `Address`;
