@@ -12,6 +12,6 @@ if ($conn->connect_error) {
 } 
 
 $home='http://localhost/dashboard_pos/admin';
-
+date_default_timezone_set("Asia/Phnom_Penh");
 
 ?>
