@@ -152,7 +152,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div id="collapseSet" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="user-list.php">User List</a>
-                <a class="collapse-item" href="user-list.php">Table</a>
+                <a class="collapse-item" href="table.php">Table</a>
                 <a class="collapse-item" href="user-list.php">Role</a>
                 <a class="collapse-item" href="user-list.php">Payment Method</a>
                 <a class="collapse-item" href="user-list.php">Currency</a>
