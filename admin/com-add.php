@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 include('include/head.php');
 
 // include call com-function.php
@@ -9,6 +10,12 @@ $company = null;
 if (isset($_GET['OutId'])) {
     $OutId = $conn->real_escape_string($_GET['OutId']);
     $company = fetch_company($OutId);
+=======
+session_start();
+include('cn.php');
+if (!isset($_SESSION['session'])) {
+    header("location: login.php");
+>>>>>>> 06785f292f84ed1df8aba63181ead284e750a85e
 }
 
  // Check if form is submitted
