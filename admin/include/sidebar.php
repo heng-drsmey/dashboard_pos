@@ -3,7 +3,7 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar" >
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -91,19 +91,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ($current_page == 'product-add.php' || $current_page == 'product-list.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="true" aria-controls="collapsePro">
-            <i class="fas fa-fw fa-mug-hot"></i>
-            <span>Product</span>
-        </a>
-        <div id="collapsePro" class="collapse" aria-labelledby="headingPro" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="product-add.php">Add Product</a>
-                <a class="collapse-item" href="product-list.php">Product List</a>
-                <a class="collapse-item" href="uom.php">Unit Of Measure</a>
-            </div>
+    <li class="nav-item <?php echo ( $current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="false" aria-controls="collapsePro">
+        <i class="fas fa-fw fa-mug-hot"></i>
+        
+        <span>Product</span>
+    </a>
+    <div id="collapsePro" class="collapse" aria-labelledby="headingPro" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <!-- <a class="collapse-item" href="product-add.php">Add Product</a> -->
+            <a class="collapse-item" href="product-list.php">Product List</a>
+            <a class="collapse-item" href="product-addOn-uom.php">Product Add On UOM</a>
+            <a class="collapse-item" href="product.php">Add Product</a>
+            <a class="collapse-item" href="uom.php">Unit Of Measure</a>
         </div>
-    </li>
+    </div>
+</li>
 
     <li class="nav-item <?php echo ($current_page == 'inventory.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="inventory.php">
@@ -152,6 +155,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a class="collapse-item" href="user-list.php">Table</a>
                 <a class="collapse-item" href="user-list.php">Role</a>
                 <a class="collapse-item" href="user-list.php">Payment Method</a>
+                <a class="collapse-item" href="user-list.php">Currency</a>
             </div>
         </div>
     </li>
@@ -165,3 +169,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </div>
 
 </ul>
+<!-- Make sure to include Bootstrap's JS and jQuery at the end of your body -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
