@@ -9,10 +9,13 @@ $company = null;
 if (isset($_GET['OutId'])) {
     $OutId = $conn->real_escape_string($_GET['OutId']);
     $company = fetch_company($OutId);
+<<<<<<< HEAD
 }
 include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
+=======
+>>>>>>> 46c76eee1163fbe7a9ab8e7931397ef8b478bbce
 }
 
  // Check if form is submitted
