@@ -2,6 +2,7 @@
 ---Module
     +Dashboard
     +Product
+        -product add on uom
         -Add product
         -Product list
         -Unit of Measure
@@ -15,4 +16,5 @@
         -User list
         -Table
         -Role
+        -Currency
         -Paymeth Method
