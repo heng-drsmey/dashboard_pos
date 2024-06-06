@@ -8,13 +8,13 @@ function addProduct()
     global $conn;
 
     if (isset($_POST['btnAdd'])) {
-        $txtcode = $_POST['txtcode'];
-        $txtname = $_POST['txtname'];
+        $txtcode = $conn->real_escape_string($_POST['txtcode']);
+        $txtname = $conn->real_escape_string($_POST['txtname']);
         $txtcategory = $_POST['txtcategory'];
         $txtuom = $_POST['txtuom'];
         $txtprice = $_POST['txtprice'];
         $txtcurrency = $_POST['txtcurrency'];
-        $txtdescription = $_POST['txtdescription'];
+        $txtdescription = $conn->real_escape_string($_POST['txtdescription']);
         $txtcreateby = $_POST['txtcreateby'];
         $txtImage = $_FILES['txtImage']['name'];
         $txtImageTmp = $_FILES['txtImage']['tmp_name'];
@@ -78,7 +78,7 @@ function Product_addOn_uom()
 
     if (isset($_POST['btnAdd'])) {
         $txtproduct = $_POST['txtproduct'];
-        $txtuom = $_POST['txtuom'];
+        $txtuom = $conn->real_escape_string($_POST['txtuom']);
         $txtprice = $_POST['txtprice'];
         $txtcurrency = $_POST['txtcurrency'];
         // $txtImage = $_FILES['txtImage']['name'];
@@ -145,7 +145,7 @@ function update_add_uom() {
     if (isset($_REQUEST['btnUpdate'])) {
         $Pro_Add_Uom = $_REQUEST['Id'];
         $txtproduct = $_POST['txtproduct'];
-        $txtuom = $_POST['txtuom'];
+        $txtuom = $conn->real_escape_string($_POST['txtuom']);
         $txtprice = $_POST['txtprice'];
         $txtcurrency = $_POST['txtcurrency'];
         $curentDate = date("Y_m_d_H_i_s");
