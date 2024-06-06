@@ -1,7 +1,7 @@
 <?php
 include('cn.php');
 
-function update_company_status($id, $status) {
+function company_update_status($id, $status) {
     global $conn;
 
     // Escape variables to protect against SQL injection
@@ -13,7 +13,7 @@ function update_company_status($id, $status) {
     mysqli_query($conn, $query);
 
     // Redirect to the company list page
-    header('location: com-list.php');
+    header('location: company-list.php');
     exit();
 }
 
@@ -23,10 +23,10 @@ if (isset($_REQUEST['OutId']) && isset($_REQUEST['Status'])) {
     $status = $_REQUEST['Status'];
 
     // Call the function to update company status
-    update_company_status($id, $status);
+    company_update_status($id, $status);
 } else {
     // Handle invalid request
-    header('location: com-list.php');
+    header('location: company-list.php');
     exit();
 }
 ?>

@@ -1,10 +1,10 @@
 <?php
 include('include/head.php');
 
-// include call com-function.php
-include('com-function.php');
+// include call function-company.php
+include('function-company.php');
 
-// get data view in com-add.php for update.
+// get data view in company-add.php for update.
 $company = null;
 if (isset($_GET['OutId'])) {
     $OutId = $conn->real_escape_string($_GET['OutId']);
@@ -88,7 +88,7 @@ if (!isset($_SESSION['session'])) {
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="com-add.php" method="post" enctype="multipart/form-data">
+                                    <form action="company-add.php" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<?php echo $company['Id'] ?? ''; ?>">
 
                                         <div class="row">
@@ -121,6 +121,12 @@ if (!isset($_SESSION['session'])) {
                                                     </select>
                                                 </div>
 
+                                                <!-- Remark -->
+                                                <div class="form-group">
+                                                    <label for="address">Remark</label>
+                                                    <input type="text" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($company['Remark'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                </div>
+
                                                 <!-- Disable Checkbox -->
                                                 <div class="form-check form-switch ms-4 mt-3">
                                                     <input type="checkbox" class="form-check-input" role="switch" id="status" name="status" <?php echo isset($company) && $company['Status'] ? 'checked' : ''; ?>>
@@ -143,7 +149,7 @@ if (!isset($_SESSION['session'])) {
                                                         <div class="img-1">
                                                         <?php 
                                                             if(!empty($company['Logo'])){
-                                                                echo '<img class="image" id="companyimage" src="ImageCom/'.htmlspecialchars($company['Logo'], ENT_QUOTES, 'UTF-8').'" alt="companyimage" width="200px">';
+                                                                echo '<img class="image" id="companyimage" src="ImageCompany/'.htmlspecialchars($company['Logo'], ENT_QUOTES, 'UTF-8').'" alt="companyimage" width="200px">';
                                                             }else{
                                                         ?>
                                                             <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510"

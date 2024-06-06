@@ -1,8 +1,8 @@
 <?php
 include('include/head.php');
 
-//include call com-function.php
-    include('com-function.php'); 
+//include call function-company.php
+    include('function-company.php'); 
 
 // call function delete company.
     if (isset($_GET['delId'])) {
@@ -68,7 +68,7 @@ include('include/head.php');
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Companies List</h1>
-                        <a href="com-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
+                        <a href="company-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
                     <!-- DataTales  -->
                     <div class="card shadow mb-4">

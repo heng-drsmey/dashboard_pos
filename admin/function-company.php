@@ -32,7 +32,7 @@ include('cn.php');
 //                         text: "Company added successfully",
 //                         icon: "success"
 //                     }).then(function() {
-//                         window.location = "com-add.php";
+//                         window.location = "company-add.php";
 //                     });
 //                     });
 //                       </script>';
@@ -45,7 +45,7 @@ include('cn.php');
 //                             text: "There was an error adding the company. Please try again. Error: ' . $stmt->error . '",
 //                             icon: "error"
 //                         }).then(function() {
-//                             window.location = "com-add.php";
+//                             window.location = "company-add.php";
 //                         });
 //                     });
 //                       </script>';
@@ -61,7 +61,7 @@ include('cn.php');
 //                         text: "There was an error preparing the statement. Please try again. Error: ' . $conn->error . '",
 //                         icon: "error"
 //                     }).then(function() {
-//                         window.location = "com-add.php";
+//                         window.location = "company-add.php";
 //                     });
 //                 });
 //                   </script>';
@@ -78,11 +78,12 @@ function company_insert() {
         $companyname = $conn->real_escape_string($_POST['companyname']);
         $address = $conn->real_escape_string($_POST['address']);
         $createBy = $conn->real_escape_string($_POST['createBy']);
+        $remark = $conn->real_escape_string($_POST['remark']);
         $status = isset($_POST['status']) ? 1 : 0;
 
         // Handle file upload
         if (isset($_FILES['companyimage']) && $_FILES['companyimage']['error'] == 0) {
-            $target_dir = "ImageCom/";
+            $target_dir = "ImageCompany/";
             $originalFilename = $_FILES['companyimage']['name'];
             $imageFileType = strtolower(pathinfo($originalFilename, PATHINFO_EXTENSION));
             $target_file = $target_dir . $originalFilename;
@@ -99,7 +100,7 @@ function company_insert() {
                                 text: "Sorry, your file is too large.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php";
+                                window.location = "company-add.php";
                             });
                         });
                     </script>';
@@ -115,7 +116,7 @@ function company_insert() {
                                 text: "Sorry, only JPG, JPEG, PNG & GIF files are allowed.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php";
+                                window.location = "company-add.php";
                             });
                         });
                     </script>';
@@ -132,7 +133,7 @@ function company_insert() {
                                 text: "Sorry, there was an error uploading your file.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php";
+                                window.location = "company-add.php";
                             });
                         });
                     </script>';
@@ -146,7 +147,7 @@ function company_insert() {
                             text: "File is not an image.",
                             icon: "error"
                         }).then(function() {
-                            window.location = "com-add.php";
+                            window.location = "company-add.php";
                         });
                     });
                 </script>';
@@ -157,12 +158,12 @@ function company_insert() {
         }
 
         // Prepare the SQL statement with placeholders
-        $sqlInsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Status`, `Logo`) VALUES (?, ?, ?, ?, ?, ?)";
+        $sqlInsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`,`Remark`, `Status`, `Logo`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // Prepare and bind
         if ($stmt = $conn->prepare($sqlInsert)) {
             // Bind the parameters to the placeholders in the SQL statement
-            $stmt->bind_param("sssiss", $companycode, $companyname, $address, $createBy, $status, $imagePath);
+            $stmt->bind_param("sssisss", $companycode, $companyname, $address, $createBy, $remark, $status, $imagePath);
 
             // Execute the statement
             if ($stmt->execute()) {
@@ -174,7 +175,7 @@ function company_insert() {
                         text: "Company added successfully",
                         icon: "success"
                     }).then(function() {
-                        window.location = "com-add.php";
+                        window.location = "company-add.php";
                     });
                     });
                 </script>';
@@ -187,7 +188,7 @@ function company_insert() {
                             text: "There was an error adding the company. Please try again. Error: ' . $stmt->error . '",
                             icon: "error"
                         }).then(function() {
-                            window.location = "com-add.php";
+                            window.location = "company-add.php";
                         });
                     });
                 </script>';
@@ -203,7 +204,7 @@ function company_insert() {
                         text: "There was an error preparing the statement. Please try again. Error: ' . $conn->error . '",
                         icon: "error"
                     }).then(function() {
-                        window.location = "com-add.php";
+                        window.location = "company-add.php";
                     });
                 });
             </script>';
@@ -243,7 +244,7 @@ function company_insert() {
 //                             icon: "success"
 
 //                         }).then(function() {
-//                             window.location = "com-list.php";
+//                             window.location = "company-list.php";
 //                         });
 //                     });
 //                       </script>';
@@ -256,7 +257,7 @@ function company_insert() {
 //                             text: "There was an error updating the company. Please try again. Error: ' . $stmt->error . '",
 //                             icon: "error"
 //                         }).then(function() {
-//                             window.location = "com-add.php?OutId=' . $id . '";
+//                             window.location = "company-add.php?OutId=' . $id . '";
 //                         });
 //                     });
 //                       </script>';
@@ -272,7 +273,7 @@ function company_insert() {
 //                         text: "There was an error preparing the statement. Please try again. Error: ' . $conn->error . '",
 //                         icon: "error"
 //                     }).then(function() {
-//                         window.location = "com-add.php?OutId=' . $id . '";
+//                         window.location = "company-add.php?OutId=' . $id . '";
 //                     });
 //                 });
 //                   </script>';
@@ -290,13 +291,14 @@ function company_update() {
         $companyname = $conn->real_escape_string($_POST['companyname']);
         $address = $conn->real_escape_string($_POST['address']);
         $createBy = $conn->real_escape_string($_POST['createBy']);
+        $remark = $conn->real_escape_string($_POST['remark']);
         $status = isset($_POST['status']) ? 1 : 0;
 
         $imagePath = null;
 
         // Handle file upload if a new image is provided
         if (isset($_FILES['companyimage']) && $_FILES['companyimage']['error'] == 0) {
-            $target_dir = "ImageCom/";
+            $target_dir = "ImageCompany/";
             $originalFilename = $_FILES['companyimage']['name'];
             $imageFileType = strtolower(pathinfo($originalFilename, PATHINFO_EXTENSION));
             $target_file = $target_dir . $originalFilename;
@@ -313,7 +315,7 @@ function company_update() {
                                 text: "Sorry, your file is too large.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php?OutId=' . $id . '";
+                                window.location = "company-add.php?OutId=' . $id . '";
                             });
                         });
                     </script>';
@@ -329,14 +331,14 @@ function company_update() {
                                 text: "Sorry, only JPG, JPEG, PNG & GIF files are allowed.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php?OutId=' . $id . '";
+                                window.location = "company-add.php?OutId=' . $id . '";
                             });
                         });
                     </script>';
                     return;
                 }
                 
-                // edit upload image delete old image on folder ImageCom
+                // edit upload image delete old image on folder ImageCompany
                 $result = $conn->query("SELECT `Logo` FROM `outlet` WHERE `Id` = $id");
                 if ($result && $result->num_rows > 0) {
                     $row = $result->fetch_assoc();
@@ -356,7 +358,7 @@ function company_update() {
                                 text: "Sorry, there was an error uploading your file.",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-add.php?OutId=' . $id . '";
+                                window.location = "company-add.php?OutId=' . $id . '";
                             });
                         });
                     </script>';
@@ -370,7 +372,7 @@ function company_update() {
                             text: "File is not an image.",
                             icon: "error"
                         }).then(function() {
-                            window.location = "com-add.php?OutId=' . $id . '";
+                            window.location = "company-add.php?OutId=' . $id . '";
                         });
                     });
                 </script>';
@@ -379,7 +381,7 @@ function company_update() {
         }
 
         // Prepare the SQL statement with placeholders
-        $sqlUpdate = "UPDATE `outlet` SET `Code` = ?, `Name` = ?, `Address` = ?, `CreateBy` = ?, `Status` = ?";
+        $sqlUpdate = "UPDATE `outlet` SET `Code` = ?, `Name` = ?, `Address` = ?, `CreateBy` = ?, `Remark` = ?, `Status` = ?";
 
         // Add image update part if a new image is uploaded
         if ($imagePath !== null) {
@@ -392,10 +394,10 @@ function company_update() {
         if ($stmt = $conn->prepare($sqlUpdate)) {
             if ($imagePath !== null) {
                 // Bind the parameters to the placeholders in the SQL statement
-                $stmt->bind_param("sssissi", $companycode, $companyname, $address, $createBy, $status, $imagePath, $id);
+                $stmt->bind_param("sssisssi", $companycode, $companyname, $address, $createBy, $remark, $status, $imagePath, $id);
             } else {
                 // Bind the parameters to the placeholders in the SQL statement
-                $stmt->bind_param("sssiii", $companycode, $companyname, $address, $createBy, $status, $id);
+                $stmt->bind_param("sssisii", $companycode, $companyname, $address, $createBy, $remark, $status, $id);
             }
 
             // Execute the statement
@@ -407,7 +409,7 @@ function company_update() {
                             text: "Company updated successfully",
                             icon: "success"
                         }).then(function() {
-                            window.location = "com-list.php";
+                            window.location = "company-list.php";
                         });
                     });
                 </script>';
@@ -420,7 +422,7 @@ function company_update() {
                             text: "There was an error updating the company. Please try again. Error: ' . $stmt->error . '",
                             icon: "error"
                         }).then(function() {
-                            window.location = "com-add.php?OutId=' . $id . '";
+                            window.location = "company-add.php?OutId=' . $id . '";
                         });
                     });
                 </script>';
@@ -436,7 +438,7 @@ function company_update() {
                         text: "There was an error preparing the statement. Please try again. Error: ' . $conn->error . '",
                         icon: "error"
                     }).then(function() {
-                        window.location = "com-add.php?OutId=' . $id . '";
+                        window.location = "company-add.php?OutId=' . $id . '";
                     });
                 });
             </script>';
@@ -445,7 +447,7 @@ function company_update() {
 }
 
 
-// get data view in com-add.php for update.
+// get data view in company-add.php for update.
 function fetch_company($OutId) {
     global $conn;
    $sql = "SELECT * FROM `outlet` WHERE `Id` = ?";
@@ -484,7 +486,7 @@ function handle_form_submission() {
 //                         text: "Data delete success",
 //                         icon: "success"
 //                     }).then(function() {
-//                         window.location = "com-list.php";
+//                         window.location = "company-list.php";
 //                     });
 //                 });
 //                   </script>';
@@ -496,7 +498,7 @@ function handle_form_submission() {
 //                         text: "Error deleting record: ' . $stmt->error . '",
 //                         icon: "error"
 //                     }).then(function() {
-//                         window.location = "com-list.php";
+//                         window.location = "company-list.php";
 //                     });
 //                 });
 //                   </script>';
@@ -510,7 +512,7 @@ function handle_form_submission() {
 //                     text: "Error preparing statement: ' . $conn->error . '",
 //                     icon: "error"
 //                 }).then(function() {
-//                     window.location = "com-list.php";
+//                     window.location = "company-list.php";
 //                 });
 //             });
 //               </script>';
@@ -532,7 +534,7 @@ function company_delete($delId) {
             
             // Step 2: Delete the file from the server
             if ($logoFilename) {
-                $logoPath = 'ImageCom/' . htmlspecialchars($logoFilename, ENT_QUOTES, 'UTF-8');
+                $logoPath = 'ImageCompany/' . htmlspecialchars($logoFilename, ENT_QUOTES, 'UTF-8');
                 if (file_exists($logoPath)) {
                     unlink($logoPath);
                 }
@@ -550,7 +552,7 @@ function company_delete($delId) {
                                 text: "Data delete success",
                                 icon: "success"
                             }).then(function() {
-                                window.location = "com-list.php";
+                                window.location = "company-list.php";
                             });
                         });
                           </script>';
@@ -562,7 +564,7 @@ function company_delete($delId) {
                                 text: "Error deleting record: ' . $stmt->error . '",
                                 icon: "error"
                             }).then(function() {
-                                window.location = "com-list.php";
+                                window.location = "company-list.php";
                             });
                         });
                           </script>';
@@ -576,7 +578,7 @@ function company_delete($delId) {
                             text: "Error preparing statement: ' . $conn->error . '",
                             icon: "error"
                         }).then(function() {
-                            window.location = "com-list.php";
+                            window.location = "company-list.php";
                         });
                     });
                       </script>';
@@ -589,7 +591,7 @@ function company_delete($delId) {
                         text: "Error executing statement: ' . $stmt->error . '",
                         icon: "error"
                     }).then(function() {
-                        window.location = "com-list.php";
+                        window.location = "company-list.php";
                     });
                 });
                   </script>';
@@ -603,7 +605,7 @@ function company_delete($delId) {
                     text: "Error preparing statement: ' . $conn->error . '",
                     icon: "error"
                 }).then(function() {
-                    window.location = "com-list.php";
+                    window.location = "company-list.php";
                 });
             });
               </script>';
@@ -654,8 +656,8 @@ function select_user($selectedUserId = null) {
 //                 </td>
 //                 <td>' . htmlspecialchars($rowOutlet['CreateAt']) . '</td>
 //                 <td>
-//                     <a href="com-add.php?OutId=' . $rowOutlet['Id'] . '" class="btn btn-outline-primary btn-sm"><i class="fa fa-pencil"></i></a>
-//                     <a href="com-list.php?delId=' . $rowOutlet['Id'] . '" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this Outlet?\')"><i class="fas fa-trash"></i></a>
+//                     <a href="company-add.php?OutId=' . $rowOutlet['Id'] . '" class="btn btn-outline-primary btn-sm"><i class="fa fa-pencil"></i></a>
+//                     <a href="company-list.php?delId=' . $rowOutlet['Id'] . '" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this Outlet?\')"><i class="fas fa-trash"></i></a>
 //                 </td>
 //             </tr>
 //         ';
@@ -674,10 +676,10 @@ function display_companies_table() {
     while ($rowOutlet = $rs->fetch_assoc()) {
         $Createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowOutlet['CreateBy'])->fetch_assoc();
         // Define the status badge HTML based on the status value
-        $statusBadge = ($rowOutlet['Status'] == 1) ? '<p><a href="update_company_status.php?OutId=' . $rowOutlet['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>' : '<p><a href="update_company_status.php?OutId=' . $rowOutlet['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+        $statusBadge = ($rowOutlet['Status'] == 1) ? '<p><a href="company_update_status.php?OutId=' . $rowOutlet['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>' : '<p><a href="company_update_status.php?OutId=' . $rowOutlet['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
         // Prepare image source
         $logoFilename = htmlspecialchars($rowOutlet['Logo']);
-        $logoPath = 'ImageCom/' . $logoFilename;
+        $logoPath = 'ImageCompany/' . $logoFilename;
         $logoImg = (file_exists($logoPath) && !empty($rowOutlet['Logo'])) 
             ? '<img src="' . $logoPath . '" alt="Company Logo" width="100px">' 
             : 'No Image';
@@ -693,8 +695,8 @@ function display_companies_table() {
                 <td>' . $statusBadge . '</td>
                 <td>' . htmlspecialchars($rowOutlet['CreateAt']) . '</td>
                 <td>
-                    <a href="com-add.php?OutId=' . $rowOutlet['Id'] . '" class="btn btn-outline-primary btn-sm mr-2"><i class="fa fa-pencil"></i></a>
-                    <a href="com-list.php?delId=' . $rowOutlet['Id'] . '" class="btn btn-outline-danger btn-sm " onclick="return confirm(\'Are you sure you want to delete this Outlet?\')"><i class="fas fa-trash"></i></a>
+                    <a href="company-add.php?OutId=' . $rowOutlet['Id'] . '" class="btn btn-outline-primary btn-sm mr-2"><i class="fa fa-pencil"></i></a>
+                    <a href="company-list.php?delId=' . $rowOutlet['Id'] . '" class="btn btn-outline-danger btn-sm " onclick="return confirm(\'Are you sure you want to delete this Outlet?\')"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
         ';
