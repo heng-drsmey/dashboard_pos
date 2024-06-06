@@ -4,7 +4,7 @@ include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
-include('function_Pro.php');
+include('function_user.php');
 ?>
 
 <html lang="en">
@@ -54,7 +54,7 @@ include('function_Pro.php');
                                 <form method="post" enctype="multipart/form-data">
                                     <?php
                                     // call function add product
-                                    // addProduct();
+                                    add_user();
                                     // call data for update
                                     // if (isset($_REQUEST['Id'])) {
                                     //     $productId = $_REQUEST['Id'];                                   
@@ -74,7 +74,7 @@ include('function_Pro.php');
                                                         <label for="Outlet">Outlet</label>
                                                         <!-- <input type="text" class="form-control" name="txtoutlet" required value="<?php // echo '' . $ProId['Code'] . '' 
                                                                                                                                         ?>"> -->
-                                                        <select class="form-control" name="txtoutlet">
+                                                        <select class="form-control border-left-danger" name="txtoutlet">
                                                             <?php
                                                             $sqlOutlet = "SELECT * FROM `outlet`";
                                                             $qrOutlet = $conn->query($sqlOutlet);
@@ -88,7 +88,7 @@ include('function_Pro.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Employee">Employee</label>
-                                                        <select class="form-control" name="txtemp">
+                                                        <select class="form-control border-left-danger" name="txtemp">
                                                             <?php
                                                             $sqlEmp = "SELECT * FROM `employee`";
                                                             $qrEmp = $conn->query($sqlEmp);
@@ -104,7 +104,7 @@ include('function_Pro.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Role">Role</label>
-                                                        <select class="form-control" style="width: 100%;" name="txtrole">
+                                                        <select class="form-control border-left-danger" style="width: 100%;" name="txtrole">
                                                             <?php
                                                             $sqlRole = "SELECT * FROM `role`";
                                                             $qrRole = $conn->query($sqlRole);
@@ -119,7 +119,7 @@ include('function_Pro.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="CreateBy">CreateBy</label>
-                                                        <select class="form-control" style="width: 100%;" name="txtcreateby">
+                                                        <select class="form-control border-left-danger" style="width: 100%;" name="txtcreateby">
                                                             <?php
                                                             $sqlUser = "SELECT * FROM `user`";
                                                             $qrUser = $conn->query($sqlUser);
@@ -136,11 +136,11 @@ include('function_Pro.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Username">Username</label>
-                                                        <input type="text" class="form-control" name="txtusername" required value="">
+                                                        <input type="text" class="form-control border-left-danger" name="txtusername" required value="">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Password">Password</label>
-                                                        <input type="text" class="form-control" name="txtpassword" required value="<?php echo '' //  .$rowFrm['ProductId'] . '' ?>">
+                                                        <input type="text" class="form-control border-left-danger" name="txtpassword" required value="<?php echo '' //  .$rowFrm['ProductId'] . '' ?>">
                                                     </div>
                                                 </div>
                                                 <label for="Remark">Remark</label>
@@ -148,10 +148,10 @@ include('function_Pro.php');
 
 
                                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
-                                                <div class="form-check form-switch ms-4 mt-3">
+                                                <!-- <div class="form-check form-switch ms-4 mt-3">
                                                     <input class="form-check-input" type="checkbox" role="switch" id="status" name="txtstatus">
-                                                    <label class="form-check-label mb-2" for="status">Disable</label>
-                                                </div>
+                                                    <label class="form-check-label mb-2 " for="status">Disable</label>
+                                                </div> -->
                                                 <?php
                                                 if (isset($_REQUEST['Id'])) {
                                                     echo '
