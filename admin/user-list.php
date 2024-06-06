@@ -5,6 +5,7 @@ include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
+include('function_user.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,9 +119,12 @@ if (!isset($_SESSION['session'])) {
                                                     }
                                                     ?>
                                                 </td>
+                                                <?php
+                                                    delete_user();
+                                                ?>
                                                 <td>
                                                     <a href="user-add.php?UserId=<?= $rowUser['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                    <a href="user-list.php?delId=<?= $rowUser['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                    <a href="user-list.php?delId=<?= $rowUser['Id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this user?'\)"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach ?>
@@ -142,9 +146,6 @@ if (!isset($_SESSION['session'])) {
 
         </div>
         <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
    <!-- Search -->
    <script>
         function myFunction() {
@@ -169,6 +170,9 @@ if (!isset($_SESSION['session'])) {
             }
         }
     </script>
+    </div>
+    <!-- End of Page Wrapper -->
+
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
