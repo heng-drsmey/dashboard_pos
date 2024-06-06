@@ -7,9 +7,9 @@ function add()
 {
   global $conn;
   if (isset($_POST['btnAdd'])) {
-    $txtcode = $_POST['txtcode'];
-    $txtname = $_POST['txtname'];
-    $txtremark = $_POST['txtremark'];
+    $txtcode = $conn->real_escape_string($_POST['txtcode']);
+    $txtname = $conn->real_escape_string($_POST['txtname']);
+    $txtremark = $conn->real_escape_string($_POST['txtremark']);
 
     $sql = " INSERT INTO `uom`(`Code`, `Name`, `Remark`) VALUES ('$txtcode','$txtname','$txtremark') ";
 
@@ -69,9 +69,9 @@ function update()
   // selece data for update
   if (isset($_REQUEST['btnUpdate'])) {
     $uomId = $_REQUEST['Id'];
-    $name = $_REQUEST['txtname'];
-    $code = $_REQUEST['txtcode'];
-    $remark = $_REQUEST['txtremark'];
+    $name = $conn->real_escape_string($_REQUEST['txtname']);
+    $code = $conn->real_escape_string($_REQUEST['txtcode']);
+    $remark = $conn->real_escape_string($_REQUEST['txtremark']);
     $curentDate = date("Y_m_d_H_i_s");
     $update_at = $_REQUEST['txtupdate_at'];
     $update = $update_at . $curentDate;
@@ -86,8 +86,8 @@ function update()
                                   });
                                 </script>
                                 ';
-    } else {
-      echo '
+                                  } else {
+                                    echo '
                                 <script>
                                   swal({
                                     title: "Try again",
