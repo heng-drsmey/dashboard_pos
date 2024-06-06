@@ -82,7 +82,7 @@ include('function_uom.php');
                                         <div class="card shadow mb-4">
                                             <div class="card-body">
                                                 <label for="Code">code</label>
-                                                <input type="text" class="form-control" name="txtcode" required value="<?php echo '' . $rowFrm['Code'] . '' ?>">
+                                                <input type="text" class="form-control border-left-danger" name="txtcode" required value="<?php echo '' . $rowFrm['Code'] . '' ?>">
                                                 <label for="Name">Name</label>
                                                 <input type="text" class="form-control" name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>">
                                                 <label for="Remark">Remark</label>
