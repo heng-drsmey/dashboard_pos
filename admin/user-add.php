@@ -1,11 +1,12 @@
-<!-- Session user  -->
 <?php
+session_start();
 include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
+include('function_Pro.php');
 ?>
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -18,174 +19,166 @@ if (!isset($_SESSION['session'])) {
 
     <title>SB Admin 2 - Add User</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
+    <!-- Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- style upload image -->
+    <link href="css/img-style.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         <?php include './include/sidebar.php' ?>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <?php include './include/topbar.php' ?>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Add User</h1>
-
-                    <div class="row">
-
-                        <div class="col-lg-6">
-
-                            <!-- Circle Buttons -->
-                            <div class="card shadow mb-4">
-                                <div class="card-body">
-                                    <label for="firstName">First Name:</label>
-                                    <input type="text" class="form-control">
-                                    <label for="LastName">Last Name:</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <!-- Brand Buttons -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Brand Buttons</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Google and Facebook buttons are available featuring each company's respective
-                                        brand color. They are used on the user login and registration pages.</p>
-                                    <p>You can create more custom buttons by adding a new color variable in the
-                                        <code>_variables.scss</code> file and then using the Bootstrap button variant
-                                        mixin to create a new style, as demonstrated in the <code>_buttons.scss</code>
-                                        file.
-                                    </p>
-                                    <a href="#" class="btn btn-google btn-block"><i class="fab fa-google fa-fw"></i>
-                                        .btn-google</a>
-                                    <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f fa-fw"></i> .btn-facebook</a>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-                                        the markup in the examples below. The examples below also use the
-                                        <code>.text-white-50</code> helper class on the icons for additional styling,
-                                        but it is not required.
-                                    </p>
-                                    <a href="#" class="btn btn-primary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Primary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">Split Button Success</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Split Button Info</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-warning btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="text">Split Button Warning</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Split Button Danger</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-secondary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Secondary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-light btn-icon-split">
-                                        <span class="icon text-gray-600">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Light</span>
-                                    </a>
-                                    <div class="mb-4"></div>
-                                    <p>Also works with small and large button classes!</p>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Small</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Large</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
+                    <div class="d-sm-flex align-item-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Add User</h1>
+                        <a href="user-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm">User List</a>
                     </div>
+                    <!-- form add product -->
+                    <div class="col-lg-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    <?php
+                                    // call function add product
+                                    // addProduct();
+                                    // call data for update
+                                    // if (isset($_REQUEST['Id'])) {
+                                    //     $productId = $_REQUEST['Id'];                                   
+                                    //     // update();
+                                    //     $rowFrm = $conn->query("SELECT * FROM `productsku` WHERE Id=$productId")->fetch_assoc();
+                                    //     // $pro = $conn->query("SELECT * FROM `product` WHERE Id=" . $productId['ProductId'])->fetch_assoc();
+                                    // } else {
+                                    //     $rowFrm = array("Name" => "", "Code" => "", "Remark" => "",);
+                                    // }
+                                    ?>
 
-                </div>
-                <!-- /.container-fluid -->
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <label for="Outlet">Outlet</label>
+                                                        <!-- <input type="text" class="form-control" name="txtoutlet" required value="<?php // echo '' . $ProId['Code'] . '' 
+                                                                                                                                        ?>"> -->
+                                                        <select class="form-control" name="txtoutlet">
+                                                            <?php
+                                                            $sqlOutlet = "SELECT * FROM `outlet`";
+                                                            $qrOutlet = $conn->query($sqlOutlet);
+                                                            while ($rowOutlet = $qrOutlet->fetch_assoc()) {
+                                                                if ($rowOutlet['Id'] == $rowUser['Id'])  $sel = 'selected';
+                                                                else $sel = '';
+                                                                echo '<option value="' . $rowOutlet['Id'] . '" ' . $sel . '>' . $rowOutlet['Name'] . '</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label for="Employee">Employee</label>
+                                                        <select class="form-control" name="txtemp">
+                                                            <?php
+                                                            $sqlEmp = "SELECT * FROM `employee`";
+                                                            $qrEmp = $conn->query($sqlEmp);
+                                                            while ($rowEmp = $qrEmp->fetch_assoc()) {
+                                                                if ($rowEmp['Id'] == $rowUser['Id'])  $sel = 'selected';
+                                                                else $sel = '';
+                                                                echo '<option value="' . $rowEmp['Id'] . '" ' . $sel . '>' . $rowEmp['Firstname'] . ' ' . $rowEmp['Lastname'] . '</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <label for="Role">Role</label>
+                                                        <select class="form-control" style="width: 100%;" name="txtrole">
+                                                            <?php
+                                                            $sqlRole = "SELECT * FROM `role`";
+                                                            $qrRole = $conn->query($sqlRole);
+                                                            while ($rowRole = $qrRole->fetch_assoc()) {
+                                                                if ($rowRole['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                                                else $sel = '';
+                                                                echo '<option value="' . $rowRole['Id'] . '" ' . $sel . '>' . $rowRole['Name'] . '</option>';
+                                                            }
 
-            </div>
-            <!-- End of Main Content -->
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label for="CreateBy">CreateBy</label>
+                                                        <select class="form-control" style="width: 100%;" name="txtcreateby">
+                                                            <?php
+                                                            $sqlUser = "SELECT * FROM `user`";
+                                                            $qrUser = $conn->query($sqlUser);
+                                                            while ($rowUser = $qrUser->fetch_assoc()) {
+                                                                if ($rowUser['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                                                else $sel = '';
+                                                                echo '<option value="' . $rowUser['Id'] . '" ' . $sel . '>' . $rowUser['Username'] . '</option>';
+                                                            }
 
-            <!-- Footer -->
-            <?php include './include/footer.php' ?>
-            <!-- End of Footer -->
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <label for="Username">Username</label>
+                                                        <input type="text" class="form-control" name="txtusername" required value="">
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label for="Password">Password</label>
+                                                        <input type="text" class="form-control" name="txtpassword" required value="<?php echo '' //  .$rowFrm['ProductId'] . '' ?>">
+                                                    </div>
+                                                </div>
+                                                <label for="Remark">Remark</label>
+                                                <input type="text" class="form-control" name="txtremark">
 
-        </div>
-        <!-- End of Content Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+                                                <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
+                                                <div class="form-check form-switch ms-4 mt-3">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="status" name="txtstatus">
+                                                    <label class="form-check-label mb-2" for="status">Disable</label>
+                                                </div>
+                                                <?php
+                                                if (isset($_REQUEST['Id'])) {
+                                                    echo '
+                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
+                                                        <a href="user-add.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                                    ';
+                                                } else {
+                                                    echo '
+                                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd">Save</button>
+                                                    ';
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
 
+
+                                    </div>
+
+                                </form>
+                                <!-- end form  -->
+                            </div>
+                        </div>
+                    </div>
+                </div> <!--content-fluid-->
+            </div><!--content-->
+        </div> <!--content-wrapper-->
+    </div> <!--wrapper-->
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
@@ -194,7 +187,7 @@ if (!isset($_SESSION['session'])) {
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -202,6 +195,14 @@ if (!isset($_SESSION['session'])) {
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
+    <!-- Page level plugins -->
+    <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    <!-- Upload image script -->
+    <script src="js/img-script.js"></script>
 </body>
 
 </html>
