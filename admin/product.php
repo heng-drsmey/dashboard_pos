@@ -72,7 +72,7 @@ include('function_Pro.php');
                                 <label for="Code">code</label>
                                 <input type="text" class="form-control" name="txtcode" required value="<?php // echo '' . $ProId['Code'] . '' ?>">
                                 <label for="Name">Name</label>
-                                <input type="text" class="form-control" name="txtname" required value="<?php echo '' . $rowFrm['ProductId'] . '' ?>">
+                                <input type="text" class="form-control" name="txtname" required value="<?php echo '' . htmlspecialchars($rowFrm['ProductId']) . '' ?>">
                                 
                                 <label for="Category">Category</label>
                                 <select class="form-control" style="width: 100%;" name="txtcategory">
