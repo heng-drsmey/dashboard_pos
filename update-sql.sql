@@ -14,3 +14,8 @@ ALTER TABLE `shift` ADD `Remark` TEXT NULL ;
 ALTER TABLE `outlet` ADD `Logo` VARCHAR(255) NULL AFTER `Address`;
 -- add column status on Table
 ALTER TABLE `table` ADD `Status` TINYINT NULL DEFAULT '1' AFTER `Description`;
+
+-- add foriend key (Jun-07-2024: 11:43 AM)
+ALTER TABLE `paymentmethod` 
+ADD FOREIGN KEY (CreateBy) REFERENCES `user` (Id);
+ALTER TABLE `currency` ADD `Status` TINYINT NOT NULL DEFAULT '1' AFTER `CreateBy`;
