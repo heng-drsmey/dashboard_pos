@@ -82,9 +82,9 @@ include('function_table.php');
                                         <div class="card shadow mb-4">
                                             <div class="card-body">
                                                 <label for="Name">Name</label>
-                                                <input type="text" class="form-control" name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtname" value="<?php echo '' . htmlspecialchars($rowFrm['Name']) . '' ?>" required>
                                                 <label for="Remark">Remark</label>
-                                                <input type="text" class="form-control" name="txtdesc" value="<?php echo '' . $rowFrm['Description'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtdesc" value="<?php echo '' . htmlspecialchars($rowFrm['Description'] ). '' ?>" required>
                                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
                                                 <div class="form-check form-switch ms-4 mt-3">
                                                     <input class="form-check-input" type="checkbox" role="switch" id="status">
