@@ -82,9 +82,9 @@ include('function_role.php');
                                         <div class="card shadow mb-4">
                                             <div class="card-body">
                                                 <label for="Code">Code</label>
-                                                <input type="text" class="form-control" name="txtcode" value="<?php echo '' . $rowFrm['Code'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtcode" value="<?php echo '' . htmlspecialchars($rowFrm['Code']) . '' ?>" required>
                                                 <label for="Name">Name</label>
-                                                <input type="text" class="form-control " name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtname" value="<?php echo '' . htmlspecialchars($rowFrm['Name']) . '' ?>" required>
                                                 <label for="CreateBy">CreateBy</label>
                                                 <select class="form-control mb-2" style="width: 100%;" name="txtcreateby">
                                                     <?php
@@ -93,7 +93,7 @@ include('function_role.php');
                                                     while ($rowcreateby = $qrcreateby->fetch_assoc()) {
                                                         if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
                                                         else $sel = '';
-                                                        echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . $rowcreateby['Username'] . '</option>';
+                                                        echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username']) . '</option>';
                                                     }
 
                                                     ?>
