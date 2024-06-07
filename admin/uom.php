@@ -84,9 +84,9 @@ include('function_uom.php');
                                                 <label for="Code">code</label>
                                                 <input type="text" class="form-control border-left-danger" name="txtcode" required value="<?php echo '' . $rowFrm['Code'] . '' ?>">
                                                 <label for="Name">Name</label>
-                                                <input type="text" class="form-control" name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>">
+                                                <input type="text" class="form-control" name="txtname" value="<?php echo '' . htmlspecialchars($rowFrm['Name']) . '' ?>">
                                                 <label for="Remark">Remark</label>
-                                                <input type="text" class="form-control" name="txtremark" value="<?php echo '' . $rowFrm['Remark'] . '' ?>">
+                                                <input type="text" class="form-control" name="txtremark" value="<?php echo '' . htmlspecialchars($rowFrm['Remark']) . '' ?>">
                                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
                                                 <div class="form-check form-switch ms-4 mt-3">
                                                     <input class="form-check-input" type="checkbox" role="switch" id="status">
