@@ -1,0 +1,40 @@
+.thumbnail-wrapper {
+    width: 100%;
+}
+
+.thumbnail-wrapper .thumbnail-inner.img16by9 {
+    position: relative;
+    /* =====================
+    | + 16:9 Aspect Ratio => 56.25%     (divide 9 by 16 = 0.5625)
+    | +  4:3 Aspect Ratio => 75%        (divide 3 by 4  = 0.75)
+    | +  3:2 Aspect Ratio => 66.66%     (divide 2 by 3  = 0.6666)
+    | +  8:5 Aspect Ratio => 62.5%      (divide 5 by 8  = 0.625)
+    | +  1:1 Aspect Ratio => 100%       (divide 1 by 1  = 1)
+    ========================*/
+    padding-bottom: 56.25%;
+}
+
+.thumbnail-wrapper .thumbnail-inner.img1by1 {
+    position: relative;
+    padding-bottom: 100%;
+}
+
+.thumbnail-wrapper .thumbnail-inner.img4by3 {
+    position: relative;
+    padding-bottom: 75%;
+}
+
+.thumbnail-wrapper .thumbnail-inner.img3by4 {
+    position: relative;
+    padding-bottom: 133.33%;
+}
+
+.thumbnail-wrapper img {
+    position: absolute;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
