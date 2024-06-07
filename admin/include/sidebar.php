@@ -91,7 +91,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ( $current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ( $current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'product-addOn-uom.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="false" aria-controls="collapsePro">
         <i class="fas fa-fw fa-mug-hot"></i>
         
@@ -109,10 +109,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
 </li>
 
     <li class="nav-item <?php echo ($current_page == 'inventory.php') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="inventory.php">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStock_controller" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-warehouse"></i>
-            <span>Inventory</span>
+            <span>Stock Inventory</span>
         </a>
+        <div id="collapseStock_controller" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="user-list.php">Recieve Stock</a>
+                <a class="collapse-item" href="user-list.php">POS Invoice</a>
+                <a class="collapse-item" href="user-list.php">Stock Moment</a>
+                <a class="collapse-item" href="user-list.php">POS</a>
+            </div>
+        </div>
     </li>
     <li class="nav-item <?php echo ($current_page == 'user-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePOS" aria-expanded="true" aria-controls="collapseUtilities">
@@ -155,7 +163,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a class="collapse-item" href="table.php">Table</a>
                 <a class="collapse-item" href="role.php">Role</a>
                 <a class="collapse-item" href="payment-method.php">Payment Method</a>
-                <a class="collapse-item" href="user-list.php">Currency</a>
+                <a class="collapse-item" href="currency.php">Currency</a>
             </div>
         </div>
     </li>
