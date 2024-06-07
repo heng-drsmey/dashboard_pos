@@ -50,7 +50,7 @@ include('function_Pro.php');
                     <!-- form add product -->
                     <div class="col-lg-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="card shadow mb-4">
                                     <div class="card-body">
                                         <form method="post" enctype="multipart/form-data">
@@ -80,7 +80,7 @@ include('function_Pro.php');
                                                             while ($rowPro = $qrPro->fetch_assoc()) {
                                                                 if ($rowPro['Id'] == $rowFrm['ProductId']) $sel = 'selected';
                                                                 else $sel = '';
-                                                                echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . $rowPro['Name'] . '</option>';
+                                                                echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowPro['Name']) . '</option>';
                                                             }
                                                             ?>
                                                         </select>
@@ -92,7 +92,7 @@ include('function_Pro.php');
                                                             while ($rowUom = $qrUom->fetch_assoc()) {
                                                                 if ($rowUom['Id'] == $rowFrm['UomId']) $sel = 'selected';
                                                                 else $sel = '';
-                                                                echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
+                                                                echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowUom['Name']) . '</option>';
                                                             }
 
                                                             ?>
@@ -100,7 +100,7 @@ include('function_Pro.php');
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <label for="Price">Price</label>
-                                                                <input type="text" class="form-control" name="txtprice" value="<?php echo '' . $rowFrm['Price'] . '' ?>" required>
+                                                                <input type="text" class="form-control" name="txtprice" value="<?php echo '' . htmlspecialchars($rowFrm['Price']) . '' ?>" required>
                                                             </div>
                                                             <div class="col-6">
                                                                 <label for="Currency">Currency</label>
@@ -111,7 +111,7 @@ include('function_Pro.php');
                                                                     while ($rowCurrency = $qrCurrency->fetch_assoc()) {
                                                                         if ($rowCurrency['Id'] == $rowFrm['Currency']) $sel = 'selected';
                                                                         else $sel = '';
-                                                                        echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Code'] . '</option>';
+                                                                        echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowCurrency['Code']) . '</option>';
                                                                     }
 
                                                                     ?>
@@ -129,12 +129,12 @@ include('function_Pro.php');
 
                                             if (isset($_REQUEST['Id'])) {
                                                 echo '
-                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
-                                                    <a href="product-addOn-uom.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-3" name="btnUpdate">
+                                                    <a href="product-addOn-uom.php" class="btn btn-info btn-sm mt-3"> NEW </a>
                                                 ';
                                             } else {
                                                 echo '
-                                                    <button type="submit" class="btn btn-primary btn mt-5 " name="btnAdd">Save</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm mt-3 " name="btnAdd">Save</button>
                                                 ';
                                             }
                                             ?>
@@ -143,7 +143,7 @@ include('function_Pro.php');
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
