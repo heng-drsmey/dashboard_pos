@@ -82,9 +82,9 @@ include('function_payment_method.php');
                                         <div class="card shadow mb-4">
                                             <div class="card-body">
                                                 <label for="Code">Code</label>
-                                                <input type="text" class="form-control" name="txtcode" value="<?php echo '' . $rowFrm['Code'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtcode" value="<?php echo '' . $rowFrm['Code'] . '' ?>" required>
                                                 <label for="Name">Name</label>
-                                                <input type="text" class="form-control " name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>" required>
+                                                <input type="text" class="form-control border-left-danger" name="txtname" value="<?php echo '' . $rowFrm['Name'] . '' ?>" required>
                                                 <label for="CreateBy">CreateBy</label>
                                                 <select class="form-control mb-2" style="width: 100%;" name="txtcreateby">
                                                     <?php
@@ -154,7 +154,7 @@ include('function_payment_method.php');
                                                 ?>
                                                 <?php foreach ($item as $rowPayment_method) :
 
-                                                    $createby = $conn->query("SELECT * FROM `paymentmethod` WHERE Id=" . $rowPayment_method['CreateBy'])->fetch_assoc();
+                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPayment_method['CreateBy'])->fetch_assoc();
                                                     $i = 1;
                                                 ?>
                                                 <!-- <pre>
