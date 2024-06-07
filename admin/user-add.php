@@ -109,7 +109,7 @@ include('function_user.php');
                                                             while ($rowRole = $qrRole->fetch_assoc()) {
                                                                 if ($rowRole['Id'] == $rowUser['RoleId']) $sel = 'selected';
                                                                 else $sel = '';
-                                                                echo '<option value="' . $rowRole['Id'] . '" ' . $sel . '>' . $rowRole['Name'] . '</option>';
+                                                                echo '<option value="' . $rowRole['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowRole['Name']) . '</option>';
                                                             }
 
                                                             ?>
@@ -124,7 +124,7 @@ include('function_user.php');
                                                             while ($rowUser1 = $qrUser1->fetch_assoc()) {
                                                                 if ($rowUser1['Id'] == $rowUser['CreateBy']) $sel = 'selected';
                                                                 else $sel = '';
-                                                                echo '<option value="' . $rowUser1['Id'] . '" ' . $sel . '>' . $rowUser1['Username'] . '</option>';
+                                                                echo '<option value="' . $rowUser1['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowUser1['Username']) . '</option>';
                                                             }
 
                                                             ?>
@@ -134,15 +134,15 @@ include('function_user.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Username">Username</label>
-                                                        <input type="text" class="form-control border-left-danger" name="txtusername" required value="<?php echo''.$rowUser['Username'].''; ?>">
+                                                        <input type="text" class="form-control border-left-danger" name="txtusername" required value="<?php echo''.htmlspecialchars($rowUser['Username']).''; ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Password">Password</label>
-                                                        <input type="text" class="form-control border-left-danger" name="txtpassword" required value="<?php echo '' .$rowUser['Password'] . '' ?>">
+                                                        <input type="text" class="form-control border-left-danger" name="txtpassword" required value="<?php echo '' .htmlspecialchars($rowUser['Password']) . '' ?>">
                                                     </div>
                                                 </div>
                                                 <label for="Remark">Remark</label>
-                                                <input type="text" class="form-control" name="txtremark" value="<?php echo ''.$rowUser['Remark'].'' ?>">
+                                                <input type="text" class="form-control" name="txtremark" value="<?php echo ''.htmlspecialchars($rowUser['Remark']).'' ?>">
 
                                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at" >
                                                 <?php
