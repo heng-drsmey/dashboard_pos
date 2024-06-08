@@ -73,7 +73,7 @@ include('function_Pro.php');
                                                 <div class="col-lg-12">
                                                     <div class="card-body">
                                                         <label for="Product">Product</label>
-                                                        <select class="form-control" style="width: 100%;" name="txtproduct">
+                                                        <select class="form-control mb-2" style="width: 100%;" name="txtproduct">
                                                             <?php
                                                             $sqlPro = "SELECT * FROM `product`";
                                                             $qrPro = $conn->query($sqlPro);
@@ -85,7 +85,7 @@ include('function_Pro.php');
                                                             ?>
                                                         </select>
                                                         <label for="UOM">UOM</label>
-                                                        <select class="form-control" style="width: 100%;" name="txtuom">
+                                                        <select class="form-control mb-2 " style="width: 100%;" name="txtuom">
                                                             <?php
                                                             $sqlUom = "SELECT * FROM `uom`";
                                                             $qrUom = $conn->query($sqlUom);
@@ -100,7 +100,7 @@ include('function_Pro.php');
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <label for="Price">Price</label>
-                                                                <input type="text" class="form-control" name="txtprice" value="<?php echo '' . htmlspecialchars($rowFrm['Price']) . '' ?>" required>
+                                                                <input type="text" class="form-control mb-2 border-left-danger" name="txtprice" value="<?php echo '' . htmlspecialchars($rowFrm['Price']) . '' ?>" required>
                                                             </div>
                                                             <div class="col-6">
                                                                 <label for="Currency">Currency</label>
