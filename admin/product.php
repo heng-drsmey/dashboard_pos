@@ -70,12 +70,12 @@ include('function_Pro.php');
                         <div class="col-8">
                             <div class="card-body">
                                 <label for="Code">code</label>
-                                <input type="text" class="form-control" name="txtcode" required value="<?php // echo '' . $ProId['Code'] . '' ?>">
+                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" required value="<?php // echo '' . $ProId['Code'] . '' ?>">
                                 <label for="Name">Name</label>
-                                <input type="text" class="form-control" name="txtname" required value="<?php echo '' . htmlspecialchars($rowFrm['ProductId']) . '' ?>">
+                                <input type="text" class="form-control mb-2 border-left-danger" name="txtname" required value="<?php //echo '' . htmlspecialchars($rowFrm['ProductId']) . '' ?>">
                                 
                                 <label for="Category">Category</label>
-                                <select class="form-control" style="width: 100%;" name="txtcategory">
+                                <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcategory">
                                     <?php
                                     $sqlCate = "SELECT * FROM `category`";
                                     $qrCate = $conn->query($sqlCate);
@@ -88,7 +88,7 @@ include('function_Pro.php');
                                     ?>
                                 </select>
                                 <label for="UOM">UOM</label>
-                                <select class="form-control" style="width: 100%;" name="txtuom">
+                                <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
                                     <?php
                                     $sqlUom = "SELECT * FROM `UOM`";
                                     $qrUom = $conn->query($sqlUom);
@@ -103,11 +103,11 @@ include('function_Pro.php');
                                 <div class="row">
                                     <div class="col-6">
                                         <label for="Price">Price</label>
-                                        <input type="number" class="form-control" name="txtprice">
+                                        <input type="number" class="form-control mb-2 border-left-danger" name="txtprice">
                                     </div>
                                     <div class="col-6">
                                         <label for="Currency">Currency</label>
-                                        <select class="form-control" style="width: 100%;" name="txtcurrency">
+                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcurrency">
                                             <?php
                                             $sqlCurrency = "SELECT * FROM `Currency`";
                                             $qrCurrency = $conn->query($sqlCurrency);
@@ -122,9 +122,9 @@ include('function_Pro.php');
                                     </div>
                                 </div>
                                 <label for="Description">Description</label>
-                                <input type="text" class="form-control" name="txtdescription">
+                                <input type="text" class="form-control mb-2 " name="txtdescription">
                                 <label for="CreateBy">CreateBy</label>
-                                <select class="form-control" style="width: 100%;" name="txtcreateby">
+                                <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcreateby">
                                     <?php
                                     $sqlUser = "SELECT * FROM `user`";
                                     $qrUser = $conn->query($sqlUser);
@@ -142,15 +142,12 @@ include('function_Pro.php');
                                     <input class="form-check-input" type="checkbox" role="switch" id="status" name="txtstatus">
                                     <label class="form-check-label mb-2" for="status">Disable</label>
                                 </div>
-
-                                <!-- <input type="submit" class="btn btn-primary mt-5" name="btnAdd" value="Save"> -->
-
                             </div>
                         </div>
 
                         <!-- Image Upload on the Right -->
                         <div class="col-lg-4 d-flex align-items-top justify-content-top">
-                            <div class="card mb-4 p-3 text center ">
+                            <div class=" mb-4 p-3 text center ">
                                 <div class="con-input-file">
                                     <button onclick="handleClickRemove()" class="remove-image">
                                         <i class="fa-regular fa-circle-xmark"></i>
@@ -231,7 +228,7 @@ include('function_Pro.php');
                                         ';
                                 } else {
                                     echo '
-                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd">Save</button>
+                                        <button type="submit" class="btn btn-primary btn-sm mt-5 w-100" name="btnAdd">Save</button>
                                         ';
                                 }
                                 ?>
