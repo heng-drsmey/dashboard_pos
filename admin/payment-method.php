@@ -157,11 +157,6 @@ include('function_payment_method.php');
                                                     $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPayment_method['CreateBy'])->fetch_assoc();
                                                     $i = 1;
                                                 ?>
-                                                <!-- <pre>
-                                                    <?php
-                                                    // var_dump($createby);
-                                                    ?>
-                                                </pre> -->
                                                     <tr>
                                                         <td><?= $i ?></td>
                                                         <td><?= $rowPayment_method['Code'] ?></td>
@@ -177,7 +172,6 @@ include('function_payment_method.php');
                                                             ?>
                                                         </td>
                                                         <?php
-                                                        
                                                         delete();
                                                         ?>
                                                         <td>
