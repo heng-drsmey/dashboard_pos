@@ -128,9 +128,13 @@ include('function_table.php');
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
+                                            <?php
+                                                include('confirm_delete.php');
+                                                delete();
+                                            ?>
                                             <tbody>
                                                 <?php
-                                                $sqlTable = "SELECT * FROM `table`";
+                                                $sqlTable = "SELECT * FROM `table` WHERE del=1";
                                                 $item = $conn->query($sqlTable);
                                                 $rowTable = $item->fetch_assoc();
                                                 ?>
@@ -149,12 +153,11 @@ include('function_table.php');
                                                             }
                                                             ?>
                                                         </td>
-                                                        <?php
-                                                        delete();
-                                                        ?>
+                                                        
                                                         <td>
                                                             <a href="table.php?Id=<?= $rowTable['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <a href="table.php?delId=<?= $rowTable['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <!-- <a href="table.php?delId=<?= $rowTable['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a> -->
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="table.php?delId=<?= $rowTable['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                         </td>
                                                     </tr>
 
@@ -207,6 +210,21 @@ include('function_table.php');
                 }
             }
         }
+// controll alert
+        $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "table.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
     </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
