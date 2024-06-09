@@ -4,7 +4,7 @@ include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
-
+include('function_recieve_stock.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +69,7 @@ if (!isset($_SESSION['session'])) {
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Action</th>
                                             <th>Recieve Date</th>
                                             <th>Recieve By</th>
                                             <th>Purchase No.</th>
@@ -82,11 +83,11 @@ if (!isset($_SESSION['session'])) {
                                             <th>Discount</th>
                                             <th>Create By</th>
                                             <th>Description</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>Action</th>
                                             <th>Recieve Date</th>
                                             <th>Recieve By</th>
                                             <th>Purchase No.</th>
@@ -100,72 +101,59 @@ if (!isset($_SESSION['session'])) {
                                             <th>Discount</th>
                                             <th>Create By</th>
                                             <th>Description</th>
-                                            <th>Action</th>
 
                                         </tr>
                                     </tfoot>
                                     <?php
-                                    if (isset($_GET['delId'])) {
-                                        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-                                        $sqlDeletePro = "DELETE FROM `pro_in` WHERE `Id`='$delId'";
-                                        if ($conn->query($sqlDeletePro) === TRUE) {
-                                            echo '
-                                        <script>
-                                            swal({
-                                                title: "Success",
-                                                text: "Data delete success",
-                                                icon: "success",
-                                            });
-                                        </script> 
-                                        ';
-                                        } else {
-                                            echo "Error deleting record: " . $conn->error;
-                                        }
-                                    } else {
-                                        echo "";
-                                    }
+                                    // call function delete1
+                                    delete_recieve_1();
                                     ?>
                                     <tbody>
                                         <?php
-                                        $sqlPro = "SELECT * FROM `pro_in`";
+                                        $sqlPro = "SELECT * FROM `pro_in` WHERE del=1";
                                         $item = $conn->query($sqlPro);
                                         $rowPro = $item->fetch_assoc();
                                         ?>
                                         <?php foreach ($item as $rowPro) :
                                             $product = $conn->query("SELECT * FROM `product` WHERE Id=" . $rowPro['ProId'])->fetch_assoc();
                                             $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPro['Uom'])->fetch_assoc();
-                                            $supplier = $conn->query("SELECT * FROM `supplier` WHERE Id=" . $rowPro['supplier'])->fetch_assoc();
+                                            $supplier = $conn->query("SELECT * FROM `supplier` WHERE Id=" . $rowPro['Supplier'])->fetch_assoc();
                                             $CreateBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $product['CreateBy'])->fetch_assoc();
                                             $Currency = $conn->query("SELECT * FROM `currency` WHERE Id=" . $rowPro['Currency'])->fetch_assoc();
                                             $payment_status = $conn->query("SELECT * FROM `values` WHERE Id=" . $rowPro['PaymentStatus'])->fetch_assoc();
                                             $employee = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowPro['RecieveBy'])->fetch_assoc();
-
                                         ?>
 
                                             <tr>
-                                                <td><?= $product['RecieveDate'] ?></td>
-                                                <td><?= $product['RecieveBy'] ?></td>
-                                                <td><?= $product['Name'] ?></td>
-                                                <td><?= $Uom['Name'] ?></td>
-                                                <td><?= $Currency['Symbol'] ?><?= $rowPro['Price'] ?></td>
-                                                <td><?= $Cate['Name'] ?></td>
-                                                <td><?= $product['Description'] ?></td>
-                                                <td><img src="ImageProduct/<?= $product['Image'] ?>" alt="" width="50px"></td>
-                                                <td>
-                                                    <?php
-                                                    if ($product['Status'] == 1) {
-                                                        echo '<p><a href="statusPro.php?Id=' . $product['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
-                                                    } else {
-                                                        echo '<p><a href="statusPro.php?Id=' . $product['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <!-- <td><?= $rowPro['CreateAt'] ?></td> -->
-                                                <td><?= $CreateBy['Username'] ?></td>
                                                 <td>
                                                     <a href="recieve-stock.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                     <a href="recieve-stock-list.php?delId=<?= $rowPro['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                 </td>
+                                                <td><?= $rowPro['RecieveDate'] ?></td>
+                                                <td><?= $employee['Firstname'] ?> <?= $employee['Lastname'] ?></td>
+                                                <td><?= $rowPro['PurchaseNo'] ?></td>
+                                                <td><?= $supplier['Name'] ?></td>
+                                                <td><?= $product['Name'] ?></td>
+                                                <td><?= $Uom['Name'] ?></td>
+                                                <td><?= $rowPro['Qty_In'] ?></td>
+                                                <td><?= $rowPro['Price_In'] ?></td>
+                                                <td><?= $rowPro['Paid'] ?></td>
+                                                
+                                                <td>
+                                                    <?php
+                                                    if ($rowPro['PaymentStatus'] == 4) {
+                                                        echo '<p class="d-sm-inline badge badge-warning shadow-sm"> '.$payment_status['Name'].' </p>';
+                                                    } else if ($rowPro['PaymentStatus'] == 5) {
+                                                        echo '<p class="d-sm-inline badge badge-success shadow-sm"> '.$payment_status['Name'].' </p>';
+                                                    } else {
+                                                        echo '<p class="d-sm-inline badge badge-primary shadow-sm"> '.$payment_status['Name'].' </p>';
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td><?= $rowPro['DiscountAmount'] ?></td>
+                                                <td><?= $CreateBy['Username'] ?></td>
+                                                <td><?= $rowPro['Description'] ?></td>
+                                                
                                             </tr>
 
                                         <?php endforeach ?>
