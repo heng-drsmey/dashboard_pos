@@ -35,3 +35,15 @@ INSERT INTO `supplier`( `Name`, `Email`, `Phone_Number`, `Address`, `CreateBy`) 
 -- add foriend key add on table supplier (Jun-08-2024: 12:05AM)
 ALTER TABLE `supplier` ADD FOREIGN KEY (CreateBy) REFERENCES `user` (Id);
 ALTER TABLE `pro_in` ADD FOREIGN KEY (Uom) REFERENCES `uom` (Id);
+
+-- update (Jun-09-2024 : 3:13 PM)
+ALTER TABLE `pro_moment` CHANGE `Pro_Out_Id` `Pro_Out_Id` INT(11) NULL;
+ALTER TABLE `pro_moment` CHANGE `Pro_In_Id` `Pro_In_Id` INT(11) NULL;
+ALTER TABLE `pro_in` ADD `Uom` INT NULL AFTER `ProId`;
+ALTER TABLE `uom` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `user` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `role` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `table` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `paymentmethod` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `currency` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+ALTER TABLE `category` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
