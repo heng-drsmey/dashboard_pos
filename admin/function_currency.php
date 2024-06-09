@@ -45,17 +45,16 @@ function delete()
   global $conn;
   if (isset($_GET['delId'])) {
     $Currency_id = mysqli_real_escape_string($conn, $_GET['delId']);
-    $sqlDeletecurrency = "DELETE FROM `currency` WHERE `Id`='$Currency_id'";
+    $sqlDeletecurrency = "UPDATE `currency` SET `del`=0 WHERE `Id`='$Currency_id'";
     if ($conn->query($sqlDeletecurrency) == TRUE) {
       echo '
-                <script>
-                swal({
-                    title: "Success",
-                    text: "Data delete success",
-                    icon: "success",
-                });
-                </script> 
-    ';
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+          <strong>Delete Success.</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      ';
     } else {
       echo "Error deleting record: " . $conn->error;
     }
