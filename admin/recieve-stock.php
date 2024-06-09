@@ -4,7 +4,7 @@ include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
-include('function_Pro.php');
+include('function_recieve_stock.php');
 ?>
 
 <html lang="en">
@@ -54,7 +54,7 @@ include('function_Pro.php');
                                 <form method="post" enctype="multipart/form-data">
                                     <?php
                                     // call function Recieve Stock
-                                    // addProduct();
+                                    recieve_stock();
                                     // call data for update
                                     // if (isset($_REQUEST['Id'])) {
                                     //     $productId = $_REQUEST['Id'];                                   
@@ -77,7 +77,7 @@ include('function_Pro.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Recieve By">Recieve By(Emp)</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="supplier">
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="recieveby">
                                                             <?php
                                                             $sqlEmployee = "SELECT * FROM `employee`";
                                                             $qrEmployee = $conn->query($sqlEmployee);
@@ -115,7 +115,7 @@ include('function_Pro.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Product">Product</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="supplier">
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="product">
                                                             <?php
                                                             $sqlPro = "SELECT * FROM `product`";
                                                             $qrPro = $conn->query($sqlPro);
@@ -195,11 +195,11 @@ include('function_Pro.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="DiscountAmount">Discount Amount</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="discount" required>
+                                                        <input type="text" class="form-control mb-2 border-left-danger" name="discount" >
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="CreateBy">CreateBy</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcreateby">
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="createby">
                                                             <?php
                                                             $sqlUser = "SELECT * FROM `user`";
                                                             $qrUser = $conn->query($sqlUser);
@@ -219,13 +219,16 @@ include('function_Pro.php');
                                             <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="description"></textarea>
 
                                             <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
+                                            <input style="display: none;" type="text" class="form-control" name="moment_pro_id">
+                                            <input style="display: none;" type="text" class="form-control" name="moment_pro_in">
+                                            <input style="display: none;" type="text" class="form-control" name="moment_pro_out">
                                         </div>
                                     </div>
                                     <?php
                                     if (isset($_REQUEST['Id'])) {
                                         echo '
                                                     <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
-                                                    <a href="product-add.php" class="btn btn-info btn-sm "> NEW </a>
+                                                    <a href="recieve-stock.php" class="btn btn-info btn-sm "> NEW </a>
                                                 ';
                                     } else {
                                         echo '
