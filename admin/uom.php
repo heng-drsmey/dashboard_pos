@@ -132,11 +132,15 @@ include('function_uom.php');
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
+                                            <?php
+                                                include('confirm_delete.php');
+                                                delete();
+                                            ?>
                                             <tbody>
                                                 <?php
-                                                $sqlPro = "SELECT * FROM `uom`";
-                                                $item = $conn->query($sqlPro);
-                                                $rowPro = $item->fetch_assoc();
+                                                $sqluom = "SELECT * FROM `uom` WHERE del=1";
+                                                $item = $conn->query($sqluom);
+                                                $rowuom = $item->fetch_assoc();
                                                 ?>
                                                 <?php foreach ($item as $rowuom) :
 
@@ -154,18 +158,19 @@ include('function_uom.php');
                                                             }
                                                             ?>
                                                         </td>
-                                                        <?php
-                                                        delete();
-                                                        ?>
+                                                        
                                                         <td>
                                                             <a href="uom.php?Id=<?= $rowuom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <a href="uom.php?delId=<?= $rowuom['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="uom.php?delId=<?= $rowuom['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                         </td>
                                                     </tr>
 
                                                 <?php endforeach ?>
                                             </tbody>
                                         </table>
+                                        <?php
+                                       
+                                       ?>
                                     </div>
                                 </div>
                             </div>
@@ -212,6 +217,22 @@ include('function_uom.php');
                 }
             }
         }
+
+        // controll alert
+    $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "uom.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
     </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
