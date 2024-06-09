@@ -77,7 +77,7 @@ include('function_Pro.php');
                                 <label for="Category">Category</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcategory">
                                     <?php
-                                    $sqlCate = "SELECT * FROM `category`";
+                                    $sqlCate = "SELECT * FROM `category` WHERE del=1";
                                     $qrCate = $conn->query($sqlCate);
                                     while ($rowCate = $qrCate->fetch_assoc()) {
                                         if ($rowCate['Id'] == $rowFrm['Id']) $sel = 'selected';
@@ -90,7 +90,7 @@ include('function_Pro.php');
                                 <label for="UOM">UOM</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
                                     <?php
-                                    $sqlUom = "SELECT * FROM `UOM`";
+                                    $sqlUom = "SELECT * FROM `UOM` WHERE del=1";
                                     $qrUom = $conn->query($sqlUom);
                                     while ($rowUom = $qrUom->fetch_assoc()) {
                                         if ($rowUom['Id'] == $rowFrm['Id']) $sel = 'selected';
@@ -109,7 +109,7 @@ include('function_Pro.php');
                                         <label for="Currency">Currency</label>
                                         <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcurrency">
                                             <?php
-                                            $sqlCurrency = "SELECT * FROM `Currency`";
+                                            $sqlCurrency = "SELECT * FROM `Currency` WHERE del=1";
                                             $qrCurrency = $conn->query($sqlCurrency);
                                             while ($rowCurrency = $qrCurrency->fetch_assoc()) {
                                                 if ($rowCurrency['Id'] == $rowFrm['Id']) $sel = 'selected';
@@ -126,7 +126,7 @@ include('function_Pro.php');
                                 <label for="CreateBy">CreateBy</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcreateby">
                                     <?php
-                                    $sqlUser = "SELECT * FROM `user`";
+                                    $sqlUser = "SELECT * FROM `user` WHERE del=1";
                                     $qrUser = $conn->query($sqlUser);
                                     while ($rowUser = $qrUser->fetch_assoc()) {
                                         if ($rowUser['Id'] == $rowFrm['Id']) $sel = 'selected';
