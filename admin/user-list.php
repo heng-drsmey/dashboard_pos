@@ -92,9 +92,13 @@ include('function_user.php');
                                             <th>Active</th>
                                         </tr>
                                     </tfoot>
+                                    <?php
+                                        include('confirm_delete.php');
+                                        delete_user();
+                                    ?>
                                     <tbody>
                                         <?php
-                                        $sqlUser = "SELECT * FROM `user` ";
+                                        $sqlUser = "SELECT * FROM `user` WHERE del=1";
                                         $item = $conn->query($sqlUser);
                                         $rowUser = $item->fetch_assoc();
                                         ?>
@@ -119,14 +123,10 @@ include('function_user.php');
                                                     }
                                                     ?>
                                                 </td>
-                                                <?php
-                                                    delete_user();
-                                                ?>
+                                               
                                                 <td>
                                                     <a href="user-add.php?Id=<?= $rowUser['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                    <?php
-                                                    echo '<a href="user-list.php?delId='. $rowUser['Id'] .'" class="btn btn-outline-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this user?\')"><i class="fas fa-trash"></i></a>';
-                                                    ?>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="user-list.php?delId=<?= $rowUser['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                     
                                                 </td>
                                             </tr>
@@ -172,6 +172,21 @@ include('function_user.php');
                 }
             }
         }
+// controll alert
+        $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "user-list.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
     </script>
     </div>
     <!-- End of Page Wrapper -->
