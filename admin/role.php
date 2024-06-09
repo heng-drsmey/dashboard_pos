@@ -88,7 +88,7 @@ include('function_role.php');
                                                 <label for="CreateBy">CreateBy</label>
                                                 <select class="form-control mb-2" style="width: 100%;" name="txtcreateby">
                                                     <?php
-                                                    $sqlcreateby = "SELECT * FROM `user`";
+                                                    $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
                                                     $qrcreateby = $conn->query($sqlcreateby);
                                                     while ($rowcreateby = $qrcreateby->fetch_assoc()) {
                                                         if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
@@ -100,12 +100,7 @@ include('function_role.php');
                                                 </select>
 
                                                 <input style="display: none;" type="text" class="form-control " name="txtupdate_at">
-                                                <!-- <div class="form-check form-switch ms-4 mt-3">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="status">
-                                                    <label class="form-check-label mb-2" for="status">Disable</label>
-                                                </div> -->
 
-                                                <!-- <input type="submit" class="btn btn-primary mt-5" name="btnAdd" value="Save"> -->
                                                 <?php
                                                 if (isset($_REQUEST['Id'])) {
                                                     echo '
@@ -146,9 +141,13 @@ include('function_role.php');
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
+                                            <?php
+                                                include('confirm_delete.php');
+                                                delete();
+                                            ?>
                                             <tbody>
                                                 <?php
-                                                $sqlRole = "SELECT * FROM `role`";
+                                                $sqlRole = "SELECT * FROM `role` WHERE del=1";
                                                 $item = $conn->query($sqlRole);
                                                 $rowRole = $item->fetch_assoc();
                                                 ?>
@@ -171,17 +170,14 @@ include('function_role.php');
                                                             }
                                                             ?>
                                                         </td>
-                                                        <?php
-                                                        $i++;
-                                                        delete();
-                                                        ?>
+                                                        
                                                         <td>
                                                             <a href="role.php?Id=<?= $rowRole['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <a href="role.php?delId=<?= $rowRole['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="role.php?delId=<?= $rowRole['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                         </td>
                                                     </tr>
 
-                                                <?php endforeach  ?>
+                                                <?php endforeach; $i++  ; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -230,6 +226,21 @@ include('function_role.php');
                 }
             }
         }
+        // controll alert
+    $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "role.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
     </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
