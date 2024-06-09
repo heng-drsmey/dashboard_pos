@@ -88,7 +88,7 @@ include('function_payment_method.php');
                                                 <label for="CreateBy">CreateBy</label>
                                                 <select class="form-control mb-2" style="width: 100%;" name="txtcreateby">
                                                     <?php
-                                                    $sqlcreateby = "SELECT * FROM `user`";
+                                                    $sqlcreateby = "SELECT * FROM `user`WHERE del=1";
                                                     $qrcreateby = $conn->query($sqlcreateby);
                                                     while ($rowcreateby = $qrcreateby->fetch_assoc()) {
                                                         if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
@@ -146,9 +146,13 @@ include('function_payment_method.php');
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
+                                            <?php
+                                                include('confirm_delete.php');
+                                                delete();
+                                            ?>
                                             <tbody>
                                                 <?php
-                                                $sqlPayment_method = "SELECT * FROM `paymentmethod`";
+                                                $sqlPayment_method = "SELECT * FROM `paymentmethod` WHERE del=1";
                                                 $item = $conn->query($sqlPayment_method);
                                                 $rowPayment_method = $item->fetch_assoc();
                                                 ?>
@@ -171,12 +175,10 @@ include('function_payment_method.php');
                                                             }
                                                             ?>
                                                         </td>
-                                                        <?php
-                                                        delete();
-                                                        ?>
+                                                        
                                                         <td>
                                                             <a href="payment-method.php?Id=<?= $rowPayment_method['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <a href="payment-method.php?delId=<?= $rowPayment_method['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="payment-method.php?delId=<?= $rowPayment_method['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 <?php  $i++; ?>
@@ -229,6 +231,22 @@ include('function_payment_method.php');
                 }
             }
         }
+
+        // controll alert
+        $(document).ready(function() {
+        // Event listener for when the alert is closed
+        $('#alert-success').on('closed.bs.alert', function () {
+            // Action to perform after the alert is closed
+            console.log('Alert closed');
+            // You can perform additional actions here, such as redirecting the user
+            window.location.href = "payment-method.php";
+        });
+
+        // Alternatively, you can automatically close the alert after some time
+        setTimeout(function() {
+            $('#alert-success').alert('close');
+        }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+    });
     </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
