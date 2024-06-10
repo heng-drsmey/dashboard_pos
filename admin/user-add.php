@@ -119,7 +119,7 @@ include('function_user.php');
                                                         <label for="CreateBy">CreateBy</label>
                                                         <select class="form-control border-left-danger" style="width: 100%;" name="txtcreateby">
                                                             <?php
-                                                            $sqlUser1 = "SELECT * FROM `user`";
+                                                            $sqlUser1 = "SELECT * FROM `user` WHERE del=1";
                                                             $qrUser1 = $conn->query($sqlUser1);
                                                             while ($rowUser1 = $qrUser1->fetch_assoc()) {
                                                                 if ($rowUser1['Id'] == $rowUser['CreateBy']) $sel = 'selected';
