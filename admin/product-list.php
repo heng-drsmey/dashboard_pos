@@ -4,7 +4,7 @@ include('cn.php');
 if (!isset($_SESSION['session'])) {
     header("location: login.php");
 }
-
+include('function_pro.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,29 +97,12 @@ if (!isset($_SESSION['session'])) {
                                         </tr>
                                     </tfoot>
                                     <?php
-                                    if (isset($_GET['delId'])) {
-                                        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-                                        $sqlDeletePro = "DELETE FROM `product` WHERE `Id`='$delId'";
-                                        if ($conn->query($sqlDeletePro) === TRUE) {
-                                            echo '
-                                        <script>
-                                            swal({
-                                                title: "Success",
-                                                text: "Data delete success",
-                                                icon: "success",
-                                            });
-                                        </script> 
-                                        ';
-                                        } else {
-                                            echo "Error deleting record: " . $conn->error;
-                                        }
-                                    } else {
-                                        echo "";
-                                    }
+                                        include('confirm_delete.php');
+                                        delete_product();
                                     ?>
                                     <tbody>
                                         <?php
-                                        $sqlPro = "SELECT * FROM `productsku`";
+                                        $sqlPro = "SELECT * FROM `productsku` WHERE del=1";
                                         $item = $conn->query($sqlPro);
                                         $rowPro = $item->fetch_assoc();
                                         ?>
@@ -153,7 +136,7 @@ if (!isset($_SESSION['session'])) {
                                                 <td><?= $CreateBy['Username'] ?></td>
                                                 <td>
                                                     <a href="product.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                    <a href="product-list.php?delId=<?= $rowPro['Id'] ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-list.php?delId=<?= $rowPro['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
 
@@ -203,6 +186,22 @@ if (!isset($_SESSION['session'])) {
                 }
             }
         }
+
+        // controll alert
+        $(document).ready(function() {
+            // Event listener for when the alert is closed
+            $('#alert-success').on('closed.bs.alert', function () {
+                // Action to perform after the alert is closed
+                console.log('Alert closed');
+                // You can perform additional actions here, such as redirecting the user
+                window.location.href = "product-list.php";
+            });
+
+            // Alternatively, you can automatically close the alert after some time
+            setTimeout(function() {
+                $('#alert-success').alert('close');
+            }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+        });
     </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
