@@ -109,7 +109,7 @@ include('function_Pro.php');
                                         <label for="Currency">Currency</label>
                                         <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcurrency">
                                             <?php
-                                            $sqlCurrency = "SELECT * FROM `Currency` WHERE del=1";
+                                            $sqlCurrency = "SELECT * FROM `currency` WHERE del=1";
                                             $qrCurrency = $conn->query($sqlCurrency);
                                             while ($rowCurrency = $qrCurrency->fetch_assoc()) {
                                                 if ($rowCurrency['Id'] == $rowFrm['Id']) $sel = 'selected';
@@ -122,7 +122,8 @@ include('function_Pro.php');
                                     </div>
                                 </div>
                                 <label for="Description">Description</label>
-                                <input type="text" class="form-control mb-2 " name="txtdescription">
+                                <!-- <input type="text" class="form-control mb-2 " name="txtdescription"> -->
+                                <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="txtdescription"></textarea>
                                 <label for="CreateBy">CreateBy</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcreateby">
                                     <?php
