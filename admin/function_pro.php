@@ -39,6 +39,7 @@ function addProduct()
             $rs_sku = $conn->query($InsertProsku);
 
             if ($rs_sku == true) {
+                
                 echo '
                     <script>
                         swal({
@@ -72,6 +73,30 @@ function addProduct()
         }
     }
 }
+
+function delete_product(){
+    global $conn;
+    if (isset($_GET['delId'])) {
+        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+        $sqlDeletePro = "UPDATE FROM `product` SET `del`=0 WHERE `Id`='$delId'";
+        if ($conn->query($sqlDeletePro) === TRUE) {
+            echo '
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                <strong>Delete Success.</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            ';
+        } else {
+            echo "Error deleting record: " . $conn->error;
+        }
+    } else {
+        echo "";
+    }
+}
+
+
 function Product_addOn_uom()
 {
     global $conn;
@@ -119,17 +144,16 @@ function delete_add_uom() {
     global $conn;
     if (isset($_GET['delId'])) {
         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        $sqlDelete = "DELETE FROM `productsku` WHERE `Id`='$delId'";
+        $sqlDelete = "UPDATE FROM `productsku` SET `del`=0 WHERE `Id`='$delId'";
         if ($conn->query($sqlDelete) == TRUE) {
             echo '
-                <script>
-                swal({
-                    title: "Success",
-                    text: "Data delete success",
-                    icon: "success",
-                });
-                </script> 
-    ';
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                <strong>Delete Success.</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            ';
         } else {
             echo "Error deleting record: " . $conn->error;
         }
