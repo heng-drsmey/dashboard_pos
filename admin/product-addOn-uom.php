@@ -106,7 +106,7 @@ include('function_Pro.php');
                                                                 <label for="Currency">Currency</label>
                                                                 <select class="form-control" style="width: 100%;" name="txtcurrency">
                                                                     <?php
-                                                                    $sqlCurrency = "SELECT * FROM `currency` WHERE dell=1";
+                                                                    $sqlCurrency = "SELECT * FROM `currency` WHERE del=1";
                                                                     $qrCurrency = $conn->query($sqlCurrency);
                                                                     while ($rowCurrency = $qrCurrency->fetch_assoc()) {
                                                                         if ($rowCurrency['Id'] == $rowFrm['Currency']) $sel = 'selected';
@@ -166,9 +166,13 @@ include('function_Pro.php');
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
+                                        <?php
+                                            include('confirm_delete.php');
+                                            delete_add_uom();
+                                        ?>
                                         <tbody>
                                             <?php
-                                            $sqlPro = "SELECT * FROM `productsku`";
+                                            $sqlPro = "SELECT * FROM `productsku` WHERE del=1";
                                             $item = $conn->query($sqlPro);
                                             $rowPro = $item->fetch_assoc();
                                             ?>
@@ -192,12 +196,10 @@ include('function_Pro.php');
                                                         }
                                                         ?>
                                                     </td>
-                                                    <?php
-                                                    delete_add_uom();
-                                                    ?>
+                                                   
                                                     <td>
                                                         <a href="product-addOn-uom.php?Id=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                        <a href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-danger btn-sm" ><i class="fas fa-trash"></i></a>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>"><i class="fas fa-trash"></i></button>
 
                                                     </td>
                                                 </tr>
