@@ -72,7 +72,7 @@ include('function_user.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Outlet">Outlet</label>
-                                                        <select class="form-control border-left-danger" style="width: 100%;" name="txtoutlet">
+                                                        <select class="form-control border-left-danger mb-2 " style="width: 100%;" name="txtoutlet">
                                                             <?php
                                                             $sqloutlet = "SELECT * FROM `outlet`";
                                                             $qroutlet = $conn->query($sqloutlet);
@@ -86,7 +86,7 @@ include('function_user.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Employee">Employee</label>
-                                                        <select class="form-control border-left-danger" name="txtemp">
+                                                        <select class="form-control border-left-danger mb-2 " name="txtemp">
                                                             <?php
                                                             $sqlEmp = "SELECT * FROM `employee`";
                                                             $qrEmp = $conn->query($sqlEmp);
@@ -102,7 +102,7 @@ include('function_user.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Role">Role</label>
-                                                        <select class="form-control border-left-danger" style="width: 100%;" name="txtrole">
+                                                        <select class="form-control border-left-danger mb-2 "  style="width: 100%;" name="txtrole">
                                                             <?php
                                                             $sqlRole = "SELECT * FROM `role`";
                                                             $qrRole = $conn->query($sqlRole);
@@ -117,7 +117,7 @@ include('function_user.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="CreateBy">CreateBy</label>
-                                                        <select class="form-control border-left-danger" style="width: 100%;" name="txtcreateby">
+                                                        <select class="form-control border-left-danger mb-2 " style="width: 100%;" name="txtcreateby">
                                                             <?php
                                                             $sqlUser1 = "SELECT * FROM `user` WHERE del=1";
                                                             $qrUser1 = $conn->query($sqlUser1);
@@ -134,26 +134,25 @@ include('function_user.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Username">Username</label>
-                                                        <input type="text" class="form-control border-left-danger" name="txtusername" required value="<?php echo''.htmlspecialchars($rowUser['Username']).''; ?>">
+                                                        <input type="text" class="form-control border-left-danger mb-2 " name="txtusername" required value="<?php echo''.htmlspecialchars($rowUser['Username']).''; ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Password">Password</label>
-                                                        <input type="text" class="form-control border-left-danger" name="txtpassword" required value="<?php echo '' .htmlspecialchars($rowUser['Password']) . '' ?>">
+                                                        <input type="text" class="form-control border-left-danger mb-2 " name="txtpassword" required value="<?php echo '' .htmlspecialchars($rowUser['Password']) . '' ?>">
                                                     </div>
                                                 </div>
                                                 <label for="Remark">Remark</label>
-                                                <input type="text" class="form-control" name="txtremark" value="<?php echo ''.htmlspecialchars($rowUser['Remark']).'' ?>">
-
+                                                <textarea type="text" class="form-control " rows="3" cols="10" name="txtremark" value="<?php echo ''.htmlspecialchars($rowUser['Remark']).'' ?>"><?php echo ''.htmlspecialchars($rowUser['Remark']).'' ?></textarea>
                                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at" >
                                                 <?php
                                                 if (isset($_REQUEST['Id'])) {
                                                     echo '
-                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
-                                                        <a href="user-add.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-3" name="btnUpdate">
+                                                        <a href="user-add.php" class="btn btn-info btn-sm mt-3"> NEW </a>
                                                     ';
                                                 } else {
                                                     echo '
-                                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnAdd">Save</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm mt-3" name="btnAdd">Save</button>
                                                     ';
                                                 }
                                                 ?>
