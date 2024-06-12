@@ -4,19 +4,6 @@ include('include/head.php');
 // include call function-company.php
 include('function_company.php');
 
-// get data view in company-add.php for update.
-// $company = null;
-// if (isset($_GET['OutId'])) {
-//     $OutId = $conn->real_escape_string($_GET['OutId']);
-//     $company = fetch_company($OutId);
-// }
-// include('cn.php');
-// if (!isset($_SESSION['session'])) {
-//     header("location: login.php");
-// }
-
-// Check if form is submitted
-// handle_form_submission();
 
 ?>
 
@@ -96,7 +83,7 @@ include('function_company.php');
                                                 company_update();
                                                 $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE Id=$companyid")->fetch_assoc();
                                             } else{
-                                                $rowFrm = array("Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "","Logo" => "","UpdateAt" => "", "ApproveBy" => "","ApproveAt" => "");
+                                                $rowFrm = array("Id" => "","Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "","Logo" => "","UpdateAt" => "", "ApproveBy" => "","ApproveAt" => "");
                                             }
                                             echo var_dump($rowFrm);
                                             echo company_update();
@@ -105,23 +92,23 @@ include('function_company.php');
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
                                             <div class="col-lg-8">
-                                                <!-- <input type="hidden" name="companyid" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id'], ENT_QUOTES, 'UTF-8') : ''; ?>"> -->
+                                                <input type="text" style="display: none;" name="Id" value="<?php echo ''.$rowFrm['Id'].''  ?>">
                                                 <!-- Company Code -->
                                                 <div class="form-group">
                                                     <label for="companycode">Code</label>
-                                                    <input type="text" class="form-control border-left-danger" id="companycode" name="companycode" value="<?php echo htmlspecialchars($rowFrm['Code'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companycode" name="companycode" value="<?php echo ''.htmlspecialchars($rowFrm['Code']).'' ?>" required>
                                                 </div>
 
                                                 <!-- Company Name -->
                                                 <div class="form-group">
                                                     <label for="companyname">Company Name</label>
-                                                    <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo htmlspecialchars($rowFrm['Name'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo ''.htmlspecialchars($rowFrm['Name']).'' ?>" required>
                                                 </div>
 
                                                 <!-- Address -->
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
-                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address'], ENT_QUOTES, 'UTF-8'); ?>" >
+                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo ''.htmlspecialchars($rowFrm['Address']).'' ?>" >
                                                 </div>
 
                                                 <!-- Created By -->
@@ -134,7 +121,7 @@ include('function_company.php');
                                                             $qrcreateby = $conn->query($sqlcreateby);
                                                             while ($rowcreateby = $qrcreateby->fetch_assoc()) {
                                                                 $sel = ($rowcreateby['Id'] == $rowFrm['CreateBy']) ? 'selected' : '';
-                                                                echo '<option value="' . htmlspecialchars($rowcreateby['Id'], ENT_QUOTES, 'UTF-8') . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username'], ENT_QUOTES, 'UTF-8') . '</option>';
+                                                                echo '<option value="' . htmlspecialchars($rowcreateby['Id']) . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username']) . '</option>';
                                                             }
                                                         ?>
                                                     </select>
@@ -143,7 +130,7 @@ include('function_company.php');
                                                 <!-- Remark -->
                                                 <div class="form-group">
                                                     <label for="remark">Remark</label>
-                                                    <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($rowFrm['Remark'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                    <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($rowFrm['Remark']); ?>">
                                                 </div>
 
                                                 <!-- Disable Checkbox -->
@@ -170,7 +157,7 @@ include('function_company.php');
                                                         <div class="img-1">
                                                             <?php
                                                             if (!empty($rowFrm['Logo'])) {
-                                                                echo '<img class="image" id="companyimage" src="./ImageCompany/' . htmlspecialchars($rowFrm['Logo'], ENT_QUOTES, 'UTF-8') . '" alt="companyimage" width="200px">';
+                                                                echo '<img class="image" id="companyimage" src="./ImageCompany/' . htmlspecialchars($rowFrm['Logo']) . '" alt="companyimage" width="200px">';
                                                             } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -243,7 +230,7 @@ include('function_company.php');
                                         <?php
                                             if (isset($_REQUEST['Id'])) {
                                                 echo '
-                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnupdate">
+                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
                                                     <a href="company-add.php" class="btn btn-info btn-sm"> New </a>
                                                 ';
                                             } else {
