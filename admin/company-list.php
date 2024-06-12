@@ -92,22 +92,23 @@ include('include/head.php');
                                         <?php
                                             $sqlSelectcompany = "SELECT * FROM `outlet` WHERE del=1";
                                             $final = $conn->query($sqlSelectcompany);
-
+                                            
                                             if ($final->num_rows > 0) {
                                                 while ($rowcompany = $final->fetch_assoc()) {
+                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" .$rowcompany['CreateBy'])->fetch_assoc();
                                         ?>
                                         <tr>
                                             <td><?= $rowcompany['Code'] ?></td>
                                             <td><?= $rowcompany['Name'] ?></td>
                                             <td><?= $rowcompany['Address'] ?></td>
                                             <td><img src="./ImageCompany/<?= $rowcompany['Logo'] ?>" alt="Company Logo" style="width: 50px; height: 50px;"></td>
-                                            <td><?= $rowcompany['CreateBy'] ?></td>
+                                            <td><?= $createby['Username'] ?></td>
                                             <td>
                                                 <?php
                                                 if ($rowcompany['Status'] == 1) {
-                                                    echo '<p><a href="company_update_status.php?Id=' . $rowcompany['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                    echo '<p><a href="statusCompany.php?Id=' . $rowcompany['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
                                                 } else {
-                                                    echo '<p><a href="company_update_status.php?Id=' . $rowcompany['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                    echo '<p><a href="statusCompany.php?Id=' . $rowcompany['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                 }
                                                 ?>
                                             </td>
