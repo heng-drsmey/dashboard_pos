@@ -2,28 +2,28 @@
 include('include/head.php');
 
 // include call function-company.php
-include('function-company.php');
+include('function_company.php');
 
 // get data view in company-add.php for update.
-$company = null;
-if (isset($_GET['OutId'])) {
-    $OutId = $conn->real_escape_string($_GET['OutId']);
-    $company = fetch_company($OutId);
-}
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
+// $company = null;
+// if (isset($_GET['OutId'])) {
+//     $OutId = $conn->real_escape_string($_GET['OutId']);
+//     $company = fetch_company($OutId);
+// }
+// include('cn.php');
+// if (!isset($_SESSION['session'])) {
+//     header("location: login.php");
+// }
 
 // Check if form is submitted
-handle_form_submission();
+// handle_form_submission();
 
 ?>
 
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
 
@@ -76,7 +76,7 @@ handle_form_submission();
                 <div class="container-fluid">
 
                     <!-- Page Heading //change status add company if click button edit view edit company-->
-                    <h1 class="h3 mb-4 text-gray-800"><?php echo isset($company) ? 'Edit Company' : 'Add Company'; ?></h1>
+                    <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Company' : 'Add Company'; ?></h1>
 
                     <div class="row">
 
@@ -86,42 +86,64 @@ handle_form_submission();
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <form action="company-add.php" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="id" value="<?php echo $company['Id'] ?? ''; ?>">
-
+                                        <pre>
+                                        <?php
+                                            // call function company insert
+                                            company_insert();
+                                            // select data for update
+                                            if (isset($_REQUEST['Id'])){
+                                                $companyid = $_REQUEST['Id'];
+                                                company_update();
+                                                $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE Id=$companyid")->fetch_assoc();
+                                            } else{
+                                                $rowFrm = array("Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "",);
+                                            }
+                                            echo var_dump($rowFrm);
+                                            echo company_update();
+                                        ?>
+                                        </pre>
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
                                             <div class="col-lg-8">
+                                                <input type="hidden" name="companyid" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id'], ENT_QUOTES, 'UTF-8') : ''; ?>">
                                                 <!-- Company Code -->
                                                 <div class="form-group">
                                                     <label for="companycode">Code</label>
-                                                    <input type="text" class="form-control" id="companycode" name="companycode" value="<?php echo htmlspecialchars($company['Code'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter company code" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companycode" name="companycode" value="<?php echo htmlspecialchars($rowFrm['Code'], ENT_QUOTES, 'UTF-8'); ?>" required>
                                                 </div>
 
                                                 <!-- Company Name -->
                                                 <div class="form-group">
                                                     <label for="companyname">Company Name</label>
-                                                    <input type="text" class="form-control" id="companyname" name="companyname" value="<?php echo htmlspecialchars($company['Name'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter company name" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo htmlspecialchars($rowFrm['Name'], ENT_QUOTES, 'UTF-8'); ?>" required>
                                                 </div>
 
                                                 <!-- Address -->
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
-                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($company['Address'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter address">
+                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address'], ENT_QUOTES, 'UTF-8'); ?>" >
                                                 </div>
 
                                                 <!-- Created By -->
                                                 <div class="form-group">
-                                                    <label for="createBy">Created By</label>
-                                                    <select class="form-control form-select-sm" id="createBy" name="createBy" required>
+                                                    <label for="createby">Created By</label>
+                                                    <select class="form-control form-select-sm" id="createby" name="createby">
                                                         <!-- select user view in input createby-->
-                                                        <?php echo select_user(isset($company) ? $company['CreateBy'] : null); ?>
+                                                        <?php
+                                                            $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
+                                                            $qrcreateby = $conn->query($sqlcreateby);
+                                                            while ($rowcreateby = $qrcreateby->fetch_assoc()) {
+                                                                $sel = ($rowcreateby['Id'] == $rowFrm['CreateBy']) ? 'selected' : '';
+                                                                echo '<option value="' . htmlspecialchars($rowcreateby['Id'], ENT_QUOTES, 'UTF-8') . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username'], ENT_QUOTES, 'UTF-8') . '</option>';
+                                                            }
+                                                        ?>
                                                     </select>
                                                 </div>
 
                                                 <!-- Remark -->
                                                 <div class="form-group">
-                                                    <label for="address">Remark</label>
-                                                    <input type="text" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($company['Remark'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                    <label for="remark">Remark</label>
+                                                    <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($rowFrm['Remark'], ENT_QUOTES, 'UTF-8'); ?>">
                                                 </div>
 
                                                 <!-- Disable Checkbox -->
@@ -129,6 +151,8 @@ handle_form_submission();
                                                     <input type="checkbox" class="form-check-input" role="switch" id="status" name="status" <?php echo isset($company) && $company['Status'] ? 'checked' : ''; ?>>
                                                     <label class="form-check-label" for="status">Disable</label>
                                                 </div>
+                                                <!-- Hidden input for update date -->
+                                                    <input type="hidden" class="form-control" name="updateat">
 
                                             </div>
 
@@ -145,8 +169,8 @@ handle_form_submission();
                                                         </div>
                                                         <div class="img-1">
                                                             <?php
-                                                            if (!empty($company['Logo'])) {
-                                                                echo '<img class="image" id="companyimage" src="ImageCompany/' . htmlspecialchars($company['Logo'], ENT_QUOTES, 'UTF-8') . '" alt="companyimage" width="200px">';
+                                                            if (!empty($rowFrm['Logo'])) {
+                                                                echo '<img class="image" id="companyimage" src="ImageCompany/' . htmlspecialchars($rowFrm['Logo'], ENT_QUOTES, 'UTF-8') . '" alt="companyimage" width="200px">';
                                                             } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -211,12 +235,23 @@ handle_form_submission();
                                                         <div class="img-3">
                                                             <div class="square-2"></div>
                                                         </div>
-                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" name="companyimage" id="">
+                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="companyimage" id="">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary mt-5" name="btnsave" value="btn-save">Save</button>
+                                        <?php
+                                            if (isset($_REQUEST['Id'])) {
+                                                echo '
+                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnupdate">
+                                                    <a href="company-add.php" class="btn btn-info btn-sm"> New </a>
+                                                ';
+                                            } else {
+                                                echo '
+                                                    <button type="submit" class="btn btn-primary btn-sm" name="btnsave">Save</button>
+                                                    ';
+                                            }
+                                        ?>
                                     </form>
                                 </div>
 
