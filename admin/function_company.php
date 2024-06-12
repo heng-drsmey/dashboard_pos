@@ -255,7 +255,7 @@ function company_insert() {
                 document.addEventListener("DOMContentLoaded", function() {
                     swal({
                         title: "Error",
-                        text: "There was an error adding the company. Please try again. Error: ' . $stmt->error . '",
+                        text: "There was an error adding the company. Please try again. Error: ' . $conn->error . '",
                         icon: "error"
                     }).then(function() {
                         window.location = "company-add.php";
