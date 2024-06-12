@@ -115,7 +115,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseStock_controller" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="recieve-stock.php">Recieve Stock</a>
+                <a class="collapse-item" href="receive-stock.php">Recieve Stock</a>
                 <a class="collapse-item" href="user-list.php">POS Invoice</a>
                 <a class="collapse-item" href="user-list.php">Stock Moment</a>
                 <a class="collapse-item" href="user-list.php">POS</a>
