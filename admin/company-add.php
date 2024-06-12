@@ -96,7 +96,7 @@ include('function_company.php');
                                                 company_update();
                                                 $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE Id=$companyid")->fetch_assoc();
                                             } else{
-                                                $rowFrm = array("Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "",);
+                                                $rowFrm = array("Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "","Logo" => "","UpdateAt" => "", "ApproveBy" => "","ApproveAt" => "");
                                             }
                                             echo var_dump($rowFrm);
                                             echo company_update();
@@ -105,7 +105,7 @@ include('function_company.php');
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
                                             <div class="col-lg-8">
-                                                <input type="hidden" name="companyid" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+                                                <!-- <input type="hidden" name="companyid" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id'], ENT_QUOTES, 'UTF-8') : ''; ?>"> -->
                                                 <!-- Company Code -->
                                                 <div class="form-group">
                                                     <label for="companycode">Code</label>
@@ -170,7 +170,7 @@ include('function_company.php');
                                                         <div class="img-1">
                                                             <?php
                                                             if (!empty($rowFrm['Logo'])) {
-                                                                echo '<img class="image" id="companyimage" src="ImageCompany/' . htmlspecialchars($rowFrm['Logo'], ENT_QUOTES, 'UTF-8') . '" alt="companyimage" width="200px">';
+                                                                echo '<img class="image" id="companyimage" src="./ImageCompany/' . htmlspecialchars($rowFrm['Logo'], ENT_QUOTES, 'UTF-8') . '" alt="companyimage" width="200px">';
                                                             } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
