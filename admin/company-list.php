@@ -2,13 +2,13 @@
 include('include/head.php');
 
 //include call function-company.php
-    include('function-company.php'); 
+    include('function_company.php'); 
 
 // call function delete company.
-    if (isset($_GET['delId'])) {
-        $delId = $conn->real_escape_string($_GET['delId']);
-        company_delete($delId);
-    }
+    // if (isset($_GET['delId'])) {
+    //     $delId = $conn->real_escape_string($_GET['delId']);
+    //     company_delete($delId);
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,17 +86,48 @@ include('include/head.php');
                                             <th>CreateAt</th>
                                             <th>Action</th>
                                         </tr>
-                                    </thead>     
-                                    <tbody>  
+                                    </thead>
+                                    <tbody>
                                         <!-- view data in table -->
-                                            <?php display_companies_table(); ?>
-                                    </tbody>
+                                        <?php
+                                            $sqlSelectcompany = "SELECT * FROM `outlet` WHERE del=1";
+                                            $final = $conn->query($sqlSelectcompany);
 
+                                            if ($final->num_rows > 0) {
+                                                while ($rowcompany = $final->fetch_assoc()) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $rowcompany['Code'] ?></td>
+                                            <td><?= $rowcompany['Name'] ?></td>
+                                            <td><?= $rowcompany['Address'] ?></td>
+                                            <td><img src="./ImageCompany/<?= $rowcompany['Logo'] ?>" alt="Company Logo" style="width: 50px; height: 50px;"></td>
+                                            <td><?= $rowcompany['CreateBy'] ?></td>
+                                            <td>
+                                                <?php
+                                                if ($rowcompany['Status'] == 1) {
+                                                    echo '<p><a href="company_update_status.php?Id=' . $rowcompany['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                } else {
+                                                    echo '<p><a href="company_update_status.php?Id=' . $rowcompany['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <td><?= $rowcompany['CreateAt'] ?></td>
+                                            <td>
+                                                <a href="company-add.php?Id=<?= $rowcompany['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="company-list.php?delId=<?= $rowcompany['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                                }
+                                            } else {
+                                                echo '<tr><td colspan="8" class="text-center">No companies found.</td></tr>';
+                                            }
+                                        ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -109,7 +140,44 @@ include('include/head.php');
 
         </div>
         <!-- End of Content Wrapper -->
+        <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
 
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+// controll alert
+        $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "user-list.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
+    </script>                                                
     </div>
     <!-- End of Page Wrapper -->
 
