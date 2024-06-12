@@ -3,12 +3,12 @@
 include('cn.php');
 
 
-function recieve_stock() {
+function receive_stock() {
     global $conn;
 
     if (isset($_POST['btnAdd'])) {
-        $recievedate = $conn->real_escape_string($_POST['recievedate']);
-        $recieveby = $conn->real_escape_string($_POST['recieveby']);
+        $recievedate = $conn->real_escape_string($_POST['receivedate']);
+        $recieveby = $conn->real_escape_string($_POST['receiveby']);
         $purchaseno = $conn->real_escape_string($_POST['purchaseno']);
         $supplier = $conn->real_escape_string($_POST['supplier']);
         $product = $conn->real_escape_string($_POST['product']);
@@ -108,5 +108,56 @@ function delete_recieve_1(){
     } else {
         echo "";
     }
+}
+function update_receive_stock()
+{
+  global $conn;
+  // selece data for update
+  if (isset($_REQUEST['btnUpdate'])) {
+    $receiveId = $_REQUEST['Id'];
+    $recievedate = $conn->real_escape_string($_POST['receivedate']);
+    $recieveby = $conn->real_escape_string($_POST['receiveby']);
+    $purchaseno = $conn->real_escape_string($_POST['purchaseno']);
+    $supplier = $conn->real_escape_string($_POST['supplier']);
+    $product = $conn->real_escape_string($_POST['product']);
+    $uom = $conn->real_escape_string($_POST['uom']);
+    $quantity = $conn->real_escape_string($_POST['quantity']);
+    $price = $conn->real_escape_string($_POST['price']);
+    $currency = $conn->real_escape_string($_POST['currency']);
+    $paid = $conn->real_escape_string($_POST['paid']);
+    $paymentstatus = $conn->real_escape_string($_POST['paymentstatus']);
+    $discount = $conn->real_escape_string($_POST['discount']);
+    $createby = $conn->real_escape_string($_POST['createby']);
+    $description = $conn->real_escape_string($_POST['description']);
+    $curentDate = date("Y_m_d_H_i_s");
+    $update_at = $_REQUEST['txtupdate_at'];
+    $update = $update_at . $curentDate;
+
+    $sqlUpdate = "UPDATE `pro_in` SET `RecieveDate`='$recievedate',`RecieveBy`='$recieveby',`Supplier`='$supplier',
+    `PurchaseNo`='$purchaseno',`ProId`='$product',`Uom`='$uom',`Qty_In`='$quantity',`Price_In`='$price',
+    `DiscountAmount`='$discount',`Currency`='$currency',`Description`='$description',`Paid`='$paid',
+    `PaymentStatus`='$paymentstatus',`CreateBy`='$createby',`UpdateAt`='$update'  WHERE Id=$receiveId";
+    if ($conn->query($sqlUpdate) === TRUE) {
+      echo '
+                                <script>
+                                  swal({
+                                    title: "Success",
+                                    text: "Data Update success",
+                                    icon: "success",
+                                  });
+                                </script>
+                                ';
+    } else {
+      echo '
+                                <script>
+                                  swal({
+                                    title: "Try again",
+                                    text: "Data can not Update",
+                                    icon: "error",
+                                  });
+                                </script>
+                                ';
+    }
+  }
 }
 
