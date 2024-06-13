@@ -6,7 +6,7 @@ include('cn.php');
 //insert company
 function company_insert() {
     global $conn;
-        if (isset($_POST['btnsave'])) {
+    if (isset($_POST['btnsave'])) {
         $companycode = $conn->real_escape_string($_POST['companycode']);
         $companyname = $conn->real_escape_string($_POST['companyname']);
         $address = $conn->real_escape_string($_POST['address']);
@@ -16,102 +16,50 @@ function company_insert() {
         $companyimage = $_FILES['companyimage']['name'];
         $companyimageTmp = $_FILES['companyimage']['tmp_name'];
         $currentdate = date("Y_m_d_H_i_s");
-        $companynewimage = $currentdate.'_'.rand().'_'.$companyimage;
+        $companynewimage = $currentdate . '_' . rand() . '_' . $companyimage;
 
-        if(!empty($companyimage)){
-            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`,`Remark`, `Status`, `Logo`)
-            VALUES ('$companycode','$companyname','$address','$createby','$remark',1,'$companynewimage')";
-            move_uploaded_file($companyimageTmp, './ImageCompany/' .$companynewimage);
-        }else {
-            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`,`Remark`, `Status`, `Logo`)
-            VALUES ('$companycode','$companyname','$address','$createby','$remark',1,'no_image.png')";
+        if (!empty($companyimage)) {
+            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
+                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, '$companynewimage')";
+            move_uploaded_file($companyimageTmp, './ImageCompany/' . $companynewimage);
+        } else {
+            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
+                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, 'no_image.png')";
         }
 
-        $final = $conn->query($sqlInsertcompany);
-        if($final == true){
+        if ($conn->query($sqlInsertcompany) === TRUE) {
             echo '<script>
                     document.addEventListener("DOMContentLoaded", function() {
-                    // SweetAlert code
-                    swal({
-                        title: "Success",
-                        text: "Company added successfully",
-                        icon: "success"
-                    }).then(function() {
-                        window.location = "company-add.php";
+                        swal({
+                            title: "Success",
+                            text: "Company added successfully",
+                            icon: "success"
+                        }).then(function() {
+                            window.location = "company-add.php";
+                        });
                     });
-                    });
-                </script>';
-        }else {
+                  </script>';
+        } else {
             echo '<script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    swal({
-                        title: "Error",
-                        text: "There was an error adding the company. Please try again. Error: ' . $conn->error . '",
-                        icon: "error"
-                    }).then(function() {
-                        window.location = "company-add.php";
+                    document.addEventListener("DOMContentLoaded", function() {
+                        swal({
+                            title: "Error",
+                            text: "There was an error adding the company. Please try again. Error: ' . $conn->error . '",
+                            icon: "error"
+                        }).then(function() {
+                            window.location = "company-add.php";
+                        });
                     });
-                });
-            </script>';
+                  </script>';
         }
-    }   
+    }
 }
 
-// function company_update() {
-//     global $conn;
-    
-//     if (isset($_REQUEST['btnUpdate'])) {
-//         $companyid = $_REQUEST['Id'];
-//         $companycode = $conn->real_escape_string($_POST['companycode']);
-//         $companyname = $conn->real_escape_string($_POST['companyname']);
-//         $address = $conn->real_escape_string($_POST['address']);
-//         $createby = $conn->real_escape_string($_POST['createby']);
-//         $remark = $conn->real_escape_string($_POST['remark']);
-//         // $remark = $conn->real_escape_string($_POST['remark']);
-//         // $remark = $conn->real_escape_string($_POST['remark']);
-//       $companyimage = $_FILES['companyimage']['name'];
-//       $companyimageTmp = $_FILES['companyimage']['tmp_name'];
-//       $currentDate = date("Y_m_d_H_i_s");
-//       $updateAt = $_REQUEST['updateat'];
-//       $update = $updateAt . $currentDate;
-//       $txtNewImage = $currentDate . '_' . rand() . '_' . $companyimage;
-//     //   $txtNewImage = $curentDate . $companyimage;
-//       if (!empty($companyimage)) {
-//         $sqlupdate = "UPDATE `outlet` SET `Id`='$companyid', `Name`='$companyname',`Code`='$companycode',`Status`=1,`Address`='$address',`Logo`='$txtNewImage',`CreateBy`='$createby',`UpdateAt`='$update',`Remark`='$remark' WHERE Id=$companyid";
-//         $getImage = $conn->query("SELECT * FROM `outlet` WHERE Id=$companyid")->fetch_assoc();
-//         unlink('ImageCompany/' . $getImage['Logo']);
-//         move_uploaded_file($companyimageTmp, 'ImageCompany/' . $txtNewImage);
-//       } else {
-//         $sqlupdate = "UPDATE `outlet` SET `Id`='$companyid', `Name`='$companyname',`Code`='$companycode',`Status`=1,`Address`='$address',`CreateBy`='$createby',`UpdateAt`='$update',`Remark`='$remark' WHERE Id=$companyid";
-//       }
-//       if ($conn->query($sqlupdate) === TRUE) {
-//         echo '
-//                       <script>
-//                         swal({
-//                           title: "Success",
-//                           text: "Data update success",
-//                           icon: "success",
-//                         });
-//                       </script>
-//                       ';
-//       } else {
-//         echo '
-//                       <script>
-//                         swal({
-//                           title: "Try again",
-//                           text: "Data can not update",
-//                           icon: "error",
-//                         });
-//                       </script>
-//                       ';
-//       }
-//     }
-    
-// }
+// update company
 function company_update() {
     global $conn;
 
-    if (isset($_REQUEST['btnUpdate'])) {
+    if (isset($_REQUEST['btnupdate'])) {
         $companyid = $conn->real_escape_string($_REQUEST['Id']);
         $companycode = $conn->real_escape_string($_POST['companycode']);
         $companyname = $conn->real_escape_string($_POST['companyname']);
@@ -120,15 +68,12 @@ function company_update() {
         $remark = $conn->real_escape_string($_POST['remark']);
         $companyimage = $_FILES['companyimage']['name'];
         $companyimageTmp = $_FILES['companyimage']['tmp_name'];
-        $currentDate = date("Y_m_d_H_i_s");
-        $updateAt = $conn->real_escape_string($_REQUEST['updateat']);
-        $update = $updateAt . $currentDate;
-        $txtNewImage = $currentDate . '_' . rand() . '_' . $companyimage;
+        $currentdate = date("Y_m_d_H_i_s");
+        $updateat = $conn->real_escape_string($_REQUEST['updateat']);
+        $update = $updateat . $currentdate;
+        $companynewimage = $currentdate . '_' . rand() . '_' . $companyimage;
 
         if (!empty($companyimage)) {
-            $sqlupdate = "UPDATE `outlet` SET `Id`='$companyid', `Name`='$companyname', `Code`='$companycode', `Status`=1, `Address`='$address', `Logo`='$txtNewImage', `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
-            
-            // Fetch the current image
             $getImage = $conn->query("SELECT `Logo` FROM `outlet` WHERE `Id`='$companyid'")->fetch_assoc();
             if ($getImage) {
                 $oldImage = 'ImageCompany/' . $getImage['Logo'];
@@ -136,25 +81,48 @@ function company_update() {
                     unlink($oldImage);
                 }
             }
-            move_uploaded_file($companyimageTmp, 'ImageCompany/' . $txtNewImage);
+            move_uploaded_file($companyimageTmp, 'ImageCompany/' . $companynewimage);
+            $logoUpdate = "`Logo`='$companynewimage',";
         } else {
-            $sqlupdate = "UPDATE `outlet` SET `Id`='$companyid', `Name`='$companyname', `Code`='$companycode', `Status`=1, `Address`='$address', `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
+            $logoUpdate = "";
         }
+
+        $sqlupdate = "UPDATE `outlet` SET 
+                        `Name`='$companyname', 
+                        `Code`='$companycode', 
+                        `Status`=1, 
+                        `Address`='$address', 
+                        $logoUpdate 
+                        `CreateBy`='$createby', 
+                        `UpdateAt`='$update', 
+                        `Remark`='$remark' 
+                      WHERE `Id`='$companyid'";
+
+        // Remove trailing comma if $logoUpdate is empty
+        $sqlupdate = str_replace(", WHERE", " WHERE", $sqlupdate);
 
         if ($conn->query($sqlupdate) === TRUE) {
             echo '<script>
-                    swal({
-                      title: "Success",
-                      text: "Data update success",
-                      icon: "success",
+                    document.addEventListener("DOMContentLoaded", function() {
+                        swal({
+                            title: "Success",
+                            text: "Company updated successfully",
+                            icon: "success"
+                        }).then(function() {
+                            window.location = "company-list.php";
+                        });
                     });
                   </script>';
         } else {
             echo '<script>
-                    swal({
-                      title: "Try again",
-                      text: "Data can not update",
-                      icon: "error",
+                    document.addEventListener("DOMContentLoaded", function() {
+                        swal({
+                            title: "Error",
+                            text: "There was an error updating the company. Please try again. Error: ' . $conn->error . '",
+                            icon: "error"
+                        }).then(function() {
+                            window.location = "company-list.php";
+                        });
                     });
                   </script>';
         }
