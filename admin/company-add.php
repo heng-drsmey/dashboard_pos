@@ -73,22 +73,30 @@ include('function_company.php');
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <form action="company-add.php" method="post" enctype="multipart/form-data">
-                                        <pre>
                                         <?php
                                             // call function company insert
                                             company_insert();
                                             // select data for update
-                                            if (isset($_REQUEST['Id'])){
+                                            if (isset($_REQUEST['Id'])) {
                                                 $companyid = $_REQUEST['Id'];
                                                 company_update();
-                                                $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE Id=$companyid")->fetch_assoc();
-                                            } else{
-                                                $rowFrm = array("Id" => "","Code" => "", "Name" => "", "Address" => "", "CreateBy" => "", "Remark" => "", "Status" => "","Logo" => "","UpdateAt" => "", "ApproveBy" => "","ApproveAt" => "");
+                                                $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE `Id`=$companyid")->fetch_assoc();
+                                            } else {
+                                                $rowFrm = array(
+                                                    "Id" => "", 
+                                                    "Code" => "", 
+                                                    "Name" => "", 
+                                                    "Address" => "", 
+                                                    "CreateBy" => "", 
+                                                    "Remark" => "", 
+                                                    "Status" => "", 
+                                                    "Logo" => "", 
+                                                    "UpdateAt" => "", 
+                                                    "ApproveBy" => "", 
+                                                    "ApproveAt" => ""
+                                                );
                                             }
-                                            echo var_dump($rowFrm);
-                                            echo company_update();
                                         ?>
-                                        </pre>
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
                                             <div class="col-lg-8">
@@ -230,7 +238,7 @@ include('function_company.php');
                                         <?php
                                             if (isset($_REQUEST['Id'])) {
                                                 echo '
-                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
+                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnupdate">
                                                     <a href="company-add.php" class="btn btn-info btn-sm"> New </a>
                                                 ';
                                             } else {
