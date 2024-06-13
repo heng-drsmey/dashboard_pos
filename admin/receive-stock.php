@@ -55,13 +55,16 @@ include ('function_recieve_stock.php');
                                     <?php
                                     // call function Receive Stock
                                     receive_stock();
-                                    // call data for update
+                                    // call data for update and view
                                     if (isset($_REQUEST['Id'])) {
                                         $receiveId = $_REQUEST['Id'];                                   
                                         update_receive_stock();
                                         $rowFrm = $conn->query("SELECT * FROM `pro_in` WHERE Id=$receiveId")->fetch_assoc();
-                                        // $pro = $conn->query("SELECT * FROM `product` WHERE Id=" . $productId['ProductId'])->fetch_assoc();
-                                    } else {
+                                    }elseif(isset($_REQUEST['view'])){
+                                        $receiveId = $_REQUEST['view'];                                   
+                                        $rowFrm = $conn->query("SELECT * FROM `pro_in` WHERE Id=$receiveId")->fetch_assoc();
+                                    }
+                                     else {
                                         $rowFrm = array("RecieveDate" => "", "RecieveBy" => " ", "Supplier" => "", "PurchaseNo" => "","ProId" => "","Uom" => "","Qty_In" => "","Price_In" => "","DiscountAmount" => "","Currency" => "","Description" => "","Paid" => "","CreateBy" => "","UpdateAt" => "",);
                                     }
                                     ?>
@@ -76,7 +79,7 @@ include ('function_recieve_stock.php');
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Receive By">Receive By(Emp)</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="receiveby">
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="receiveby" >
                                                             <?php
                                                             $sqlEmployee = "SELECT * FROM `employee`";
                                                             $qrEmployee = $conn->query($sqlEmployee);
@@ -85,7 +88,6 @@ include ('function_recieve_stock.php');
                                                                 else $sel = '';
                                                                 echo '<option value="' . $rowEmployee['Id'] . '" ' . $sel . '>' . $rowEmployee['Firstname'] . ' ' . $rowEmployee['Lastname'] . '</option>';
                                                             }
-
                                                             ?>
                                                         </select>
                                                     </div>
@@ -93,7 +95,7 @@ include ('function_recieve_stock.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="PurchaseNo">Purchase No.</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="purchaseno" required value="<?php echo ''.htmlspecialchars($rowFrm['PurchaseNo']).'' ?>">
+                                                        <input type="text" class="form-control mb-2 border-left-danger" name="purchaseno" required value="<?php echo ''.htmlspecialchars($rowFrm['PurchaseNo']).'' ?>" >
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Supplier">Supplier</label>
@@ -106,7 +108,6 @@ include ('function_recieve_stock.php');
                                                                 else $sel = '';
                                                                 echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Name'] . '</option>';
                                                             }
-
                                                             ?>
                                                         </select>
                                                     </div>
@@ -123,7 +124,6 @@ include ('function_recieve_stock.php');
                                                                 else $sel = '';
                                                                 echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . $rowPro['Name'] . '</option>';
                                                             }
-
                                                             ?>
                                                         </select>
                                                     </div>
@@ -138,7 +138,6 @@ include ('function_recieve_stock.php');
                                                                 else $sel = '';
                                                                 echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Name'] . '</option>';
                                                             }
-
                                                             ?>
                                                         </select>
                                                     </div>
@@ -155,14 +154,12 @@ include ('function_recieve_stock.php');
                                                             else $sel = '';
                                                             echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
                                                         }
-
                                                         ?>
                                                     </select>
                                                 </div>
                                                     <div class="col-lg-4">
                                                         <label for="Quantity">Quantity</label>
                                                         <input type="number" class="form-control mb-2 border-left-danger" name="quantity" required value="<?php echo ''.$rowFrm['Qty_In'].'' ?>">
-
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <label for="Price">Price</label>
@@ -186,7 +183,6 @@ include ('function_recieve_stock.php');
                                                                 else $sel = '';
                                                                 echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Name'] . '</option>';
                                                             }
-
                                                             ?>
                                                         </select>
                                                     </div>
@@ -229,10 +225,13 @@ include ('function_recieve_stock.php');
                                                     <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
                                                     <a href="Receive-stock.php" class="btn btn-info btn-sm "> NEW </a>
                                                 ';
-                                    } else {
+                                    } elseif(isset($_REQUEST['view'])){
+                                        echo '<a href="Receive-stock-list.php" class="btn btn-info btn-sm "> Back to list </a>';
+                                    }
+                                    else {
                                         echo '
-                                                    <button type="submit" class="btn btn-primary bg-gradient-info w-25" name="btnAdd">Save</button>
-                                                ';
+                                            <button type="submit" class="btn btn-primary bg-gradient-info w-25" name="btnAdd">Save</button>
+                                        ';
                                     }
                                     ?>
                             </div>
