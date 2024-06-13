@@ -132,11 +132,11 @@ function company_update() {
             $getImage = $conn->query("SELECT `Logo` FROM `outlet` WHERE `Id`='$companyid'")->fetch_assoc();
             if ($getImage) {
                 $oldImage = 'ImageCompany/' . $getImage['Logo'];
+                move_uploaded_file($companyimageTmp, 'ImageCompany/' . $txtNewImage);
                 if (file_exists($oldImage)) {
                     unlink($oldImage);
                 }
             }
-            move_uploaded_file($companyimageTmp, 'ImageCompany/' . $txtNewImage);
         } else {
             $sqlupdate = "UPDATE `outlet` SET `Id`='$companyid', `Name`='$companyname', `Code`='$companycode', `Status`=1, `Address`='$address', `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
         }
@@ -158,6 +158,7 @@ function company_update() {
                     });
                   </script>';
         }
+        
     }
 }
 
