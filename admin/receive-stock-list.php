@@ -130,6 +130,7 @@ include('function_recieve_stock.php');
 
                                             <tr>
                                                 <td>
+                                                    <a href="receive-stock.php?view=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa-regular fa-eye"></i></a>
                                                     <a href="receive-stock.php?Id=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                     <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="recieve-stock-list.php?delId=<?= $rowPro['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                 </td>
