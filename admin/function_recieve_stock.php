@@ -2,7 +2,6 @@
 <?php
 include('cn.php');
 
-
 function receive_stock() {
     global $conn;
 
