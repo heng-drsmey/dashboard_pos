@@ -19,15 +19,15 @@ function company_insert() {
         $companynewimage = $currentdate . '_' . rand() . '_' . $companyimage;
 
         if (!empty($companyimage)) {
-            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
                                  VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, '$companynewimage')";
             move_uploaded_file($companyimageTmp, './ImageCompany/' . $companynewimage);
         } else {
-            $sqlInsertcompany = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
                                  VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, 'no_image.png')";
         }
 
-        if ($conn->query($sqlInsertcompany) === TRUE) {
+        if ($conn->query($sqlcompanyinsert) === TRUE) {
             echo '<script>
                     document.addEventListener("DOMContentLoaded", function() {
                         swal({
@@ -87,7 +87,7 @@ function company_update() {
             $logoUpdate = "";
         }
 
-        $sqlupdate = "UPDATE `outlet` SET 
+        $sqlcompanyupdate = "UPDATE `outlet` SET 
                         `Name`='$companyname', 
                         `Code`='$companycode', 
                         `Status`=1, 
@@ -99,9 +99,9 @@ function company_update() {
                       WHERE `Id`='$companyid'";
 
         // Remove trailing comma if $logoUpdate is empty
-        $sqlupdate = str_replace(", WHERE", " WHERE", $sqlupdate);
+        $sqlcompanyupdate = str_replace(", WHERE", " WHERE", $sqlcompanyupdate);
 
-        if ($conn->query($sqlupdate) === TRUE) {
+        if ($conn->query($sqlcompanyupdate) === TRUE) {
             echo '<script>
                     document.addEventListener("DOMContentLoaded", function() {
                         swal({
@@ -126,6 +126,76 @@ function company_update() {
                     });
                   </script>';
         }
+    }
+}
+
+// function company_delete(){
+//     global $conn;
+//     if (isset($_GET['delId'])) {
+//         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+//         $sqlcompanydelete = "UPDATE `outlet` SET `del` =0 WHERE `Id` = '$delId'";
+//         if($conn->query($sqlcompanydelete) === TRUE) {
+//             echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+//                         <strong>Delete Success.</strong>
+//                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                             <span aria-hidden="true">&times;</span>
+//                         </button>
+//                     </div>';
+//         }else {
+//             echo "Error deleting record: " .$conn->error;
+//         }
+//     }else {
+//         echo "";
+//     }
+// }
+
+function company_delete(){
+    global $conn;
+    if (isset($_GET['delId'])) {
+        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+        
+        // List of tables and the corresponding foreign key column that reference the company ID
+        $foreignTables = [
+            'user' => 'OutletId',
+            'employee' => 'OutletId',
+            'invoice' => 'OutletId',
+            // Add more tables and their foreign key columns here
+        ];
+        
+        $canDelete = true;
+        foreach ($foreignTables as $table => $column) {
+            $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
+            $resultForeignKey = $conn->query($checkForeignKey);
+            $rowForeignKey = $resultForeignKey->fetch_assoc();
+            
+            if ($rowForeignKey['count'] > 0) {
+                $canDelete = false;
+                break;
+            }
+        }
+        
+        if ($canDelete) {
+            $sqlcompanydelete = "UPDATE `outlet` SET `del` = 0 WHERE `Id` = '$delId'";
+            if ($conn->query($sqlcompanydelete) === TRUE) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                        <strong>Delete Success.</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>';
+            } else {
+                echo "Error deleting record: " . $conn->error;
+            }
+        } else {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-danger">
+                    <strong>Cannot delete company. It is being referenced in other records.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
+        }
+    } else {
+        echo "";
     }
 }
 

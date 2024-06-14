@@ -73,50 +73,72 @@ include('function_company.php');
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <form action="company-add.php" method="post" enctype="multipart/form-data">
-                                        <?php
-                                            // call function company insert
-                                            company_insert();
-                                            // select data for update
-                                            if (isset($_REQUEST['Id'])) {
-                                                $companyid = $_REQUEST['Id'];
-                                                company_update();
-                                                $rowFrm = $conn->query("SELECT * FROM `outlet` WHERE `Id`=$companyid")->fetch_assoc();
+                                    <?php
+                                        // Call function company insert
+                                        company_insert();
+
+                                        // Initialize an empty array for the form data
+                                        $rowFrm = array(
+                                            "Id" => "", 
+                                            "Code" => "", 
+                                            "Name" => "", 
+                                            "Address" => "", 
+                                            "CreateBy" => "", 
+                                            "Remark" => "", 
+                                            "Status" => "", 
+                                            "Logo" => "", 
+                                            "UpdateAt" => "", 
+                                            "ApproveBy" => "", 
+                                            "ApproveAt" => ""
+                                        );
+
+                                        // Check if the `Id` parameter is set and valid
+                                        if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
+                                            $companyid = $conn->real_escape_string($_REQUEST['Id']);
+                                            
+                                            // Call the company update function if needed
+                                            company_update();
+
+                                            // Fetch the company data for update
+                                            $result = $conn->query("SELECT * FROM `outlet` WHERE `Id` = '$companyid'");
+
+                                            if ($result && $result->num_rows > 0) {
+                                                $rowFrm = $result->fetch_assoc();
                                             } else {
-                                                $rowFrm = array(
-                                                    "Id" => "", 
-                                                    "Code" => "", 
-                                                    "Name" => "", 
-                                                    "Address" => "", 
-                                                    "CreateBy" => "", 
-                                                    "Remark" => "", 
-                                                    "Status" => "", 
-                                                    "Logo" => "", 
-                                                    "UpdateAt" => "", 
-                                                    "ApproveBy" => "", 
-                                                    "ApproveAt" => ""
-                                                );
+                                                echo '<script>
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            swal({
+                                                                title: "Error",
+                                                                text: "Failed to fetch company data. Please try again.",
+                                                                icon: "error"
+                                                            }).then(function() {
+                                                                window.location = "company-list.php";
+                                                            });
+                                                        });
+                                                    </script>';
                                             }
-                                        ?>
+                                        }
+                                    ?>
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
                                             <div class="col-lg-8">
-                                                <input type="text" style="display: none;" name="Id" value="<?php echo ''.$rowFrm['Id'].''  ?>">
+                                                <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
                                                 <!-- Company Code -->
                                                 <div class="form-group">
                                                     <label for="companycode">Code</label>
-                                                    <input type="text" class="form-control border-left-danger" id="companycode" name="companycode" value="<?php echo ''.htmlspecialchars($rowFrm['Code']).'' ?>" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companycode" name="companycode" value="<?php echo htmlspecialchars($rowFrm['Code']); ?>" required>
                                                 </div>
 
                                                 <!-- Company Name -->
                                                 <div class="form-group">
                                                     <label for="companyname">Company Name</label>
-                                                    <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo ''.htmlspecialchars($rowFrm['Name']).'' ?>" required>
+                                                    <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo htmlspecialchars($rowFrm['Name']); ?>" required>
                                                 </div>
 
                                                 <!-- Address -->
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
-                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo ''.htmlspecialchars($rowFrm['Address']).'' ?>" >
+                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address']); ?>" >
                                                 </div>
 
                                                 <!-- Created By -->

@@ -87,6 +87,10 @@ include('include/head.php');
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    <?php
+                                        include('confirm_delete.php');
+                                        company_delete();
+                                    ?>
                                     <tbody>
                                         <!-- view data in table -->
                                         <?php
