@@ -174,7 +174,7 @@ include('include/head.php');
         // Action to perform after the alert is closed
         console.log('Alert closed');
         // You can perform additional actions here, such as redirecting the user
-        window.location.href = "user-list.php";
+        window.location.href = "company-list.php";
     });
 
     // Alternatively, you can automatically close the alert after some time
