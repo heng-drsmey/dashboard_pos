@@ -61,10 +61,12 @@ include('function_company.php');
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading //change status add company if click button edit view edit company-->
-                    <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Company' : 'Add Company'; ?></h1>
-
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <!-- Page Heading //change status add company if click button edit view edit company-->
+                        <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Company' : 'Add Company'; ?></h1>
+                        <a href="company-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Companies List</a>
+                    </div>
                     <div class="row">
 
                         <div class="col-lg-12">

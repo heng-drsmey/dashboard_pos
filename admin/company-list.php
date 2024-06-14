@@ -3,12 +3,6 @@ include('include/head.php');
 
 //include call function-company.php
     include('function_company.php'); 
-
-// call function delete company.
-    // if (isset($_GET['delId'])) {
-    //     $delId = $conn->real_escape_string($_GET['delId']);
-    //     company_delete($delId);
-    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,6 +113,7 @@ include('include/head.php');
                                             <td><?= $rowcompany['CreateAt'] ?></td>
                                             <td>
                                                 <a href="company-add.php?Id=<?= $rowcompany['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                <a href="company-information.php?Id=<?= $rowcompany['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="company-list.php?delId=<?= $rowcompany['Id'] ?>"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
