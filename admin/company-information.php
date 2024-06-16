@@ -168,8 +168,8 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                         </div>
 
                                         <!-- Company Logo on the Right -->
-                                        <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                                            <div class="card mb-4 p-3 text-center">
+                                        <div class="col-lg-4 d-flex align-items-top justify-content-center">
+                                            <div class=" mb-4 p-3 text-center">
                                                 <div class="con-input-file">
                                                     <div class="con-bg">
                                                         <img class="bg" src="" alt="">

@@ -176,9 +176,9 @@ include('function_company.php');
                                             </div>
 
                                             <!-- Image Upload on the Right -->
-                                            <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                                            <div class="col-lg-4 d-flex align-items-top justify-content-center">
 
-                                                <div class="card mb-4 p-3 text center">
+                                                <div class=" mb-4 p-3 text center">
                                                     <div class="con-input-file">
                                                         <button onclick="handleClickRemove()" type="button" class="remove-image">
                                                             <i class="fa-solid fa-ban" style="color: red;"></i>
@@ -256,21 +256,21 @@ include('function_company.php');
                                                         </div>
                                                         <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="companyimage" id="">
                                                     </div>
+                                                    <?php
+                                                        if (isset($_REQUEST['Id'])) {
+                                                            echo '
+                                                                <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
+                                                                <a href="company-add.php" class="btn btn-info btn-sm mt-5"> New </a>
+                                                            ';
+                                                        } else {
+                                                            echo '
+                                                                <button type="submit" class="btn btn-primary btn-sm mt-5 w-100" name="btnsave">Save</button>
+                                                                ';
+                                                        }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php
-                                            if (isset($_REQUEST['Id'])) {
-                                                echo '
-                                                    <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnupdate">
-                                                    <a href="company-add.php" class="btn btn-info btn-sm"> New </a>
-                                                ';
-                                            } else {
-                                                echo '
-                                                    <button type="submit" class="btn btn-primary btn-sm" name="btnsave">Save</button>
-                                                    ';
-                                            }
-                                        ?>
                                     </form>
                                 </div>
 
