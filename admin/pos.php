@@ -18,7 +18,7 @@ include('function_user.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Users List</title>
+    <title>Point of Sale</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,6 +28,7 @@ include('function_user.php');
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/img-ratio.css">
+    <link rel="stylesheet" href="css/pos.css">
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -35,53 +36,7 @@ include('function_user.php');
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
 </head>
-<style>
-    .cate_card {
-        background: #fff;
-        border: 1px solid #dadada;
-        border-radius: 6px;
-        height: 50px;
-        cursor: pointer;
-        font-size: 18px;
-        font-weight: bold;
-    }
 
-    .cate_card:hover {
-        text-decoration: none;
-    }
-
-    .order-detail {
-        display: flex;
-        align-items: center;
-        background: #f6f6f6;
-        padding: 25px;
-        border-radius: 10px;
-    }
-
-    .input-group {
-        background: #fff;
-        width: 105px;
-        height: 30px;
-        justify-content: space-evenly;
-        border: 1px solid #dadada;
-        border-radius: 25px;
-    }
-
-    .input-group input[type=number] {
-        border: none;
-    }
-
-    .btn-min-plus {
-        border-radius: 50%;
-        width: 25px;
-        height: 25px;
-        display: flex;
-        align-items: center;
-        background: #4e73df;
-        justify-content: center;
-        color: #fff;
-    }
-</style>
 
 <body id="page-top">
 
@@ -322,7 +277,7 @@ include('function_user.php');
                             <h4>Order Number</h4>
                             <b class="text-primary">0001</b>
                             <h4>Order Items</h4>
-                            <div class="row order-detail">
+                            <div class="row order-detail mb-3">
                                 <div class="col-lg-3">
                                     <div class="thumbnail-wrapper">
                                         <div class="thumbnail-inner img1by1 rounded-circle">
@@ -343,6 +298,110 @@ include('function_user.php');
                                     <i class="fa-solid fa-trash-can text-danger"></i>
                                 </div>
                             </div>
+                            <div class="row order-detail mb-3">
+                                <div class="col-lg-3">
+                                    <div class="thumbnail-wrapper">
+                                        <div class="thumbnail-inner img1by1 rounded-circle">
+                                            <img class="rounded-circle" src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h5>Iced Latte</h5>
+                                    <h5 class="text-success">$1.50</h5>
+                                </div>
+                                <div class="col-lg-5 text-center" style="display: contents;">
+                                    <div class="input-group d-flex align-items-center mx-3">
+                                        <i class="fa-solid fa-minus btn-min-plus"></i>
+                                        <input type="number" name="" id="" style="width: 50px; text-align: center;" value="1">
+                                        <i class="fa-solid fa-plus btn-min-plus"></i>
+                                    </div>
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="row order-detail mb-3">
+                                <div class="col-lg-3">
+                                    <div class="thumbnail-wrapper">
+                                        <div class="thumbnail-inner img1by1 rounded-circle">
+                                            <img class="rounded-circle" src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h5>Iced Latte</h5>
+                                    <h5 class="text-success">$1.50</h5>
+                                </div>
+                                <div class="col-lg-5 text-center" style="display: contents;">
+                                    <div class="input-group d-flex align-items-center mx-3">
+                                        <i class="fa-solid fa-minus btn-min-plus"></i>
+                                        <input type="number" name="" id="" style="width: 50px; text-align: center;" value="1">
+                                        <i class="fa-solid fa-plus btn-min-plus"></i>
+                                    </div>
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center order-dec">
+                                <div class="col-lg-6 text-left">
+                                    <p>Sub Total</p>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <b>$1.50</b>
+                                </div>
+                                <div class="col-lg-6 text-left">
+                                    <p>Tax 10%</p>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <b>$0.15</b>
+                                </div>
+                                <div class="col-lg-6 text-left">
+                                    <p>Discount 0%</p>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <b>-$0.00</b>
+                                </div>
+                                <div class="col-lg-6 text-left">
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <b>$1.65</b>
+                                </div>
+                            </div>
+                            <h4 class="mt-3">Payment Method</h4>
+                            <div class="row mt-3">
+                                <div class="col-lg-6">
+                                    <a href="" class="payment-a">
+                                        <div class="payment">
+                                            <i class="fas fa-dollar-sign" style="font-size: 36px;"></i>
+                                            <p>Cash</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="" class="payment-a" data-toggle="modal" data-target="#exampleModal">
+                                        <div class="payment">
+                                            <i class="fas fa-qrcode" style="font-size: 36px;"></i>
+                                            <p>KHQR</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">KHQR</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img class="img-fluid" src="./img/qrcode.png" alt="">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary form-control mt-3">Submit And Print Receipt</a>
                         </div>
                     </div>
 

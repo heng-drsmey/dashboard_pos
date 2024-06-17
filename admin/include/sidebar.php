@@ -3,7 +3,7 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar" >
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -91,22 +91,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ( $current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'product-addOn-uom.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
-    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="false" aria-controls="collapsePro">
-        <i class="fas fa-fw fa-mug-hot"></i>
-        
-        <span>Product</span>
-    </a>
-    <div id="collapsePro" class="collapse" aria-labelledby="headingPro" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <!-- <a class="collapse-item" href="product-add.php">Add Product</a> -->
-            <a class="collapse-item" href="product-list.php">Product List</a>
-            <a class="collapse-item" href="product-addOn-uom.php">Product Add On UOM</a>
-            <a class="collapse-item" href="product.php">Add Product</a>
-            <a class="collapse-item" href="uom.php">Unit Of Measure</a>
+    <li class="nav-item <?php echo ($current_page == 'product.php' || $current_page == 'product-list.php' || $current_page == 'product-addOn-uom.php' || $current_page == 'uom.php') ? 'active' : ''; ?>">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePro" aria-expanded="false" aria-controls="collapsePro">
+            <i class="fas fa-fw fa-mug-hot"></i>
+
+            <span>Product</span>
+        </a>
+        <div id="collapsePro" class="collapse" aria-labelledby="headingPro" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <!-- <a class="collapse-item" href="product-add.php">Add Product</a> -->
+                <a class="collapse-item" href="product-list.php">Product List</a>
+                <a class="collapse-item" href="product-addOn-uom.php">Product Add On UOM</a>
+                <a class="collapse-item" href="product.php">Add Product</a>
+                <a class="collapse-item" href="uom.php">Unit Of Measure</a>
+            </div>
         </div>
-    </div>
-</li>
+    </li>
 
     <li class="nav-item <?php echo ($current_page == 'inventory.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStock_controller" aria-expanded="true" aria-controls="collapseUtilities">
@@ -132,7 +132,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a class="collapse-item" href="shift.php">Shift</a>
                 <a class="collapse-item" href="user-list.php">Shift Details</a>
                 <a class="collapse-item" href="user-list.php">Sales Details</a>
-                <a class="collapse-item" href="user-list.php">POS</a>
+                <a class="collapse-item" href="pos.php">POS</a>
             </div>
         </div>
     </li>
@@ -152,7 +152,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
     <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item <?php echo ($current_page == 'user-list.php' || $current_page == 'table.php' || $current_page == 'role.php') || $current_page == 'payment-method.php' || $current_page == 'currency.php'? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'user-list.php' || $current_page == 'table.php' || $current_page == 'role.php') || $current_page == 'payment-method.php' || $current_page == 'currency.php' ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSet" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
             <span>Setting</span>
