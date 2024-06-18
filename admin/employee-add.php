@@ -99,17 +99,14 @@ include('include/head.php');
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
                                                         <select class="form-control mb-2" name="nationality" id="nationality">
-                                                            <option value="brunei">Brunei</option>
-                                                            <option value="cambodia">Cambodia</option>
-                                                            <option value="east-timor">East-Timor</option>
-                                                            <option value="indonesia">Indonesia</option>
-                                                            <option value="laos">Laos</option>
-                                                            <option value="malaysia">Malaysia</option>
-                                                            <option value="myanmar">Myanmar</option>
-                                                            <option value="philippines">Philippines</option>
-                                                            <option value="singapore">Singapore</option>
-                                                            <option value="thailand">Thailand</option>
-                                                            <option value="vietnam">Vietnam</option>
+                                                            <?php
+                                                                $sqlnationality = "SELECT * FROM `nationality` WHERE del=1";
+                                                                $qrnationality = $conn->query($sqlnationality);
+                                                                while ($rownationality = $qrnationality->fetch_assoc()){
+                                                                    $sel = ($rownationality['Id'] == $rowFrm['Nation']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rownationality['Id']) .'" ' . $sel . '>' . htmlspecialchars($rownationality['Nation']) . '</option>';
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-3">
@@ -146,21 +143,43 @@ include('include/head.php');
                                                     <div class="col-3">
                                                             <!-- branch -->
                                                         <label for="branch">Branch</label>
-                                                        <input type="text" class="form-control" id="branch" name="branch">
+                                                        <select class="form-control mb-2" name="branch" id="branch">
+                                                            <?php
+                                                                $sqlbranch = "SELECT * FROM `outlet` WHERE del=1";
+                                                                $qrbranch = $conn->query($sqlbranch);
+                                                                while ($rowbranch = $qrbranch->fetch_assoc()){
+                                                                    $sel = ($rowbranch['Id'] == $rowFrm['OutletId']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rowbranch['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbranch['Name']) . '</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- positions -->
                                                         <label for="positions">Positions</label>
-                                                        <input type="text" class="form-control" id="positions" name="positions">
+                                                        <select class="form-control mb-2" name="positions" id="positions">
+                                                            <?php
+                                                                $sqlpositions = "SELECT * FROM `positions` WHERE del=1";
+                                                                $qrpositions = $conn->query($sqlpositions);
+                                                                while ($rowpositions = $qrpositions->fetch_assoc()){
+                                                                    $sel = ($rowpositions['Id'] == $rowFrm['Position']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rowpositions['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowpositions['Positions']) . '</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- employee type -->
                                                         <label for="employee-type">Employee Type</label>
                                                         <select class="form-control mb-2" name="employee-type" id="employee-type">
-                                                            <option value="full-time">Full Time</option>
-                                                            <option value="part-time">Part Time</option>
-                                                            <option value="internship">Internship</option>
-                                                            <option value="volunteer">Volunteer</option>
+                                                            <?php
+                                                                $sqlemptype = "SELECT * FROM `employeetype` WHERE del=1";
+                                                                $qremptype = $conn->query($sqlemptype);
+                                                                while ($rowemptype = $qremptype->fetch_assoc()){
+                                                                    $sel = ($rowemptype['Id'] == $rowFrm['EmployeeType']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rowemptype['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowemptype['EmployeeType']) . '</option>';
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-3">
@@ -191,14 +210,14 @@ include('include/head.php');
                                                         <label for="bank">Bank</label>
                                                         <select class="form-control mb-2" name="bank" id="bank">
                                                             <option value=""></option>
-                                                            <option value="aba">ABA</option>
-                                                            <option value="acleda">ACLEDA</option>
-                                                            <option value="canadia">CANADIA</option>
-                                                            <option value="chip-mong">CHIP MONG</option>
-                                                            <option value="prince">PRINCE</option>
-                                                            <option value="vattanac">VATTANAC</option>
-                                                            <option value="wing">WING</option>
-                                                            <option value="lolc">LOLC</option>
+                                                            <?php
+                                                                $sqlbank = "SELECT * FROM `bank` WHERE del=1";
+                                                                $qrbank = $conn->query($sqlbank);
+                                                                while ($rowbank = $qrbank->fetch_assoc()){
+                                                                    $sel = ($rowbank['Id'] == $rowFrm['Bank']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rowbank['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbank['Bank']) . '</option>';
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-3">
@@ -223,8 +242,15 @@ include('include/head.php');
                                                             <!-- currency -->
                                                         <label for="currency">Currency</label>
                                                         <select class="form-control mb-2" name="currency" id="currency">
-                                                            <option value="khr">KHR (៛)</option>
-                                                            <option value="usd">USD ($)</option>
+                                                            <option value=""></option>
+                                                            <?php
+                                                                $sqlcurrency = "SELECT * FROM `currency` WHERE del=1";
+                                                                $qrcurrency = $conn->query($sqlcurrency);
+                                                                while ($rowcurrency = $qrcurrency->fetch_assoc()){
+                                                                    $sel = ($rowcurrency['Id'] == $rowFrm['Currency']) ? 'selected' : '';
+                                                                    echo '<option value="' .htmlspecialchars($rowcurrency['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowcurrency['Name']) . '</option>';
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                     <div class="col-3">

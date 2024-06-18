@@ -47,3 +47,21 @@ ALTER TABLE `table` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
 ALTER TABLE `paymentmethod` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
 ALTER TABLE `currency` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
 ALTER TABLE `category` ADD `del` INT NOT NULL DEFAULT '1' AFTER `UpdateAt`;
+
+-- update (18-06-2024 : 10:42 PM)(Sorn Samneang)
+ALTER TABLE `employee` ADD `Nation` VARCHAR(20) NOT NULL AFTER `Dob`, ADD `Marital` VARCHAR(20) NOT NULL AFTER `Nation`;
+ALTER TABLE `employee` ADD `Address` TEXT NOT NULL AFTER `Tel`;
+ALTER TABLE `employee` ADD `EmployeeType` VARCHAR(20) NOT NULL AFTER `Address`;
+ALTER TABLE `employee` ADD `Bank` INT(11) NULL DEFAULT '1' AFTER `Position`, ADD `AccountName` VARCHAR(200) NOT NULL AFTER `Bank`, ADD `AccountNumber` VARCHAR(200) NOT NULL AFTER `AccountName`, ADD `IdCard` INT(20) NOT NULL AFTER `AccountNumber`;
+ALTER TABLE `employee` ADD `del` INT(11) NULL AFTER `Remark`;
+
+ALTER TABLE `employee` CHANGE `Nation` `Nation` INT(11) NULL DEFAULT '1';
+ALTER TABLE `employee` CHANGE `EmployeeType` `EmployeeType` INT(11) NULL DEFAULT '1';
+ALTER TABLE `employee` CHANGE `Position` `Position` INT(11) NULL DEFAULT '1';
+ALTER TABLE `employee` CHANGE `del` `del` INT(11) NOT NULL DEFAULT '1';
+
+
+CREATE TABLE `db_sys_coffee`.`nationality` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `Nation` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NULL , `Status` TINYINT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
+CREATE TABLE `db_sys_coffee`.`employeetype` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `EmployeeType` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` TINYINT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
+CREATE TABLE `db_sys_coffee`.`positions` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `Positions` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` INT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
+CREATE TABLE `db_sys_coffee`.`bank` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `Bank` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` INT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
