@@ -65,3 +65,18 @@ CREATE TABLE `db_sys_coffee`.`nationality` (`Id` INT(11) NOT NULL AUTO_INCREMENT
 CREATE TABLE `db_sys_coffee`.`employeetype` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `EmployeeType` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` TINYINT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
 CREATE TABLE `db_sys_coffee`.`positions` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `Positions` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` INT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
 CREATE TABLE `db_sys_coffee`.`bank` (`Id` INT(11) NOT NULL AUTO_INCREMENT , `Bank` VARCHAR(200) NOT NULL , `CreateBy` INT(11) NOT NULL , `Remark` TEXT NOT NULL , `Status` INT(1) NOT NULL , `CreateAt` TIMESTAMP NOT NULL , `UpdateAt` DATETIME NOT NULL , `del` INT(11) NOT NULL DEFAULT '1' , PRIMARY KEY (`Id`)) ENGINE = InnoDB;
+
+-- update query ( Jun-19-2024)
+ALTER TABLE `pro_out` CHANGE `CreateBy` `CreateBy` INT(11) NULL DEFAULT NULL COMMENT 'Employee';
+ALTER TABLE `pro_out` CHANGE `CreateBy` `SaleBy` INT(11) NULL DEFAULT NULL COMMENT 'Employee';
+ALTER TABLE `pro_out` ADD `SaleDate` DATE NULL AFTER `Id`, ADD `SaleNo` VARCHAR(11) NULL AFTER `SaleDate`, ADD `Customer` INT(11) NULL AFTER `SaleNo`, ADD `Uom` INT(11) NULL AFTER `Customer`, ADD `Paid` DECIMAL(10,2) NOT NULL DEFAULT '0' AFTER `Uom`, ADD `Status` INT(11) NULL AFTER `Paid`, ADD UNIQUE `SaleNo` (`SaleNo`);
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (SaleBy) REFERENCES `employee` (Id);
+
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (Uom) REFERENCES `uom` (Id);
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (Status) REFERENCES `values` (Id);
+
+
+
