@@ -1,5 +1,8 @@
 <?php
 include('include/head.php');
+
+// include call function-employee.php
+include('function_employee.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +66,10 @@ include('include/head.php');
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="">
+                                    <form action="employee-add.php" method="post" enctype="multipart/form-data">
+                                        <?php
+                                            employee_insert();
+                                        ?>
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="row">
@@ -111,8 +117,8 @@ include('include/head.php');
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- marital Status -->
-                                                        <label for="marital-status">Marital Status</label>
-                                                        <select class="form-control mb-2" name="marital-status" id="marital-status">
+                                                        <label for="marital">Marital Status</label>
+                                                        <select class="form-control mb-2" name="marital" id="marital">
                                                             <option value="single">Single</option>
                                                             <option value="married">Married</option>
                                                         </select>
@@ -170,8 +176,8 @@ include('include/head.php');
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- employee type -->
-                                                        <label for="employee-type">Employee Type</label>
-                                                        <select class="form-control mb-2" name="employee-type" id="employee-type">
+                                                        <label for="employeetype">Employee Type</label>
+                                                        <select class="form-control mb-2" name="employeetype" id="employeetype">
                                                             <?php
                                                                 $sqlemptype = "SELECT * FROM `employeetype` WHERE del=1";
                                                                 $qremptype = $conn->query($sqlemptype);
@@ -184,21 +190,21 @@ include('include/head.php');
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- join date -->
-                                                        <label for="join-date">Join Date</label>
-                                                        <input type="date" class="form-control" id="join-date" name="join-date">
+                                                        <label for="joindate">Join Date</label>
+                                                        <input type="date" class="form-control" id="joindate" name="joindate">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
                                                 <div class="row">
                                                     <div class="col-3">
                                                             <!-- resign date -->
-                                                        <label for="resign-date">Resign Date</label>
-                                                        <input type="date" class="form-control" id="resign-date" name="resign-date">
+                                                        <label for="resigndate">Resign Date</label>
+                                                        <input type="date" class="form-control" id="resigndate" name="resigndate">
                                                     </div>
                                                     <div class="col-9">
                                                             <!-- reason resgin -->
-                                                        <label for="reason-resgin">Reason Resgin</label>
-                                                        <input type="textarea" class="form-control" id="reason-resgin" name="reason-resgin">
+                                                        <label for="reasonresign">Reason Resign</label>
+                                                        <input type="textarea" class="form-control" id="reasonresign" name="reasonresign">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -222,18 +228,18 @@ include('include/head.php');
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account name -->
-                                                        <label for="account-name">Account Name</label>
-                                                        <input type="text" class="form-control" id="account-name" name="account-name">
+                                                        <label for="accountname">Account Name</label>
+                                                        <input type="text" class="form-control" id="accountname" name="accountname">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account number -->
-                                                        <label for="account-number">Account Number</label>
-                                                        <input type="text" class="form-control" id="account-number" name="account-number">
+                                                        <label for="accountnumber">Account Number</label>
+                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- ID card -->
-                                                        <label for="id-card">ID Card</label>
-                                                        <input type="text" class="form-control" id="id-card" name="id-card">
+                                                        <label for="idcard">ID Card</label>
+                                                        <input type="text" class="form-control" id="idcard" name="idcard">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -298,8 +304,8 @@ include('include/head.php');
                                                         </div>
                                                         <div class="img-1">
                                                             <?php
-                                                            if (!empty($rowFrm['Logo'])) {
-                                                                echo '<img class="image" id="companyimage" src="./ImageCompany/' . htmlspecialchars($rowFrm['Logo']) . '" alt="companyimage" width="200px">';
+                                                            if (!empty($rowFrm['Image'])) {
+                                                                echo '<img class="image" id="employeeimage" src="./ImageEmployee/' . htmlspecialchars($rowFrm['Image']) . '" alt="employeeimage" width="200px">';
                                                             } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -364,7 +370,7 @@ include('include/head.php');
                                                         <div class="img-3">
                                                             <div class="square-2"></div>
                                                         </div>
-                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="companyimage" id="">
+                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="employeeimage" id="">
                                                     </div>
                                                     <?php
                                                         if (isset($_REQUEST['Id'])) {
