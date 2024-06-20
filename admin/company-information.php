@@ -12,6 +12,7 @@ $company = array(
     "Remark" => "", 
     "Status" => "", 
     "Logo" => "", 
+    "CreateAt" => "",
     "UpdateAt" => "", 
     "ApproveBy" => "", 
     "ApproveAt" => ""
@@ -152,6 +153,17 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                         echo htmlspecialchars($rowcreateby['Username']);
                                                     }
                                                 ?>" readonly>
+                                            </div>
+
+                                            <!-- Create at -->
+                                            <div class="form-group">
+                                                <label for="createat">Create At</label>
+                                                <input type="text" class="form-control" id="createat" name="createat" value="<?php echo htmlspecialchars($company['CreateAt']); ?>" readonly>
+                                            </div>
+                                            <!-- Update at -->
+                                            <div class="form-group">
+                                                <label for="updateat">Update At</label>
+                                                <input type="text" class="form-control" id="updateat" name="updateat" value="<?php echo htmlspecialchars($company['UpdateAt']); ?>" readonly>
                                             </div>
 
                                             <!-- Remark -->

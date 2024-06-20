@@ -74,10 +74,10 @@ include('include/head.php');
                                             <th>Code</th>
                                             <th>Name</th>
                                             <th>Address</th>
-                                            <th>Logo</th>
-                                            <th>CreateBy</th>
+                                            <!-- <th>Logo</th> -->
+                                            <!-- <th>CreateBy</th> -->
                                             <th>Status</th>
-                                            <th>CreateAt</th>
+                                            <!-- <th>CreateAt</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -99,8 +99,8 @@ include('include/head.php');
                                             <td><?= $rowcompany['Code'] ?></td>
                                             <td><?= $rowcompany['Name'] ?></td>
                                             <td><?= $rowcompany['Address'] ?></td>
-                                            <td><img src="./ImageCompany/<?= $rowcompany['Logo'] ?>" alt="Company Logo" style="width: 50px; height: 50px;"></td>
-                                            <td><?= $createby['Username'] ?></td>
+                                            <!-- <td><img src="./ImageCompany/<?= $rowcompany['Logo'] ?>" alt="Company Logo" style="width: 50px; height: 50px;"></td> -->
+                                            <!-- <td><?= $createby['Username'] ?></td> -->
                                             <td>
                                                 <?php
                                                 if ($rowcompany['Status'] == 1) {
@@ -110,7 +110,7 @@ include('include/head.php');
                                                 }
                                                 ?>
                                             </td>
-                                            <td><?= $rowcompany['CreateAt'] ?></td>
+                                            <!-- <td><?= $rowcompany['CreateAt'] ?></td> -->
                                             <td>
                                                 <a href="company-add.php?Id=<?= $rowcompany['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                 <a href="company-information.php?Id=<?= $rowcompany['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
