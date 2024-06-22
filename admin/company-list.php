@@ -93,7 +93,7 @@ include('include/head.php');
                                             
                                             if ($final->num_rows > 0) {
                                                 while ($rowcompany = $final->fetch_assoc()) {
-                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" .$rowcompany['CreateBy'])->fetch_assoc();
+                                                    //$createby = $conn->query("SELECT * FROM `user` WHERE Id=" .$rowcompany['CreateBy'])->fetch_assoc();
                                         ?>
                                         <tr>
                                             <td><?= $rowcompany['Code'] ?></td>

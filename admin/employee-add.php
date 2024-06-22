@@ -57,7 +57,11 @@ include('function_employee.php');
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Add Employee</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <!-- Page Heading //change status add company if click button edit view edit company-->
+                        <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Employee' : 'Add Employee'; ?></h1>
+                        <a href="employee-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Employees List</a>
+                    </div>
 
                     <div class="row">
 
@@ -68,7 +72,39 @@ include('function_employee.php');
                                 <div class="card-body">
                                     <form action="employee-add.php" method="post" enctype="multipart/form-data">
                                         <?php
+                                            // Call function employee insert
                                             employee_insert();
+                                            // Initialize an empty array for the form data
+                                            $rowFrm = array(
+                                                "Id" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
+                                                "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
+                                                "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
+                                                "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
+                                                "Image" => "", "Status" => ""
+                                            );
+                                            // check if the `Id` parameter is set and valid
+                                            if(isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
+                                               $employeeid = $conn->real_escape_string($_REQUEST['Id']);
+                                               // Call the employee update function if needed
+                                               employee_update();
+                                               // Fetch the employee data for update
+                                               $result = $conn->query("SELECT * FROM `employee` WHERE `Id` = '$employeeid'");
+                                               if ($result && $result->num_rows > 0) {
+                                                    $rowFrm = $result->fetch_assoc();
+                                                } else {
+                                                    echo '<script>
+                                                            document.addEventListener("DOMContentLoaded", function() {
+                                                                swal({
+                                                                    title: "Error",
+                                                                    text: "Failed to fetch employee data. Please try again.",
+                                                                    icon: "error"
+                                                                }).then(function() {
+                                                                    window.location = "employee-list.php";
+                                                                });
+                                                            });
+                                                        </script>';
+                                                }
+                                            }
                                         ?>
                                         <div class="row">
                                             <div class="col-8">
@@ -77,18 +113,19 @@ include('function_employee.php');
                                                     <hr style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
                                                         <!-- first name -->
                                                     <div class="col-3">
+                                                        <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
                                                         <label for="firstname">First Name</label>
-                                                        <input type="text" class="form-control border-left-danger" id="firstname" name="firstname" required>
+                                                        <input type="text" class="form-control border-left-danger" id="firstname" name="firstname" value="<?php echo htmlspecialchars($rowFrm['Firstname']); ?>" required>
                                                     </div>
                                                         <!-- last name -->
                                                     <div class="col-3">
                                                         <label for="lastname">Last Name</label>
-                                                        <input type="text" class="form-control border-left-danger" id="lastname" name="lastname" required>
+                                                        <input type="text" class="form-control border-left-danger" id="lastname" name="lastname" value="<?php echo htmlspecialchars($rowFrm['Lastname']); ?>" required>
                                                     </div>
                                                         <!-- gender -->
                                                     <div class="col-3">
                                                         <label for="gender">Gender</label>
-                                                        <select class="form-control mb-2" name="gender" id="gender">
+                                                        <select class="form-control mb-2" name="gender" id="gender" value="<?php echo htmlspecialchars($rowFrm['Gender']); ?>">
                                                             <option value="female">Female</option>
                                                             <option value="male">Male</option>
                                                         </select>
@@ -96,7 +133,7 @@ include('function_employee.php');
                                                         <!-- date of birth -->
                                                     <div class="col-3">
                                                         <label for="dateofbirth">Date of Birth</label>
-                                                        <input type="date" class="form-control" id="dateofbirth" name="dateofbirth">
+                                                        <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($rowFrm['Dob']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -118,7 +155,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- marital Status -->
                                                         <label for="marital">Marital Status</label>
-                                                        <select class="form-control mb-2" name="marital" id="marital">
+                                                        <select class="form-control mb-2" name="marital" id="marital" value="<?php echo htmlspecialchars($rowFrm['Marital']); ?>">
                                                             <option value="single">Single</option>
                                                             <option value="married">Married</option>
                                                         </select>
@@ -126,12 +163,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- email -->
                                                         <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email">
+                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($rowFrm['Email']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- telephone -->
                                                         <label for="telephone">Telephone</label>
-                                                        <input type="text" class="form-control" id="telephone" name="telephone">
+                                                        <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Tel']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -139,7 +176,7 @@ include('function_employee.php');
                                                     <div class="col-12">
                                                             <!-- address -->
                                                         <label for="address">Address</label>
-                                                        <input type="textarea" class="form-control" id="address" name="address">
+                                                        <input type="textarea" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -191,7 +228,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- join date -->
                                                         <label for="joindate">Join Date</label>
-                                                        <input type="date" class="form-control" id="joindate" name="joindate">
+                                                        <input type="date" class="form-control" id="joindate" name="joindate" value="<?php echo htmlspecialchars($rowFrm['JoinAT']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -199,12 +236,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- resign date -->
                                                         <label for="resigndate">Resign Date</label>
-                                                        <input type="date" class="form-control" id="resigndate" name="resigndate">
+                                                        <input type="date" class="form-control" id="resigndate" name="resigndate" value="<?php echo htmlspecialchars($rowFrm['ResignAt']); ?>">
                                                     </div>
                                                     <div class="col-9">
                                                             <!-- reason resgin -->
                                                         <label for="reasonresign">Reason Resign</label>
-                                                        <input type="textarea" class="form-control" id="reasonresign" name="reasonresign">
+                                                        <input type="textarea" class="form-control" id="reasonresign" name="reasonresign" value="<?php echo htmlspecialchars($rowFrm['ReasonResign']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -229,17 +266,17 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- account name -->
                                                         <label for="accountname">Account Name</label>
-                                                        <input type="text" class="form-control" id="accountname" name="accountname">
+                                                        <input type="text" class="form-control" id="accountname" name="accountname" value="<?php echo htmlspecialchars($rowFrm['AccountName']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account number -->
                                                         <label for="accountnumber">Account Number</label>
-                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber">
+                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber" value="<?php echo htmlspecialchars($rowFrm['AccountNumber']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- ID card -->
                                                         <label for="idcard">ID Card</label>
-                                                        <input type="text" class="form-control" id="idcard" name="idcard">
+                                                        <input type="text" class="form-control" id="idcard" name="idcard" value="<?php echo htmlspecialchars($rowFrm['IdCard']); ?>">
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -262,7 +299,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- salary -->
                                                         <label for="salary">Salary</label>
-                                                        <input type="text" class="form-control" id="salary" name="salary">
+                                                        <input type="text" class="form-control" id="salary" name="salary" value="<?php echo htmlspecialchars($rowFrm['Salary']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- create by -->
@@ -281,11 +318,11 @@ include('function_employee.php');
                                                     </div>
                                                     <div class="col-3">
                                                         <label for="remark">Remark</label>
-                                                        <input type="textarea" class="form-control" id="remark" name="remark">
+                                                        <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($rowFrm['Remark']); ?>">
                                                     </div>
                                                         <!-- Disable Checkbox -->
                                                     <div class="form-check form-switch ms-4 mt-3">
-                                                        <input type="checkbox" class="form-check-input" role="switch" id="status" name="status" <?php echo isset($company) && $company['Status'] ? 'checked' : ''; ?>>
+                                                        <input type="checkbox" class="form-check-input" role="switch" id="status" name="status" <?php echo isset($employee) && $employee['Status'] ? 'checked' : ''; ?>>
                                                         <label class="form-check-label" for="status">Disable</label>
                                                     </div>
                                                 </div>
@@ -376,7 +413,7 @@ include('function_employee.php');
                                                         if (isset($_REQUEST['Id'])) {
                                                             echo '
                                                                 <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5 " name="btnupdate">
-                                                                <a href="company-add.php" class="btn btn-info btn-sm mt-5"> New </a>
+                                                                <a href="employee-add.php" class="btn btn-info btn-sm mt-5"> New </a>
                                                             ';
                                                         } else {
                                                             echo '

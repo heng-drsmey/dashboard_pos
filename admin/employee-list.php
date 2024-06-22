@@ -73,11 +73,53 @@ include('function_employee.php');
                                             <th>Gender</th>
                                             <th>Nationality</th>
                                             <th>Positions</th>
-                                            <th>EmployeeType</th>
+                                            <th>Employee Type</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        <!-- view data in table -->
+                                        <?php
+                                            $sqlSelectemployee = "SELECT * FROM `employee` WHERE del=1";
+                                            $final = $conn->query($sqlSelectemployee);
+
+                                            if($final->num_rows > 0) {
+                                                while ($rowemployee = $final->fetch_assoc()) {
+                                                    $branch = $conn->query("SELECT * FROM `outlet` WHERE Id=" .$rowemployee['OutletId'])->fetch_assoc();
+                                                    $nationality = $conn->query("SELECT * FROM `nationality` WHERE Id=" .$rowemployee['Nation'])->fetch_assoc();
+                                                    $positions = $conn->query("SELECT * FROM `positions` WHERE Id=" .$rowemployee['Position'])->fetch_assoc();
+                                                    $employeetype = $conn->query("SELECT * FROM `employeetype` WHERE Id=" .$rowemployee['EmployeeType'])->fetch_assoc();
+                                        ?>
+                                        <tr>
+                                            <td><?= $branch['Name']?></td>
+                                            <td><?= $rowemployee['Firstname']?></td>
+                                            <td><?= $rowemployee['Lastname']?></td>
+                                            <td><?= $rowemployee['Gender']?></td>
+                                            <td><?= $nationality['Nation']?></td>
+                                            <td><?= $positions['Positions']?></td>
+                                            <td><?= $employeetype['EmployeeType']?></td>
+                                            <td>
+                                                <?php
+                                                if ($rowemployee['Status'] == 1) {
+                                                    echo '<p><a href="statusEmployee.php?Id=' . $rowemployee['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                } else {
+                                                    echo '<p><a href="statusEmployee.php?Id=' . $rowemployee['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="employee-add.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                <a href="company-information.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="company-list.php?delId=<?= $rowemployee['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                                }
+                                            }else {
+                                                echo '<tr><td colspan="8" class="text-center">No employees found.</td></tr>';
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -99,7 +141,44 @@ include('function_employee.php');
 
     </div>
     <!-- End of Page Wrapper -->
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
 
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+// controll alert
+        $(document).ready(function() {
+    // Event listener for when the alert is closed
+    $('#alert-success').on('closed.bs.alert', function () {
+        // Action to perform after the alert is closed
+        console.log('Alert closed');
+        // You can perform additional actions here, such as redirecting the user
+        window.location.href = "employee-list.php";
+    });
+
+    // Alternatively, you can automatically close the alert after some time
+    setTimeout(function() {
+        $('#alert-success').alert('close');
+    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+});
+    </script>  
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
