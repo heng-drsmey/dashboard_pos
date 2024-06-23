@@ -1,10 +1,5 @@
 <?php
-session_start();
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
-
+include('include/head.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
