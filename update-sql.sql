@@ -75,8 +75,7 @@ ADD FOREIGN KEY (SaleBy) REFERENCES `employee` (Id);
 
 ALTER TABLE `pro_out` 
 ADD FOREIGN KEY (Uom) REFERENCES `uom` (Id);
-ALTER TABLE `pro_out` 
-ADD FOREIGN KEY (Status) REFERENCES `values` (Id);
+
 
 
 
