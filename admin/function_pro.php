@@ -74,6 +74,56 @@ function addProduct()
     }
 }
 
+// update product
+function UpdateProduct() {
+    global $conn;
+    // selece data for update
+    if (isset($_REQUEST['btnUpdate'])) {
+        $pro = $_REQUEST['Id'];
+        $txtcode = $conn->real_escape_string($_POST['txtcode']);
+        $txtname = $conn->real_escape_string($_POST['txtname']);
+        $txtcategory = $_POST['txtcategory'];
+        // $txtuom = $_POST['txtuom'];
+        // $txtprice = $_POST['txtprice'];
+        // $txtcurrency = $_POST['txtcurrency'];
+        $txtdescription = $conn->real_escape_string($_POST['txtdescription']);
+        $txtcreateby = $_POST['txtcreateby'];
+        $txtImage = $_FILES['txtImage']['name'];
+        $txtImageTmp = $_FILES['txtImage']['tmp_name'];
+        $currentDate = date("Y_m_d_H_i_s");
+        $txtNewImage = $currentDate.'_'.rand().'_'.$txtImage;
+        if(!empty($txtImage)){
+            $sqlUpdate = "UPDATE `product` SET `ProCode`='$txtcode',`CategoryId`='$txtcategory',`Name`='$txtname',`Description`='$txtdescription',`Image`='$txtNewImage',`CreateBy`='$txtcreateby',`UpdateAt`='$currentDate' WHERE Id=$pro";
+            $getImage = $conn->query("SELECT * FROM `product` WHERE Id= $pro")->fetch_assoc();
+            unlink('ImageProduct/' .$getImage['Image']);
+            move_uploaded_file($txtImageTmp, 'ImageProduct/'.$txtNewImage);
+        }else{
+            $sqlUpdate = "UPDATE `product` SET `ProCode`='$txtcode',`CategoryId`='$txtcategory',`Name`='$txtname',`Description`='$txtdescription',`CreateBy`='$txtcreateby',`UpdateAt`='$currentDate' WHERE Id=$pro";
+        }
+        if ($conn->query($sqlUpdate) === TRUE) {
+            echo '
+                                <script>
+                                  swal({
+                                    title: "Success",
+                                    text: "Data Update success",
+                                    icon: "success",
+                                  });
+                                </script>
+                                ';
+        } else {
+            echo '
+                                <script>
+                                  swal({
+                                    title: "Try again",
+                                    text: "Data can not update",
+                                    icon: "error",
+                                  });
+                                </script>
+                                ';
+        }
+    }
+}
+
 function delete_product(){
     global $conn;
     if (isset($_GET['delId'])) {
