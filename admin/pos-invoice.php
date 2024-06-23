@@ -1,10 +1,6 @@
 <?php
-session_start();
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
-include ('function_pos_invoice.php');
+include('include/head.php');
+include('function_pos_invoice.php');
 ?>
 
 <html lang="en">
@@ -31,6 +27,8 @@ include ('function_pos_invoice.php');
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- style upload image -->
     <link href="css/img-style.css" rel="stylesheet">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -74,12 +72,12 @@ include ('function_pos_invoice.php');
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <label for="Sale Date">Sale Date</label>
-                                                        <input type="date" class="form-control mb-2 border-left-danger" name="saledate" required value="<?php echo ''.htmlspecialchars($rowFrm['SaleDate']).'' ?>">
+                                                        <input type="date" class="form-control mb-2 border-left-danger" name="saledate" required value="<?php echo '' . htmlspecialchars($rowFrm['SaleDate']) . '' ?>">
 
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <label for="Table">Table</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="table" >
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="table">
                                                             <?php
                                                             $sqlTable = "SELECT * FROM `table`";
                                                             $qrTable = $conn->query($sqlTable);
@@ -93,7 +91,7 @@ include ('function_pos_invoice.php');
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <label for="Sale By">Sale By(Emp)</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="saleby" >
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="saleby">
                                                             <?php
                                                             $sqlEmployee = "SELECT * FROM `employee`";
                                                             $qrEmployee = $conn->query($sqlEmployee);
@@ -109,7 +107,8 @@ include ('function_pos_invoice.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="SaleNo">Sale No.</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="saleno" required value="<?php // echo ''.htmlspecialchars($rowFrm['SaleNo']).'' ?>" >
+                                                        <input type="text" class="form-control mb-2 border-left-danger" name="saleno" required value="<?php // echo ''.htmlspecialchars($rowFrm['SaleNo']).'' 
+                                                                                                                                                        ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Customer">Customer</label>
@@ -126,111 +125,80 @@ include ('function_pos_invoice.php');
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <label for="Product">Product</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="product">
-                                                            <?php
-                                                            $sqlPro = "SELECT * FROM `product`";
-                                                            $qrPro = $conn->query($sqlPro);
-                                                            while ($rowPro = $qrPro->fetch_assoc()) {
-                                                                if ($rowPro['Id'] == $rowFrm['ProId']) $sel = 'selected';
-                                                                else $sel = '';
-                                                                echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . $rowPro['Name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label for="UOM">UOM</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="uom">
-                                                            <?php
-                                                            $sqlPro = "SELECT * FROM `uom`";
-                                                            $qrPro = $conn->query($sqlPro);
-                                                            while ($rowPro = $qrPro->fetch_assoc()) {
-                                                                if ($rowPro['Id'] == $rowFrm['Uom']) $sel = 'selected';
-                                                                else $sel = '';
-                                                                echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . $rowPro['Name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label for="Currency">Currency</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="currency">
-                                                            <?php
-                                                            $sqlCurrency = "SELECT * FROM `currency`";
-                                                            $qrCurrency = $conn->query($sqlCurrency);
-                                                            while ($rowCurrency = $qrCurrency->fetch_assoc()) {
-                                                                if ($rowCurrency['Id'] == $rowFrm['Currency']) $sel = 'selected';
-                                                                else $sel = '';
-                                                                echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                <div class="col-lg-4">
-                                                    <label for="UOM">UOM</label>
-                                                    <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="uom">
-                                                        <?php
-                                                        $sqlUom = "SELECT * FROM `uom`";
-                                                        $qrUom = $conn->query($sqlUom);
-                                                        while ($rowUom = $qrUom->fetch_assoc()) {
-                                                            if ($rowUom['Id'] == $rowFrm['Uom']) $sel = 'selected';
-                                                            else $sel = '';
-                                                            echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                                    <div class="col-lg-4">
-                                                        <label for="Quantity">Quantity</label>
-                                                        <input type="number" class="form-control mb-2 border-left-danger" name="quantity" required value="<?php echo ''.$rowFrm['Qty_Out'].'' ?>">
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <label for="QuantityFree">Quantity Free</label>
-                                                        <input type="number" class="form-control mb-2 border-left-danger" name="quantityfree" required value="<?php echo ''.$rowFrm['Qty_Out_Free'].'' ?>">
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <label for="Price">Price</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="price" required value="<?php // echo ''.$rowFrm['Price_In'].'' ?>">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Product</th>
+                                                            <th>UOM</th>
+                                                            <th>Currency</th>
+                                                            <th>Quantity</th>
+                                                            <th>Quantity Free</th>
+                                                            <th>Price</th>
+                                                            <th>Discount Amount</th>
+                                                            <th>Discription</th>
+                                                            <!-- <th>Currency</th> -->
+                                                            <th>
+                                                                <button class="btn btn-primary add-row">+</button>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope='row'> 1</th>
+                                                            <td>
+                                                            <!-- <label for="Product">Product</label> -->
+                                                            <select class="form-control mb-2" style="width: 100%;" name="product">
+                                                                <?php
+                                                                $sqlPro = "SELECT * FROM `product` WHERE del=1";
+                                                                $qrPro = $conn->query($sqlPro);
+                                                                while ($rowPro = $qrPro->fetch_assoc()) {
+                                                                    if ($rowPro['Id'] == $rowFrm['ProductId']) $sel = 'selected';
+                                                                    else $sel = '';
+                                                                    echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowPro['Name']) . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            </td>
+                                                            <td>                                                           
+                                                                <select class="form-control mb-2 " style="width: 100%;" name="txtuom">
+                                                                <?php
+                                                                $sqlUom = "SELECT * FROM `uom` WHERE del=1";
+                                                                $qrUom = $conn->query($sqlUom);
+                                                                while ($rowUom = $qrUom->fetch_assoc()) {
+                                                                    if ($rowUom['Id'] == $rowFrm['UomId']) $sel = 'selected';
+                                                                    else $sel = '';
+                                                                    echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowUom['Name']) . '</option>';
+                                                                }
 
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <label for="Paid">Paid</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="paid" required value="<?php // echo ''.$rowFrm['Paid'].'' ?>">
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label for="Payment Status">Payment Status</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="paymentstatus">
-                                                            <?php
-                                                            $sqlCurrency = "SELECT * FROM `values` WHERE Id BETWEEN 4 AND 6";
-                                                            $qrCurrency = $conn->query($sqlCurrency);
-                                                            while ($rowCurrency = $qrCurrency->fetch_assoc()) {
-                                                                if ($rowCurrency['Id'] == $rowFrm['PaymentStatus']) $sel = 'selected';
-                                                                else $sel = '';
-                                                                echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <label for="DiscountAmount">Discount Amount</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="discount" value="<?php // echo ''.$rowFrm['DiscountAmount'].'' ?>">
-                                                    </div>
-                                                   
-                                                </div>
+                                                                ?>
+                                                            </select>
+                                                            </td>
+                                                            <td>
+                                                            <select class="form-control" style="width: 100%;" name="currency">
+                                                                    <?php
+                                                                    $sqlCurrency = "SELECT * FROM `currency` WHERE del=1";
+                                                                    $qrCurrency = $conn->query($sqlCurrency);
+                                                                    while ($rowCurrency = $qrCurrency->fetch_assoc()) {
+                                                                        if ($rowCurrency['Id'] == $rowFrm['Currency']) $sel = 'selected';
+                                                                        else $sel = '';
+                                                                        echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowCurrency['Code']) . '</option>';
+                                                                    }
 
+                                                                    ?>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" name="quantity" id="" class="form-control "></td>
+                                                            <td><input type="text" name="quantity_free" id="" class="form-control"></td>
+                                                            <td><input type="text" name="price" id="" class="form-control"></td>
+                                                            <td><input type="text" name="discount_amount" id="" class="form-control"></td>
+                                                            <td><input type="text" name="discription" id="" class="form-control"></td>
+                                                            <td><a href='javascript:void(0)' class='btn btn-danger delete-row'>-</a></td>
+                                                        </tr>
+                                                        <!-- Rows will be added here dynamically -->
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <label for="Description">Description</label>
-                                            <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="description" value="<?php // echo ''.htmlspecialchars($rowFrm['Description']).'' ?>" ><?php // echo ''.htmlspecialchars($rowFrm['Description']).'' ?></textarea>
 
                                             <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
                                             <input style="display: none;" type="text" class="form-control" name="moment_pro_id">
@@ -244,12 +212,11 @@ include ('function_pos_invoice.php');
                                                     <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
                                                     <a href="Receive-stock.php" class="btn btn-info btn-sm "> NEW </a>
                                                 ';
-                                    } elseif(isset($_REQUEST['view'])){
+                                    } elseif (isset($_REQUEST['view'])) {
                                         echo '<a href="Receive-stock-list.php" class="btn btn-info btn-sm "> Back to list </a>';
-                                    }
-                                    else {
+                                    } else {
                                         echo '
-                                            <button type="submit" class="btn btn-primary bg-gradient-info w-25" name="btnAdd">Save</button>
+                                            <button type="submit" class="btn btn-primary bg-gradient-info w-25 float-right" name="btnAdd">Save</button>
                                         ';
                                     }
                                     ?>
@@ -264,6 +231,53 @@ include ('function_pos_invoice.php');
     </div><!--content-->
     </div> <!--content-wrapper-->
     </div> <!--wrapper-->
+    <script>
+    $(document).ready(function () {
+        var i = 1;
+      $('thead').on('click', '.add-row', function () {
+        
+        i++;
+        var tr =
+        
+          "<tr>" +
+          "<th scope='row'> " +i+ "</th>" +
+          "<td>"+
+          "<select class='form-control mb-2' style='width: 100%;' name='product'>"+
+            <?php
+            $sqlPro = "SELECT * FROM `product` WHERE del=1";
+            $qrPro = $conn->query($sqlPro);
+            while ($rowPro = $qrPro->fetch_assoc()) {
+                if ($rowPro['Id'] == $rowFrm['ProductId']) $sel = 'selected';
+                else $sel = '';
+                echo '<option value="' . $rowPro['Id'] . '" ' . $sel . '>' . htmlspecialchars($rowPro['Name']) . '</option>';
+            }
+            ?>
+        "</select>"+
+          "</td>" +
+          "<td>"+
+            "<select class='custom-select '>"+
+              "<option selected>--Select--</option>"+
+              "<option value='1'>One</option>"+
+              "<option value='2'>Two</option>"+
+              "<option value='3'>Three</option>"+
+            "</select>"+
+        "</td>" +
+          "<td><input type='text' class='form-control ' name='age[]'></td>" +
+          "<td><input type='text' class='form-control' name='name[]'></td>" +
+          "<td><input type='text' class='form-control' name='birth[]'></td>" +
+          "<td><input type='text' class='form-control' name='age[]'></td>" +
+          "<td><input type='text' class='form-control' name='name[]'></td>" +
+          "<td><input type='text' class='form-control' name='birth[]'></td>" +
+          "<td><a href='javascript:void(0)' class='btn btn-danger delete-row'>-</a></td>" +
+          "</tr>";
+        $('tbody').append(tr);
+      });
+
+      $('tbody').on('click', '.delete-row', function () {
+        $(this).closest('tr').remove();
+      });
+    });
+  </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
