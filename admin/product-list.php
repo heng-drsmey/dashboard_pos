@@ -1,9 +1,5 @@
 <?php
-session_start();
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
+include('include/head.php');
 include('function_pro.php')
 ?>
 <!DOCTYPE html>
@@ -105,9 +101,11 @@ include('function_pro.php')
                                         $sqlPro = "SELECT * FROM `productsku` WHERE del=1";
                                         $item = $conn->query($sqlPro);
                                         $rowPro = $item->fetch_assoc();
+                                        
                                         ?>
                                         <?php foreach ($item as $rowPro) :
                                             $product = $conn->query("SELECT * FROM `product` WHERE Id=" . $rowPro['ProductId'])->fetch_assoc();
+                                            // $pro = $conn->query("SELECT * FROM `productsku` WHERE Id=" . $product['SkuId'])->fetch_assoc();
                                             $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPro['UomId'])->fetch_assoc();
                                             $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $product['CategoryId'])->fetch_assoc();
                                             $CreateBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $product['CreateBy'])->fetch_assoc();
@@ -135,7 +133,7 @@ include('function_pro.php')
                                                 <!-- <td><?= $rowPro['CreateAt'] ?></td> -->
                                                 <td><?= $CreateBy['Username'] ?></td>
                                                 <td>
-                                                    <a href="product.php?ProId=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                    <a href="product.php?Id=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
                                                     <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-list.php?delId=<?= $rowPro['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
