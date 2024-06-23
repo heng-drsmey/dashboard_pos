@@ -108,7 +108,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ($current_page == 'inventory.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'receive-stock.php' || $current_page == 'pos-invoice.php' || $current_page == 'stock-moment.php' ) ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStock_controller" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-warehouse"></i>
             <span>Stock Inventory</span>
@@ -117,8 +117,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="receive-stock.php">Recieve Stock</a>
                 <a class="collapse-item" href="pos-invoice.php">POS Invoice</a>
-                <a class="collapse-item" href="user-list.php">Stock Moment</a>
-                <a class="collapse-item" href="user-list.php">POS</a>
+                <a class="collapse-item" href="stock-moment.php">Stock Moment</a>
+                <!-- <a class="collapse-item" href="user-list.php">POS</a> -->
             </div>
         </div>
     </li>
@@ -137,17 +137,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </li>
 
-    <li class="nav-item <?php echo ($current_page == 'daily-sales.php') ? 'active' : ''; ?>">
+    <li class="nav-item <?php echo ($current_page == 'purchse.php' || $current_page == 'daily-sales.php' || $current_page == 'sales-by-item.php' || $current_page == 'payroll-expense.php' || $current_page == 'net-revenue.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSet1" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-file"></i>
             <span>Report</span>
         </a>
         <div id="collapseSet1" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="purchse.php">Purchase</a>
                 <a class="collapse-item" href="daily-sales.php">Daily Sales</a>
-                <a class="collapse-item" href="user-list.php">Sales Summary</a>
-                <a class="collapse-item" href="user-list.php">Sales Details</a>
-                <a class="collapse-item" href="user-list.php">Sales By Item</a>
+                <a class="collapse-item" href="sales-by-item.php">Sales By Item</a>
+                <a class="collapse-item" href="payroll-expense.php">Payroll Expense</a>
+                <a class="collapse-item" href="net-revenue.php">Net Revenue</a>
             </div>
         </div>
     </li>
