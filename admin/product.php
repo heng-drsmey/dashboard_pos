@@ -1,9 +1,5 @@
 <?php
-session_start();
-include('cn.php');
-if (!isset($_SESSION['session'])) {
-    header("location: login.php");
-}
+include('include/head.php');
 include('function_Pro.php');
 ?>
 
@@ -57,22 +53,27 @@ include('function_Pro.php');
                     addProduct();
                     // call data for update
                     if (isset($_REQUEST['Id'])) {
-                        $productId = $_REQUEST['Id'];                                   
-                        // update();
-                        $rowFrm = $conn->query("SELECT * FROM `productsku` WHERE Id=$productId")->fetch_assoc();
+                        $pro = $_REQUEST['Id'];                                   
+                        UpdateProduct();
+                        $rowProduct = $conn->query("SELECT * FROM `product` WHERE Id=$pro")->fetch_assoc();
                         // $pro = $conn->query("SELECT * FROM `product` WHERE Id=" . $productId['ProductId'])->fetch_assoc();
                     } else {
-                        $rowFrm = array("Name" => "", "Code" => "", "Remark" => "",);
+                        $rowProduct = array("ProCode" => "", "CategoryId" => "", "SkuId" => "","Name" => "","Description" => "","Status" => "","Image" => "","CreateBy" => "");
                     }
                     ?>
+                    <pre>
+                    <?php
+                        //var_dump($rowProduct);
+                    ?>
+                    </pre>
 
                     <div class="row">
                         <div class="col-8">
                             <div class="card-body">
                                 <label for="Code">code</label>
-                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" required value="<?php // echo '' . $ProId['Code'] . '' ?>">
+                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" required value="<?php  echo '' . htmlspecialchars($rowProduct['ProCode']) . '' ?>">
                                 <label for="Name">Name</label>
-                                <input type="text" class="form-control mb-2 border-left-danger" name="txtname" required value="<?php //echo '' . htmlspecialchars($rowFrm['ProductId']) . '' ?>">
+                                <input type="text" class="form-control mb-2 border-left-danger" name="txtname" required value="<?php echo '' . htmlspecialchars($rowProduct['Name']) . '' ?>">
                                 
                                 <label for="Category">Category</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcategory">
@@ -80,7 +81,7 @@ include('function_Pro.php');
                                     $sqlCate = "SELECT * FROM `category` WHERE del=1";
                                     $qrCate = $conn->query($sqlCate);
                                     while ($rowCate = $qrCate->fetch_assoc()) {
-                                        if ($rowCate['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                        if ($rowCate['Id'] == $rowProduct['CategoryId']) $sel = 'selected';
                                         else $sel = '';
                                         echo '<option value="' . $rowCate['Id'] . '" ' . $sel . '>' . $rowCate['Name'] . '</option>';
                                     }
@@ -88,31 +89,35 @@ include('function_Pro.php');
                                     ?>
                                 </select>
                                 <label for="UOM">UOM</label>
-                                <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
+                                <select <?php if(isset($_REQUEST['Id'])){
+                                    echo'style="display: none;"';
+                                } ?> class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
                                     <?php
                                     $sqlUom = "SELECT * FROM `UOM` WHERE del=1";
                                     $qrUom = $conn->query($sqlUom);
                                     while ($rowUom = $qrUom->fetch_assoc()) {
-                                        if ($rowUom['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                        if ($rowUom['Id'] == $rowProduct['Uom']) $sel = 'selected';
                                         else $sel = '';
                                         echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
                                     }
 
                                     ?>
                                 </select>
-                                <div class="row">
-                                    <div class="col-6">
+                                <div class="row" <?php if(isset($_REQUEST['Id'])){
+                                    echo'style="display: none;"';
+                                } ?> >
+                                    <div class="col-6" >
                                         <label for="Price">Price</label>
-                                        <input type="number" class="form-control mb-2 border-left-danger" name="txtprice">
+                                        <input type="number" class="form-control mb-2 border-left-danger" name="txtprice" value="<?php // echo '' . htmlspecialchars($rowProduct['Price']) . '' ?>">
                                     </div>
                                     <div class="col-6">
-                                        <label for="Currency">Currency</label>
+                                        <label  for="Currency">Currency</label>
                                         <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcurrency">
                                             <?php
                                             $sqlCurrency = "SELECT * FROM `currency` WHERE del=1";
                                             $qrCurrency = $conn->query($sqlCurrency);
                                             while ($rowCurrency = $qrCurrency->fetch_assoc()) {
-                                                if ($rowCurrency['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                                if ($rowCurrency['Id'] == $rowProduct['Currency']) $sel = 'selected';
                                                 else $sel = '';
                                                 echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Code'] . '</option>';
                                             }
@@ -123,14 +128,14 @@ include('function_Pro.php');
                                 </div>
                                 <label for="Description">Description</label>
                                 <!-- <input type="text" class="form-control mb-2 " name="txtdescription"> -->
-                                <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="txtdescription"></textarea>
+                                <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="txtdescription" value="<?php echo '' . htmlspecialchars($rowProduct['Description']) . '' ?>"><?php echo '' . htmlspecialchars($rowProduct['Description']) . '' ?></textarea>
                                 <label for="CreateBy">CreateBy</label>
                                 <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtcreateby">
                                     <?php
                                     $sqlUser = "SELECT * FROM `user` WHERE del=1";
                                     $qrUser = $conn->query($sqlUser);
                                     while ($rowUser = $qrUser->fetch_assoc()) {
-                                        if ($rowUser['Id'] == $rowFrm['Id']) $sel = 'selected';
+                                        if ($rowUser['Id'] == $rowProduct['CreateBy']) $sel = 'selected';
                                         else $sel = '';
                                         echo '<option value="' . $rowUser['Id'] . '" ' . $sel . '>' . $rowUser['Username'] . '</option>';
                                     }
@@ -139,10 +144,10 @@ include('function_Pro.php');
                                 </select>
 
                                 <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
-                                <div class="form-check form-switch ms-4 mt-3">
+                                <!-- <div class="form-check form-switch ms-4 mt-3">
                                     <input class="form-check-input" type="checkbox" role="switch" id="status" name="txtstatus">
                                     <label class="form-check-label mb-2" for="status">Disable</label>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -150,13 +155,18 @@ include('function_Pro.php');
                         <div class="col-lg-4 d-flex align-items-top justify-content-top">
                             <div class=" mb-4 p-3 text center ">
                                 <div class="con-input-file">
-                                    <button onclick="handleClickRemove()" class="remove-image">
+                                    <div onclick="handleClickRemove()" class="remove-image">
                                         <i class="fa-regular fa-circle-xmark"></i>
-                                    </button>
+                                </div>
                                     <div class="con-bg">
                                         <img class="bg" src="" alt="">
                                     </div>
                                     <div class="img-1">
+                                    <?php
+                                    if (!empty($rowProduct['Image'])) {
+                                        echo '<img class="image" id="productimage" src="./ImageProduct/' . htmlspecialchars($rowProduct['Image']) . '" alt="productimag" width="200px">';
+                                    } else {
+                                    ?>
                                         <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <linearGradient id="lg1">
                                                 <stop offset="0" stop-color="#cdec7a" />
@@ -209,6 +219,9 @@ include('function_Pro.php');
                                                 <circle cx="137.225" cy="157.919" fill="url(#SVGID_10_)" r="40.219" />
                                             </g>
                                         </svg>
+                                    <?php
+                                    }
+                                    ?>
                                     </div>
                                     <div class="img-2">
                                         <div class="square-1"></div>
@@ -221,11 +234,12 @@ include('function_Pro.php');
                                     </div class="d-flex justify-content-center">
                                     <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="txtImage">
                                 </div>
+                                    
                                 <?php
                                 if (isset($_REQUEST['Id'])) {
                                     echo '
                                         <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnUpdate">
-                                            <a href="product-add.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                            <a href="product.php" class="btn btn-info btn-sm mt-5"> NEW </a>
                                         ';
                                 } else {
                                     echo '
