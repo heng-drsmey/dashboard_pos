@@ -2,22 +2,25 @@
 ---Module
     +Dashboard
     +Product
-        -product add on uom
-        -Add product
-        -Product list
-        -Unit of Measure
+        -product add on uom             -done (add, update, delete)
+        -Add product                    -done (add, update)
+        -Product list                   -done (view)
+        -Unit of Measure                -done(add, update, delete)
     +Inventory
+        -Receive stock
+        -POS Invoice
+        -Stock Moment
     +Report
+        -Purchase
         -Daily Sales
-        -Sales Summary
-        -Sales Details
         -Sales By Item
+        -Payroll expense (Payroll by employee, total of month)
+        -Net Revenue (Total sale - (Purchase Inv + Payroll expense))
     +Setting
-        -User list
-        -Table
-        -Role
-        -Currency
-        -Paymeth Method
+      ** Feature                **Status
+        -User list                  -done
+        -Table                      -done
+        -Role                       -done
+        -Currency                   -done
+        -Paymeth Method             -done
 
-add columm logo on outlet
-ALTER TABLE `outlet` ADD `Logo` VARCHAR(255) NULL AFTER `Address`;
