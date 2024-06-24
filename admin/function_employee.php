@@ -113,7 +113,7 @@ function employee_update() {
         $employeeimage = $_FILES['employeeimage']['name'];
         $employeeimageTmp = $_FILES['employeeimage']['tmp_name'];
         $currentdate = date("Y_m_d_H_i_s");
-        $updateat = $conn->real_escape_string($_REQUEST['updateat']);
+        $updateat = isset($_REQUEST['updateat']) ? $conn->real_escape_string($_REQUEST['updateat']) : '';
         $update = $updateat . $currentdate;
         $employeenewimage = $currentdate . '_' . rand() . '_' . $employeeimage;
 
@@ -163,6 +163,55 @@ function employee_update() {
                     });
                   </script>';
         }
+    }
+}
+
+// delete employee
+function employee_delete() {
+    global $conn;
+    if(isset($_GET['delId'])) {
+        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+
+        // List of tables and the corresponding foreign key column that reference the company ID
+        $foreignTables = [
+            'employeepayroll' => 'EmployeeId',
+            'employeereviewsalary' => 'EmployeeId',
+            'user' => 'EmployeeId',
+            // Add more tables and their foreign key columns here
+        ];
+        $canDelete = true;
+        foreach ($foreignTables as $table => $column) {
+            $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
+            $resultForeignKey = $conn->query($checkForeignKey);
+            $rowForeignKey = $resultForeignKey->fetch_assoc();
+
+            if($rowForeignKey['count'] > 0) {
+                $canDelete = false;
+                break;
+            }
+        }
+        if ($canDelete) {
+            $sqlemployeedelete = "UPDATE `employee` SET `del` = 0 WHERE `Id` = '$delId'";
+            if($conn->query($sqlemployeedelete) === TRUE) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                        <strong>Delete Success.</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>';
+            }else {
+                echo "Error deleting record: " . $conn->error;
+            }
+        }else {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-danger">
+                    <strong>Cannot delete employee. It is being referenced in other records.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
+        }
+    }else {
+        echo "";
     }
 }
 ?>

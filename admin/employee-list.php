@@ -58,7 +58,7 @@ include('function_employee.php');
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Employees List</h1>
-                        <a href="emp-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
+                        <a href="employee-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -78,6 +78,10 @@ include('function_employee.php');
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    <?php
+                                        include('confirm_delete.php');
+                                        employee_delete();
+                                    ?>
                                     <tbody>
                                         <!-- view data in table -->
                                         <?php
@@ -110,8 +114,8 @@ include('function_employee.php');
                                             </td>
                                             <td>
                                                 <a href="employee-add.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                <a href="company-information.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="company-list.php?delId=<?= $rowemployee['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                <a href="employee-information.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="employee-list.php?delId=<?= $rowemployee['Id'] ?>"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                         <?php

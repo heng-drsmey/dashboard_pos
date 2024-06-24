@@ -1,8 +1,53 @@
 <?php
 include('include/head.php');
+include('cn.php'); // Include your database connection
 
-// include call function-employee.php
-include('function_employee.php');
+// Initialize an empty array for the employee data
+$employee = array(
+    "Id" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
+    "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
+    "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
+    "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
+    "Image" => "", "Status" => ""
+);
+
+// Check if the `Id` parameter is set and valid
+if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
+    $employeeid = $conn->real_escape_string($_REQUEST['Id']);
+    
+    // Fetch the employee data
+    $result = $conn->query("SELECT * FROM `employee` WHERE `Id` = '$employeeid'");
+
+    if ($result && $result->num_rows > 0) {
+        $employee = $result->fetch_assoc();
+    } else {
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    swal({
+                        title: "Error",
+                        text: "Failed to fetch employee data. Please try again.",
+                        icon: "error"
+                    }).then(function() {
+                        window.location = "employee-list.php";
+                    });
+                });
+            </script>';
+        exit();
+    }
+} else {
+    echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                swal({
+                    title: "Error",
+                    text: "Invalid employeee ID.",
+                    icon: "error"
+                }).then(function() {
+                    window.location = "employee-list.php";
+                });
+            });
+        </script>';
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +104,7 @@ include('function_employee.php');
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <!-- Page Heading //change status add company if click button edit view edit company-->
-                        <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Employee' : 'Add Employee'; ?></h1>
+                        <h1 class="h3 mb-4 text-gray-800">Employee Information</h1>
                         <a href="employee-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Employees List</a>
                     </div>
 
@@ -71,41 +116,6 @@ include('function_employee.php');
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <form action="employee-add.php" method="post" enctype="multipart/form-data">
-                                        <?php
-                                            // Call function employee insert
-                                            employee_insert();
-                                            // Initialize an empty array for the form data
-                                            $rowFrm = array(
-                                                "Id" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
-                                                "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
-                                                "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
-                                                "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
-                                                "Image" => "", "Status" => ""
-                                            );
-                                            // check if the `Id` parameter is set and valid
-                                            if(isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
-                                               $employeeid = $conn->real_escape_string($_REQUEST['Id']);
-                                               // Call the employee update function if needed
-                                               employee_update();
-                                               // Fetch the employee data for update
-                                               $result = $conn->query("SELECT * FROM `employee` WHERE `Id` = '$employeeid'");
-                                               if ($result && $result->num_rows > 0) {
-                                                    $rowFrm = $result->fetch_assoc();
-                                                } else {
-                                                    echo '<script>
-                                                            document.addEventListener("DOMContentLoaded", function() {
-                                                                swal({
-                                                                    title: "Error",
-                                                                    text: "Failed to fetch employee data. Please try again.",
-                                                                    icon: "error"
-                                                                }).then(function() {
-                                                                    window.location = "employee-list.php";
-                                                                });
-                                                            });
-                                                        </script>';
-                                                }
-                                            }
-                                        ?>
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="row">
@@ -113,27 +123,26 @@ include('function_employee.php');
                                                     <hr style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
                                                         <!-- first name -->
                                                     <div class="col-3">
-                                                        <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
                                                         <label for="firstname">First Name</label>
-                                                        <input type="text" class="form-control border-left-danger" id="firstname" name="firstname" value="<?php echo htmlspecialchars($rowFrm['Firstname']); ?>" required>
+                                                        <input type="text" class="form-control border-left-danger" id="firstname" name="firstname" value="<?php echo htmlspecialchars($employee['Firstname']); ?>" readonly>
                                                     </div>
                                                         <!-- last name -->
                                                     <div class="col-3">
                                                         <label for="lastname">Last Name</label>
-                                                        <input type="text" class="form-control border-left-danger" id="lastname" name="lastname" value="<?php echo htmlspecialchars($rowFrm['Lastname']); ?>" required>
+                                                        <input type="text" class="form-control border-left-danger" id="lastname" name="lastname" value="<?php echo htmlspecialchars($employee['Lastname']); ?>" readonly>
                                                     </div>
                                                         <!-- gender -->
                                                     <div class="col-3">
                                                         <label for="gender">Gender</label>
-                                                        <select class="form-control mb-2" name="gender" id="gender">
-                                                            <option value="female" <?php echo ($rowFrm['Gender'] == 'female') ? 'selected' : ''; ?>>Female</option>
-                                                            <option value="male" <?php echo ($rowFrm['Gender'] == 'male') ? 'selected' : ''; ?>>Male</option>
+                                                        <select class="form-control mb-2" name="gender" id="gender" readonly>
+                                                            <option value="female" <?php echo ($employee['Gender'] == 'female') ? 'selected' : ''; ?>>Female</option>
+                                                            <option value="male" <?php echo ($employee['Gender'] == 'male') ? 'selected' : ''; ?>>Male</option>
                                                         </select>
                                                     </div>
                                                         <!-- date of birth -->
                                                     <div class="col-3">
                                                         <label for="dateofbirth">Date of Birth</label>
-                                                        <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($rowFrm['Dob']); ?>">
+                                                        <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($employee['Dob']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -141,12 +150,12 @@ include('function_employee.php');
                                                         <!-- nationality -->
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
-                                                        <select class="form-control mb-2" name="nationality" id="nationality">
+                                                        <select class="form-control mb-2" name="nationality" id="nationality" readonly>
                                                             <?php
                                                                 $sqlnationality = "SELECT * FROM `nationality` WHERE del=1";
                                                                 $qrnationality = $conn->query($sqlnationality);
                                                                 while ($rownationality = $qrnationality->fetch_assoc()){
-                                                                    $sel = ($rownationality['Id'] == $rowFrm['Nation']) ? 'selected' : '';
+                                                                    $sel = ($rownationality['Id'] == $employee['Nation']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rownationality['Id']) .'" ' . $sel . '>' . htmlspecialchars($rownationality['Nation']) . '</option>';
                                                                 }
                                                             ?>
@@ -155,20 +164,20 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- marital Status -->
                                                         <label for="marital">Marital Status</label>
-                                                        <select class="form-control mb-2" name="marital" id="marital">
-                                                            <option value="single" <?php echo ($rowFrm['Marital'] == 'single') ? 'selected' : ''; ?>>Single</option>
-                                                            <option value="married" <?php echo ($rowFrm['Marital'] == 'married') ? 'selected' : ''; ?>>Married</option>
+                                                        <select class="form-control mb-2" name="marital" id="marital" readonly>
+                                                            <option value="single" <?php echo ($employee['Marital'] == 'single') ? 'selected' : ''; ?>>Single</option>
+                                                            <option value="married" <?php echo ($employee['Marital'] == 'married') ? 'selected' : ''; ?>>Married</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- email -->
                                                         <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($rowFrm['Email']); ?>">
+                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($employee['Email']); ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- telephone -->
                                                         <label for="telephone">Telephone</label>
-                                                        <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Tel']); ?>">
+                                                        <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($employee['Tel']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -176,7 +185,7 @@ include('function_employee.php');
                                                     <div class="col-12">
                                                             <!-- address -->
                                                         <label for="address">Address</label>
-                                                        <input type="textarea" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address']); ?>">
+                                                        <input type="textarea" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($employee['Address']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -186,12 +195,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- branch -->
                                                         <label for="branch">Branch</label>
-                                                        <select class="form-control mb-2" name="branch" id="branch">
+                                                        <select class="form-control mb-2" name="branch" id="branch" readonly>
                                                             <?php
                                                                 $sqlbranch = "SELECT * FROM `outlet` WHERE del=1";
                                                                 $qrbranch = $conn->query($sqlbranch);
                                                                 while ($rowbranch = $qrbranch->fetch_assoc()){
-                                                                    $sel = ($rowbranch['Id'] == $rowFrm['OutletId']) ? 'selected' : '';
+                                                                    $sel = ($rowbranch['Id'] == $employee['OutletId']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rowbranch['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbranch['Name']) . '</option>';
                                                                 }
                                                             ?>
@@ -200,12 +209,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- positions -->
                                                         <label for="positions">Positions</label>
-                                                        <select class="form-control mb-2" name="positions" id="positions">
+                                                        <select class="form-control mb-2" name="positions" id="positions" readonly>
                                                             <?php
                                                                 $sqlpositions = "SELECT * FROM `positions` WHERE del=1";
                                                                 $qrpositions = $conn->query($sqlpositions);
                                                                 while ($rowpositions = $qrpositions->fetch_assoc()){
-                                                                    $sel = ($rowpositions['Id'] == $rowFrm['Position']) ? 'selected' : '';
+                                                                    $sel = ($rowpositions['Id'] == $employee['Position']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rowpositions['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowpositions['Positions']) . '</option>';
                                                                 }
                                                             ?>
@@ -214,12 +223,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- employee type -->
                                                         <label for="employeetype">Employee Type</label>
-                                                        <select class="form-control mb-2" name="employeetype" id="employeetype">
+                                                        <select class="form-control mb-2" name="employeetype" id="employeetype" readonly>
                                                             <?php
                                                                 $sqlemptype = "SELECT * FROM `employeetype` WHERE del=1";
                                                                 $qremptype = $conn->query($sqlemptype);
                                                                 while ($rowemptype = $qremptype->fetch_assoc()){
-                                                                    $sel = ($rowemptype['Id'] == $rowFrm['EmployeeType']) ? 'selected' : '';
+                                                                    $sel = ($rowemptype['Id'] == $employee['EmployeeType']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rowemptype['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowemptype['EmployeeType']) . '</option>';
                                                                 }
                                                             ?>
@@ -228,7 +237,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- join date -->
                                                         <label for="joindate">Join Date</label>
-                                                        <input type="date" class="form-control" id="joindate" name="joindate" value="<?php echo htmlspecialchars($rowFrm['JoinAT']); ?>">
+                                                        <input type="date" class="form-control" id="joindate" name="joindate" value="<?php echo htmlspecialchars($employee['JoinAT']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -236,12 +245,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- resign date -->
                                                         <label for="resigndate">Resign Date</label>
-                                                        <input type="date" class="form-control" id="resigndate" name="resigndate" value="<?php echo htmlspecialchars($rowFrm['ResignAt']); ?>">
+                                                        <input type="date" class="form-control" id="resigndate" name="resigndate" value="<?php echo htmlspecialchars($employee['ResignAt']); ?>" readonly>
                                                     </div>
                                                     <div class="col-9">
                                                             <!-- reason resgin -->
                                                         <label for="reasonresign">Reason Resign</label>
-                                                        <input type="textarea" class="form-control" id="reasonresign" name="reasonresign" value="<?php echo htmlspecialchars($rowFrm['ReasonResign']); ?>">
+                                                        <input type="textarea" class="form-control" id="reasonresign" name="reasonresign" value="<?php echo htmlspecialchars($employee['ReasonResign']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -251,13 +260,13 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- bank -->
                                                         <label for="bank">Bank</label>
-                                                        <select class="form-control mb-2" name="bank" id="bank">
+                                                        <select class="form-control mb-2" name="bank" id="bank" readonly>
                                                             <option value=""></option>
                                                             <?php
                                                                 $sqlbank = "SELECT * FROM `bank` WHERE del=1";
                                                                 $qrbank = $conn->query($sqlbank);
                                                                 while ($rowbank = $qrbank->fetch_assoc()){
-                                                                    $sel = ($rowbank['Id'] == $rowFrm['Bank']) ? 'selected' : '';
+                                                                    $sel = ($rowbank['Id'] == $employee['Bank']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rowbank['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbank['Bank']) . '</option>';
                                                                 }
                                                             ?>
@@ -266,17 +275,17 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- account name -->
                                                         <label for="accountname">Account Name</label>
-                                                        <input type="text" class="form-control" id="accountname" name="accountname" value="<?php echo htmlspecialchars($rowFrm['AccountName']); ?>">
+                                                        <input type="text" class="form-control" id="accountname" name="accountname" value="<?php echo htmlspecialchars($employee['AccountName']); ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account number -->
                                                         <label for="accountnumber">Account Number</label>
-                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber" value="<?php echo htmlspecialchars($rowFrm['AccountNumber']); ?>">
+                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber" value="<?php echo htmlspecialchars($employee['AccountNumber']); ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- ID card -->
                                                         <label for="idcard">ID Card</label>
-                                                        <input type="text" class="form-control" id="idcard" name="idcard" value="<?php echo htmlspecialchars($rowFrm['IdCard']); ?>">
+                                                        <input type="text" class="form-control" id="idcard" name="idcard" value="<?php echo htmlspecialchars($employee['IdCard']); ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <!-- div class row group -->
@@ -284,13 +293,13 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- currency -->
                                                         <label for="currency">Currency</label>
-                                                        <select class="form-control mb-2" name="currency" id="currency">
+                                                        <select class="form-control mb-2" name="currency" id="currency" readonly>
                                                             <option value=""></option>
                                                             <?php
                                                                 $sqlcurrency = "SELECT * FROM `currency` WHERE del=1";
                                                                 $qrcurrency = $conn->query($sqlcurrency);
                                                                 while ($rowcurrency = $qrcurrency->fetch_assoc()){
-                                                                    $sel = ($rowcurrency['Id'] == $rowFrm['Currency']) ? 'selected' : '';
+                                                                    $sel = ($rowcurrency['Id'] == $employee['Currency']) ? 'selected' : '';
                                                                     echo '<option value="' .htmlspecialchars($rowcurrency['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowcurrency['Name']) . '</option>';
                                                                 }
                                                             ?>
@@ -299,26 +308,34 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- salary -->
                                                         <label for="salary">Salary</label>
-                                                        <input type="text" class="form-control" id="salary" name="salary" value="<?php echo htmlspecialchars($rowFrm['Salary']); ?>">
+                                                        <input type="text" class="form-control" id="salary" name="salary" value="<?php echo htmlspecialchars($employee['Salary']); ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- create by -->
                                                         <label for="createby">Created By</label>
-                                                        <select class="form-control form-select-sm" id="createby" name="createby">
-                                                        <!-- select user view in input createby-->
-                                                        <?php
-                                                            $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
-                                                            $qrcreateby = $conn->query($sqlcreateby);
-                                                            while ($rowcreateby = $qrcreateby->fetch_assoc()) {
-                                                                $sel = ($rowcreateby['Id'] == $rowFrm['CreateBy']) ? 'selected' : '';
-                                                                echo '<option value="' . htmlspecialchars($rowcreateby['Id']) . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username']) . '</option>';
-                                                            }
-                                                        ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" id="createby" name="createby" value="<?php
+                                                                $createById = $employee['CreateBy'];
+                                                                $sqlcreateby = "SELECT `Username` FROM `user` WHERE `Id` = '$createById'";
+                                                                $qrcreateby = $conn->query($sqlcreateby);
+                                                                if ($qrcreateby && $qrcreateby->num_rows > 0) {
+                                                                    $rowcreateby = $qrcreateby->fetch_assoc();
+                                                                    echo htmlspecialchars($rowcreateby['Username']);
+                                                                }
+                                                            ?>" readonly>
                                                     </div>
+                                                    <!-- Create at -->
                                                     <div class="col-3">
+                                                        <label for="createat">Create At</label>
+                                                        <input type="text" class="form-control" id="createat" name="createat" value="<?php echo htmlspecialchars($employee['CreateAt']); ?>" readonly>
+                                                    </div>
+                                                    <!-- Update at -->
+                                                    <div class="col-3">
+                                                        <label for="updateat">Update At</label>
+                                                        <input type="text" class="form-control" id="updateat" name="updateat" value="<?php echo htmlspecialchars($employee['UpdateAt']); ?>" readonly>
+                                                    </div>
+                                                    <div class="col-9">
                                                         <label for="remark">Remark</label>
-                                                        <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($rowFrm['Remark']); ?>">
+                                                        <input type="textarea" class="form-control" id="remark" name="remark" value="<?php echo htmlspecialchars($employee['Remark']); ?>" readonly>
                                                     </div>
                                                         <!-- Disable Checkbox -->
                                                     <div class="form-check form-switch ms-4 mt-3">
@@ -341,8 +358,8 @@ include('function_employee.php');
                                                         </div>
                                                         <div class="img-1">
                                                             <?php
-                                                            if (!empty($rowFrm['Image'])) {
-                                                                echo '<img class="image" id="employeeimage" src="./ImageEmployee/' . htmlspecialchars($rowFrm['Image']) . '" alt="employeeimage" width="200px">';
+                                                            if (!empty($employee['Image'])) {
+                                                                echo '<img class="image" id="employeeimage" src="./ImageEmployee/' . htmlspecialchars($employee['Image']) . '" alt="employeeimage" width="200px">';
                                                             } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -401,26 +418,6 @@ include('function_employee.php');
                                                             }
                                                             ?>
                                                         </div>
-                                                        <div class="img-2">
-                                                            <div class="square-1"></div>
-                                                        </div>
-                                                        <div class="img-3">
-                                                            <div class="square-2"></div>
-                                                        </div>
-                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="employeeimage" id="">
-                                                    </div>
-                                                    <?php
-                                                        if (isset($_REQUEST['Id'])) {
-                                                            echo '
-                                                                <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5 " name="btnupdate">
-                                                                <a href="employee-add.php" class="btn btn-info btn-sm mt-5"> New </a>
-                                                            ';
-                                                        } else {
-                                                            echo '
-                                                                <button type="submit" class="btn btn-primary btn-sm mt-5 w-100" name="btnsave">Save</button>
-                                                                ';
-                                                        }
-                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
