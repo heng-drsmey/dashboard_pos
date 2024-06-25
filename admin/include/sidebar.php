@@ -160,11 +160,37 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseSet" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="user-list.php">User List</a>
-                <a class="collapse-item" href="table.php">Table</a>
-                <a class="collapse-item" href="role.php">Role</a>
-                <a class="collapse-item" href="payment-method.php">Payment Method</a>
                 <a class="collapse-item" href="currency.php">Currency</a>
+                    <!-- <ul id="accordionSidebar">
+                        <li class="nav-item <?php echo ($current_page == 'employee-list.php' || $current_page == 'employee-list.php' || $current_page == 'employee-list.php') || $current_page == 'employee-list.php' ? 'active' : ''; ?>">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSet" aria-expanded="true" aria-controls="collapseUtilities">
+                                <span>Employee</span>
+                            </a>
+                            <div id="collapseSet" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" href="employee-list.php">Bank</a>
+                                    <a class="collapse-item" href="employee-list.php">Employee Type</a>
+                                    <a class="collapse-item" href="employee-list.php">Nationality</a>
+                                    <a class="collapse-item" href="employee-list.php">Positions</a>  
+                                </div>
+                            </div>
+                        </li>
+                    </ul>                    -->
+                    <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseEmployee" aria-expanded="true" aria-controls="collapseEmployee">
+                        <span>Employee</span>
+                    </a>
+                    <div id="collapseEmployee" class="collapse <?php echo ($current_page == 'bank.php' || $current_page == 'employee-type.php' || $current_page == 'nationality.php' || $current_page == 'positions.php') ? 'show' : ''; ?>" aria-labelledby="headingEmployee" data-parent="#collapseSet">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item <?php echo ($current_page == 'bank.php') ? 'active' : ''; ?>" href="bank.php">Bank</a>
+                            <a class="collapse-item <?php echo ($current_page == 'employee-type.php') ? 'active' : ''; ?>" href="employee-type.php">Employee Type</a>
+                            <a class="collapse-item <?php echo ($current_page == 'nationality.php') ? 'active' : ''; ?>" href="nationality.php">Nationality</a>
+                            <a class="collapse-item <?php echo ($current_page == 'positions.php') ? 'active' : ''; ?>" href="positions.php">Positions</a>
+                        </div>
+                    </div>
+                <a class="collapse-item" href="payment-method.php">Payment Method</a>
+                <a class="collapse-item" href="role.php">Role</a>
+                <a class="collapse-item" href="table.php">Table</a>
+                <a class="collapse-item" href="user-list.php">User List</a>
             </div>
         </div>
     </li>

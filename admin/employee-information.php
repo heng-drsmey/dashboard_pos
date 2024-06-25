@@ -134,10 +134,7 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                         <!-- gender -->
                                                     <div class="col-3">
                                                         <label for="gender">Gender</label>
-                                                        <select class="form-control mb-2" name="gender" id="gender" readonly>
-                                                            <option value="female" <?php echo ($employee['Gender'] == 'female') ? 'selected' : ''; ?>>Female</option>
-                                                            <option value="male" <?php echo ($employee['Gender'] == 'male') ? 'selected' : ''; ?>>Male</option>
-                                                        </select>
+                                                        <input type="text" class="form-control" id="gender" name="gender" value="<?php echo htmlspecialchars($employee['Gender']); ?>" readonly>
                                                     </div>
                                                         <!-- date of birth -->
                                                     <div class="col-3">
@@ -150,24 +147,20 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                         <!-- nationality -->
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
-                                                        <select class="form-control mb-2" name="nationality" id="nationality" readonly>
-                                                            <?php
-                                                                $sqlnationality = "SELECT * FROM `nationality` WHERE del=1";
-                                                                $qrnationality = $conn->query($sqlnationality);
-                                                                while ($rownationality = $qrnationality->fetch_assoc()){
-                                                                    $sel = ($rownationality['Id'] == $employee['Nation']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rownationality['Id']) .'" ' . $sel . '>' . htmlspecialchars($rownationality['Nation']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="nationality" id="nationality" value="<?php
+                                                            $nationalityId = $employee['Nation'];
+                                                            $sqlnationality = "SELECT `Nation` FROM `nationality` WHERE `Id` = '$nationalityId'";
+                                                            $qrnationality = $conn->query($sqlnationality);
+                                                            if ($qrnationality && $qrnationality->num_rows > 0) {
+                                                                $rownationality = $qrnationality->fetch_assoc();
+                                                                echo htmlspecialchars($rownationality['Nation']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- marital Status -->
                                                         <label for="marital">Marital Status</label>
-                                                        <select class="form-control mb-2" name="marital" id="marital" readonly>
-                                                            <option value="single" <?php echo ($employee['Marital'] == 'single') ? 'selected' : ''; ?>>Single</option>
-                                                            <option value="married" <?php echo ($employee['Marital'] == 'married') ? 'selected' : ''; ?>>Married</option>
-                                                        </select>
+                                                        <input type="text" class="form-control" id="marital" name="marital" value="<?php echo htmlspecialchars($employee['Marital']); ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- email -->
@@ -195,44 +188,41 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                     <div class="col-3">
                                                             <!-- branch -->
                                                         <label for="branch">Branch</label>
-                                                        <select class="form-control mb-2" name="branch" id="branch" readonly>
-                                                            <?php
-                                                                $sqlbranch = "SELECT * FROM `outlet` WHERE del=1";
-                                                                $qrbranch = $conn->query($sqlbranch);
-                                                                while ($rowbranch = $qrbranch->fetch_assoc()){
-                                                                    $sel = ($rowbranch['Id'] == $employee['OutletId']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rowbranch['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbranch['Name']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="branch" id="branch" value="<?php
+                                                            $branchId = $employee['OutletId'];
+                                                            $sqlbranch = "SELECT `Name` FROM `outlet` WHERE `Id` = '$branchId'";
+                                                            $qrbranch = $conn->query($sqlbranch);
+                                                            if ($qrbranch && $qrbranch->num_rows > 0) {
+                                                                $rowbranch = $qrbranch->fetch_assoc();
+                                                                echo htmlspecialchars($rowbranch['Name']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- positions -->
                                                         <label for="positions">Positions</label>
-                                                        <select class="form-control mb-2" name="positions" id="positions" readonly>
-                                                            <?php
-                                                                $sqlpositions = "SELECT * FROM `positions` WHERE del=1";
-                                                                $qrpositions = $conn->query($sqlpositions);
-                                                                while ($rowpositions = $qrpositions->fetch_assoc()){
-                                                                    $sel = ($rowpositions['Id'] == $employee['Position']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rowpositions['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowpositions['Positions']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="positions" id="positions" value="<?php
+                                                            $positionsId = $employee['Position'];
+                                                            $sqlpositions = "SELECT `Positions` FROM `positions` WHERE `Id` = '$positionsId'";
+                                                            $qrpositions = $conn->query($sqlpositions);
+                                                            if ($qrpositions && $qrpositions->num_rows > 0) {
+                                                                $rowpositions = $qrpositions->fetch_assoc();
+                                                                echo htmlspecialchars($rowpositions['Positions']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- employee type -->
                                                         <label for="employeetype">Employee Type</label>
-                                                        <select class="form-control mb-2" name="employeetype" id="employeetype" readonly>
-                                                            <?php
-                                                                $sqlemptype = "SELECT * FROM `employeetype` WHERE del=1";
-                                                                $qremptype = $conn->query($sqlemptype);
-                                                                while ($rowemptype = $qremptype->fetch_assoc()){
-                                                                    $sel = ($rowemptype['Id'] == $employee['EmployeeType']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rowemptype['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowemptype['EmployeeType']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="employeetype" id="employeetype" value="<?php
+                                                            $employeetypeId = $employee['EmployeeType'];
+                                                            $sqlemployeetype = "SELECT `EmployeeType` FROM `employeetype` WHERE `Id` = '$employeetypeId'";
+                                                            $qremployeetype = $conn->query($sqlemployeetype);
+                                                            if ($qremployeetype && $qremployeetype->num_rows > 0) {
+                                                                $rowemployeetype = $qremployeetype->fetch_assoc();
+                                                                echo htmlspecialchars($rowemployeetype['EmployeeType']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- join date -->
@@ -260,17 +250,15 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                     <div class="col-3">
                                                             <!-- bank -->
                                                         <label for="bank">Bank</label>
-                                                        <select class="form-control mb-2" name="bank" id="bank" readonly>
-                                                            <option value=""></option>
-                                                            <?php
-                                                                $sqlbank = "SELECT * FROM `bank` WHERE del=1";
-                                                                $qrbank = $conn->query($sqlbank);
-                                                                while ($rowbank = $qrbank->fetch_assoc()){
-                                                                    $sel = ($rowbank['Id'] == $employee['Bank']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rowbank['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbank['Bank']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="bank" id="bank" value="<?php
+                                                            $bankId = $employee['Bank'];
+                                                            $sqlbank = "SELECT `Bank` FROM `bank` WHERE `Id` = '$bankId'";
+                                                            $qrbank = $conn->query($sqlbank);
+                                                            if ($qrbank && $qrbank->num_rows > 0) {
+                                                                $rowbank = $qrbank->fetch_assoc();
+                                                                echo htmlspecialchars($rowbank['Bank']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account name -->
@@ -293,17 +281,15 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                     <div class="col-3">
                                                             <!-- currency -->
                                                         <label for="currency">Currency</label>
-                                                        <select class="form-control mb-2" name="currency" id="currency" readonly>
-                                                            <option value=""></option>
-                                                            <?php
-                                                                $sqlcurrency = "SELECT * FROM `currency` WHERE del=1";
-                                                                $qrcurrency = $conn->query($sqlcurrency);
-                                                                while ($rowcurrency = $qrcurrency->fetch_assoc()){
-                                                                    $sel = ($rowcurrency['Id'] == $employee['Currency']) ? 'selected' : '';
-                                                                    echo '<option value="' .htmlspecialchars($rowcurrency['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowcurrency['Name']) . '</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control" name="currency" id="currency" value="<?php
+                                                            $currencyId = $employee['Currency'];
+                                                            $sqlcurrency = "SELECT `Name` FROM `currency` WHERE `Id` = '$currencyId'";
+                                                            $qrcurrency = $conn->query($sqlcurrency);
+                                                            if ($qrcurrency && $qrcurrency->num_rows > 0) {
+                                                                $rowcurrency = $qrcurrency->fetch_assoc();
+                                                                echo htmlspecialchars($rowcurrency['Name']);
+                                                            }
+                                                        ?>" readonly>
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- salary -->
