@@ -79,3 +79,15 @@ ADD FOREIGN KEY (Uom) REFERENCES `uom` (Id);
 
 
 
+ALTER TABLE `pro_moment` DROP INDEX `Pro_Out_Id`;
+ALTER TABLE `pro_moment` DROP INDEX `Pro_In_Id`;
+ALTER TABLE `pro_out` ADD `Total` DECIMAL(10,2) NULL AFTER `Qty_Out_Free`;
+ALTER TABLE `pro_out` ADD `OutletId` INT NULL AFTER `Customer`, ADD `ShiftDetailsId` INT NULL AFTER `OutletId`, ADD `PaymentMethodId` INT NULL AFTER `ShiftDetailsId`, ADD `Productsku` INT NULL AFTER `PaymentMethodId`;
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (OutletId) REFERENCES `outlet` (Id);
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (ShiftDetailsId) REFERENCES `shiftdetails` (Id);
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (PaymentMethodId) REFERENCES `paymentmethod` (Id);
+ALTER TABLE `pro_out` 
+ADD FOREIGN KEY (Productsku) REFERENCES `productsku` (Id);
