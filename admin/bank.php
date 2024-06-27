@@ -142,7 +142,10 @@ include('function_bank.php')
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>   
-
+                                                <?php
+                                                    include('confirm_delete.php');
+                                                    bank_delete();
+                                                ?>
                                             <tbody>
                                                 <?php
                                                 $sqlbank = "SELECT * FROM `bank` WHERE del=1";
@@ -230,7 +233,7 @@ include('function_bank.php')
             // Action to perform after the alert is closed
             console.log('Alert closed');
             // You can perform additional actions here, such as redirecting the user
-            window.location.href = "bankS.php";
+            window.location.href = "bank.php";
         });
 
         // Alternatively, you can automatically close the alert after some time
