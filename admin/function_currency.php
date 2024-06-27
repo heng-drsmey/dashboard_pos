@@ -40,29 +40,78 @@ function add()
   }
 }
 
-function delete()
-{
+// function delete()
+// {
+//   global $conn;
+//   if (isset($_GET['delId'])) {
+//     $Currency_id = mysqli_real_escape_string($conn, $_GET['delId']);
+//     $sqlDeletecurrency = "UPDATE `currency` SET `del`=0 WHERE `Id`='$Currency_id'";
+//     if ($conn->query($sqlDeletecurrency) == TRUE) {
+//       echo '
+//         <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+//           <strong>Delete Success.</strong>
+//           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//             <span aria-hidden="true">&times;</span>
+//           </button>
+//         </div>
+//       ';
+//     } else {
+//       echo "Error deleting record: " . $conn->error;
+//     }
+//   } else {
+//     echo "";
+//   }
+// }
+function delete(){
   global $conn;
   if (isset($_GET['delId'])) {
-    $Currency_id = mysqli_real_escape_string($conn, $_GET['delId']);
-    $sqlDeletecurrency = "UPDATE `currency` SET `del`=0 WHERE `Id`='$Currency_id'";
-    if ($conn->query($sqlDeletecurrency) == TRUE) {
-      echo '
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
-          <strong>Delete Success.</strong>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      ';
-    } else {
-      echo "Error deleting record: " . $conn->error;
-    }
+      $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+      
+      // List of tables and the corresponding foreign key column that reference the product ID
+      $foreignTables = [
+          'productsku' => 'Currency',
+          'employeepayroll' => 'Currency',
+          'employee' => 'Currency',
+          'pro_in' => 'Currency',
+          // Add more tables and their foreign key columns here
+      ];
+      
+      $canDelete = true;
+      foreach ($foreignTables as $table => $column) {
+          $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
+          $resultForeignKey = $conn->query($checkForeignKey);
+          $rowForeignKey = $resultForeignKey->fetch_assoc();
+          
+          if ($rowForeignKey['count'] > 0) {
+              $canDelete = false;
+              break;
+          }
+      }
+      
+      if ($canDelete) {
+          $sqlproductdelete = "UPDATE `currency` SET `del` = 0 WHERE `Id` = '$delId'";
+          if ($conn->query($sqlproductdelete) === TRUE) {
+              echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                      <strong>Delete Success.</strong>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>';
+          } else {
+              echo "Error deleting record: " . $conn->error;
+          }
+      } else {
+          echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-danger">
+                  <strong>Cannot delete product. It is being referenced in other records.</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>';
+      }
   } else {
-    echo "";
+      echo "";
   }
 }
-
 
 function update()
 {
