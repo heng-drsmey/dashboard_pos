@@ -164,7 +164,7 @@ include('function_Pro.php');
                                         </tfoot>
                                         <?php
                                             include('confirm_delete.php');
-                                            delete_add_uom();
+                                            // delete_add_uom();
                                         ?>
                                         <tbody>
                                             <?php
@@ -195,7 +195,7 @@ include('function_Pro.php');
                                                    
                                                     <td>
                                                         <a href="product-addOn-uom.php?Id=<?= $rowPro_add_uom['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-addOn-uom.php?delId=<?= $rowPro_add_uom['Id'] ?>"><i class="fas fa-trash"></i></button>
 
                                                     </td>
                                                 </tr>
