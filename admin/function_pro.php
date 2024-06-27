@@ -124,22 +124,70 @@ function UpdateProduct() {
     }
 }
 
+// function delete_product(){
+//     global $conn;
+//     if (isset($_GET['delId'])) {
+//         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+//         $sqlDeletePro = "UPDATE FROM `product` SET `del`=0 WHERE `Id`='$delId'";
+//         if ($conn->query($sqlDeletePro) === TRUE) {
+//             echo '
+//                 <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+//                 <strong>Delete Success.</strong>
+//                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                     <span aria-hidden="true">&times;</span>
+//                 </button>
+//                 </div>
+//             ';
+//         } else {
+//             echo "Error deleting record: " . $conn->error;
+//         }
+//     } else {
+//         echo "";
+//     }
+// }
 function delete_product(){
     global $conn;
     if (isset($_GET['delId'])) {
         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        $sqlDeletePro = "UPDATE FROM `product` SET `del`=0 WHERE `Id`='$delId'";
-        if ($conn->query($sqlDeletePro) === TRUE) {
-            echo '
-                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
-                <strong>Delete Success.</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-            ';
+        
+        // List of tables and the corresponding foreign key column that reference the product ID
+        $foreignTables = [
+            'productsku' => 'ProductId',
+            'pro_in' => 'ProId',
+            // Add more tables and their foreign key columns here
+        ];
+        
+        $canDelete = true;
+        foreach ($foreignTables as $table => $column) {
+            $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
+            $resultForeignKey = $conn->query($checkForeignKey);
+            $rowForeignKey = $resultForeignKey->fetch_assoc();
+            
+            if ($rowForeignKey['count'] > 0) {
+                $canDelete = false;
+                break;
+            }
+        }
+        
+        if ($canDelete) {
+            $sqlproductdelete = "UPDATE `product` SET `del` = 0 WHERE `Id` = '$delId'";
+            if ($conn->query($sqlproductdelete) === TRUE) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                        <strong>Delete Success.</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>';
+            } else {
+                echo "Error deleting record: " . $conn->error;
+            }
         } else {
-            echo "Error deleting record: " . $conn->error;
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-danger">
+                    <strong>Cannot delete product. It is being referenced in other records.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
         }
     } else {
         echo "";
@@ -190,27 +238,75 @@ function Product_addOn_uom()
 }
 
 // delete pro_add_on_uom
-function delete_add_uom() {
-    global $conn;
-    if (isset($_GET['delId'])) {
-        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        $sqlDelete = "UPDATE FROM `productsku` SET `del`=0 WHERE `Id`='$delId'";
-        if ($conn->query($sqlDelete) == TRUE) {
-            echo '
-                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
-                <strong>Delete Success.</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-            ';
-        } else {
-            echo "Error deleting record: " . $conn->error;
-        }
-    } else {
-        echo "";
-    }
-}
+// function delete_add_uom() {
+//     global $conn;
+//     if (isset($_GET['delId'])) {
+//         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+//         $sqlDelete = "UPDATE FROM `productsku` SET `del`=0 WHERE `Id`='$delId'";
+//         if ($conn->query($sqlDelete) === TRUE) {
+//             echo '
+//                 <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+//                 <strong>Delete Success.</strong>
+//                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                     <span aria-hidden="true">&times;</span>
+//                 </button>
+//                 </div>
+//             ';
+//         } else {
+//             echo "Error deleting record: " . $conn->error;
+//         }
+//     } else {
+//         echo "";
+//     }
+// }
+// function delete_add_uom(){
+//     global $conn;
+//     if (isset($_GET['delId'])) {
+//         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
+        
+//         // List of tables and the corresponding foreign key column that reference the product ID
+//         $foreignTables = [
+//             'productsku' => 'ProductId',
+//             'pro_in' => 'ProId',
+//             // Add more tables and their foreign key columns here
+//         ];
+        
+//         $canDelete = true;
+//         foreach ($foreignTables as $table => $column) {
+//             $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
+//             $resultForeignKey = $conn->query($checkForeignKey);
+//             $rowForeignKey = $resultForeignKey->fetch_assoc();
+            
+//             if ($rowForeignKey['count'] > 0) {
+//                 $canDelete = false;
+//                 break;
+//             }
+//         }
+        
+//         if ($canDelete) {
+//             $sqlproductdelete = "UPDATE `productsku` SET `del` = 0 WHERE `Id` = '$delId'";
+//             if ($conn->query($sqlproductdelete) === TRUE) {
+//                 echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+//                         <strong>Delete Success.</strong>
+//                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                             <span aria-hidden="true">&times;</span>
+//                         </button>
+//                     </div>';
+//             } else {
+//                 echo "Error deleting record: " . $conn->error;
+//             }
+//         } else {
+//             echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-danger">
+//                     <strong>Cannot delete product. It is being referenced in other records.</strong>
+//                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+//                         <span aria-hidden="true">&times;</span>
+//                     </button>
+//                 </div>';
+//         }
+//     } else {
+//         echo "";
+//     }
+// }
  
 // update pro_add_on_uom
 function update_add_uom() {
