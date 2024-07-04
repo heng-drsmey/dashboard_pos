@@ -4,7 +4,7 @@ include('cn.php'); // Include your database connection
 
 // Initialize an empty array for the employee data
 $employee = array(
-    "Id" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
+    "Id" => "","Code" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
     "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
     "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
     "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
@@ -121,6 +121,11 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                 <div class="row">
                                                     <h5>Employee Information</h5>
                                                     <hr style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
+                                                        <!-- code -->
+                                                    <div class="col-3">
+                                                        <label for="code">Code</label>
+                                                        <input type="text" class="form-control border-left-danger" id="code" name="code" value="<?php echo htmlspecialchars($employee['Code']); ?>" readonly>
+                                                    </div>
                                                         <!-- first name -->
                                                     <div class="col-3">
                                                         <label for="firstname">First Name</label>
@@ -136,14 +141,14 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                         <label for="gender">Gender</label>
                                                         <input type="text" class="form-control" id="gender" name="gender" value="<?php echo htmlspecialchars($employee['Gender']); ?>" readonly>
                                                     </div>
+                                                </div>
+                                                <!-- div class row group -->
+                                                <div class="row">
                                                         <!-- date of birth -->
                                                     <div class="col-3">
                                                         <label for="dateofbirth">Date of Birth</label>
                                                         <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($employee['Dob']); ?>" readonly>
                                                     </div>
-                                                </div>
-                                                <!-- div class row group -->
-                                                <div class="row">
                                                         <!-- nationality -->
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
@@ -167,15 +172,15 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                         <label for="email">Email</label>
                                                         <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($employee['Email']); ?>" readonly>
                                                     </div>
+                                                </div>
+                                                <!-- div class row group -->
+                                                <div class="row">
                                                     <div class="col-3">
                                                             <!-- telephone -->
                                                         <label for="telephone">Telephone</label>
                                                         <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($employee['Tel']); ?>" readonly>
                                                     </div>
-                                                </div>
-                                                <!-- div class row group -->
-                                                <div class="row">
-                                                    <div class="col-12">
+                                                    <div class="col-9">
                                                             <!-- address -->
                                                         <label for="address">Address</label>
                                                         <input type="textarea" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($employee['Address']); ?>" readonly>

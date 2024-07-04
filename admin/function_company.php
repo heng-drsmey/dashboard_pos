@@ -12,19 +12,19 @@ function company_insert() {
         $address = $conn->real_escape_string($_POST['address']);
         $createby = $conn->real_escape_string($_POST['createby']);
         $remark = $conn->real_escape_string($_POST['remark']);
-        $status = isset($_POST['status']) ? 1 : 0;
+        //$status = isset($_POST['status']) ? 1 : 0;
         $companyimage = $_FILES['companyimage']['name'];
         $companyimageTmp = $_FILES['companyimage']['tmp_name'];
         $currentdate = date("Y_m_d_H_i_s");
         $companynewimage = $currentdate . '_' . rand() . '_' . $companyimage;
 
         if (!empty($companyimage)) {
-            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
-                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, '$companynewimage')";
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Logo`)
+                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', '$companynewimage')";
             move_uploaded_file($companyimageTmp, './ImageCompany/' . $companynewimage);
         } else {
-            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Status`, `Logo`)
-                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 1, 'no_image.png')";
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Logo`)
+                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 'no_image.png')";
         }
 
         if ($conn->query($sqlcompanyinsert) === TRUE) {
@@ -88,15 +88,7 @@ function company_update() {
         }
 
         $sqlcompanyupdate = "UPDATE `outlet` SET 
-                        `Name`='$companyname', 
-                        `Code`='$companycode', 
-                        `Status`=1, 
-                        `Address`='$address', 
-                        $logoUpdate 
-                        `CreateBy`='$createby', 
-                        `UpdateAt`='$update', 
-                        `Remark`='$remark' 
-                      WHERE `Id`='$companyid'";
+                        `Name`='$companyname', `Code`='$companycode', `Address`='$address', $logoUpdate `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
 
         // Remove trailing comma if $logoUpdate is empty
         $sqlcompanyupdate = str_replace(", WHERE", " WHERE", $sqlcompanyupdate);

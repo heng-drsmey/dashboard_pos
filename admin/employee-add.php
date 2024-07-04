@@ -76,7 +76,7 @@ include('function_employee.php');
                                             employee_insert();
                                             // Initialize an empty array for the form data
                                             $rowFrm = array(
-                                                "Id" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
+                                                "Id" => "","Code" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
                                                 "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
                                                 "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
                                                 "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
@@ -111,9 +111,14 @@ include('function_employee.php');
                                                 <div class="row">
                                                     <h5>Employee Information</h5>
                                                     <hr style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
-                                                        <!-- first name -->
+                                                        <!-- code -->
                                                     <div class="col-3">
                                                         <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
+                                                        <label for="code">Code</label>
+                                                        <input type="text" class="form-control border-left-danger" id="code" name="code" value="<?php echo htmlspecialchars($rowFrm['Code']); ?>" required>
+                                                    </div>
+                                                        <!-- first name -->
+                                                    <div class="col-3">
                                                         <label for="firstname">First Name</label>
                                                         <input type="text" class="form-control border-left-danger" id="firstname" name="firstname" value="<?php echo htmlspecialchars($rowFrm['Firstname']); ?>" required>
                                                     </div>
@@ -130,14 +135,14 @@ include('function_employee.php');
                                                             <option value="male" <?php echo ($rowFrm['Gender'] == 'male') ? 'selected' : ''; ?>>Male</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <!-- div class row group -->
+                                                <div class="row">
                                                         <!-- date of birth -->
                                                     <div class="col-3">
                                                         <label for="dateofbirth">Date of Birth</label>
                                                         <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" value="<?php echo htmlspecialchars($rowFrm['Dob']); ?>">
                                                     </div>
-                                                </div>
-                                                <!-- div class row group -->
-                                                <div class="row">
                                                         <!-- nationality -->
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
@@ -165,15 +170,15 @@ include('function_employee.php');
                                                         <label for="email">Email</label>
                                                         <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($rowFrm['Email']); ?>">
                                                     </div>
+                                                </div>
+                                                <!-- div class row group -->
+                                                <div class="row">
                                                     <div class="col-3">
                                                             <!-- telephone -->
                                                         <label for="telephone">Telephone</label>
                                                         <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Tel']); ?>">
                                                     </div>
-                                                </div>
-                                                <!-- div class row group -->
-                                                <div class="row">
-                                                    <div class="col-12">
+                                                    <div class="col-9">
                                                             <!-- address -->
                                                         <label for="address">Address</label>
                                                         <input type="textarea" class="form-control" id="address" name="address" value="<?php echo htmlspecialchars($rowFrm['Address']); ?>">

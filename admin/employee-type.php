@@ -1,6 +1,6 @@
 <?php
 include('include/head.php');
-include('function_bank.php')
+include('function_employee_type.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@ include('function_bank.php')
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Admin - Bank</title>
+    <title> Admin - Employee Type</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -52,7 +52,7 @@ include('function_bank.php')
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bank</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Employee Type</h1>
                         <!-- <a href="Tableduct-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm" disabled><i class="fas fa-user text-white-50"></i> Add New</a> -->
                     </div>
                     <!-- DataTales -->
@@ -63,19 +63,19 @@ include('function_bank.php')
                                 <div class="col-4">
                                     <form method="post" enctype="multipart/form-data">
                                         <?php
-                                            // Call function bank insert
-                                            bank_insert();
+                                            // Call function employee type insert
+                                            employee_type_insert();
                                             // Initialize an empty array for the form data
                                             $rowFrm = array(
-                                                "Id" => "", "Bank" => "", "CreateBy" => "","Remark" => "","CreateAt" => "", "UpdateAt" => "", "Status" => ""
+                                                "Id" => "", "EmployeeType" => "", "CreateBy" => "","Remark" => "","CreateAt" => "", "UpdateAt" => "", "Status" => ""
                                             );
                                             // check if the `Id` parameter is set and valid
                                             if(isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
-                                               $bankid = $conn->real_escape_string($_REQUEST['Id']);
-                                               // Call the bank update function if needed
-                                               bank_update();
-                                               // Fetch the bank data for update
-                                               $result = $conn->query("SELECT * FROM `bank` WHERE `Id` = '$bankid'");
+                                               $employeetypeid = $conn->real_escape_string($_REQUEST['Id']);
+                                               // Call the employee type update function if needed
+                                               employee_type_update();
+                                               // Fetch the employee type data for update
+                                               $result = $conn->query("SELECT * FROM `employeetype` WHERE `Id` = '$employeetypeid'");
                                                if ($result && $result->num_rows > 0) {
                                                     $rowFrm = $result->fetch_assoc();
                                                 } else {
@@ -83,10 +83,10 @@ include('function_bank.php')
                                                             document.addEventListener("DOMContentLoaded", function() {
                                                                 swal({
                                                                     title: "Error",
-                                                                    text: "Failed to fetch bank data. Please try again.",
+                                                                    text: "Failed to fetch employee type data. Please try again.",
                                                                     icon: "error"
                                                                 }).then(function() {
-                                                                    window.location = "bank.php";
+                                                                    window.location = "employee-type.php";
                                                                 });
                                                             });
                                                         </script>';
@@ -96,8 +96,8 @@ include('function_bank.php')
                                         <div class="card shadow mb-4">
                                             <div class="card-body">
                                             <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
-                                                <label for="bank">Bank</label>
-                                                <input type="text" class="form-control border-left-danger" name="bank" value="<?php echo '' . $rowFrm['Bank'] . '' ?>" required>
+                                                <label for="employeetype">Employee Type</label>
+                                                <input type="text" class="form-control border-left-danger" name="employeetype" value="<?php echo '' . $rowFrm['EmployeeType'] . '' ?>" required>
                                                 <label for="createby">Create By</label>
                                                 <select class="form-control mb-2" style="width: 100%;" name="createby">
                                                     <?php
@@ -117,7 +117,7 @@ include('function_bank.php')
                                                 if (isset($_REQUEST['Id'])) {
                                                     echo '
                                                         <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
-                                                        <a href="bank.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                                        <a href="employee-type.php" class="btn btn-info btn-sm mt-5"> NEW </a>
                                                     ';
                                                 } else {
                                                     echo '
@@ -135,7 +135,7 @@ include('function_bank.php')
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Bank</th>
+                                                    <th>Employee Type</th>
                                                     <th>CreateBy</th>
                                                     <th>Remark</th>
                                                     <th>Status</th>
@@ -144,35 +144,35 @@ include('function_bank.php')
                                             </thead>   
                                                 <?php
                                                     include('confirm_delete.php');
-                                                    bank_delete();
+                                                    employee_type_delete();
                                                 ?>
                                             <tbody>
                                                 <?php
-                                                $sqlbank = "SELECT * FROM `bank` WHERE del=1";
-                                                $item = $conn->query($sqlbank);
-                                                $rowbank = $item->fetch_assoc();
+                                                $sqlemployeetype = "SELECT * FROM `employeetype` WHERE del=1";
+                                                $item = $conn->query($sqlemployeetype);
+                                                $rowemployeetype = $item->fetch_assoc();
                                                 ?>
-                                                <?php foreach ($item as $rowbank) :
+                                                <?php foreach ($item as $rowemployeetype) :
 
-                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowbank['CreateBy'])->fetch_assoc();
+                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowemployeetype['CreateBy'])->fetch_assoc();
                                                 ?>
                                                     <tr>
-                                                        <td><?= $rowbank['Bank'] ?></td>
+                                                        <td><?= $rowemployeetype['EmployeeType'] ?></td>
                                                         <td><?= $createby['Username'] ?></td>
-                                                        <td><?= $rowbank['Remark'] ?></td>
+                                                        <td><?= $rowemployeetype['Remark'] ?></td>
                                                         <td>
                                                             <?php
-                                                            if ($rowbank['Status'] == 1) {
-                                                                echo '<p><a href="statusBank.php?Id=' . $rowbank['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                            if ($rowemployeetype['Status'] == 1) {
+                                                                echo '<p><a href="statusEmployeeType.php?Id=' . $rowemployeetype['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
                                                             } else {
-                                                                echo '<p><a href="statusBank.php?Id=' . $rowbank['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                                echo '<p><a href="statusEmployeeType.php?Id=' . $rowemployeetype['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                             }
                                                             ?>
                                                         </td>
                                                         
                                                         <td>
-                                                            <a href="bank.php?Id=<?= $rowbank['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="bank.php?delId=<?= $rowbank['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                            <a href="employee-type.php?Id=<?= $rowemployeetype['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="employee-type.php?delId=<?= $rowemployeetype['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 
@@ -233,7 +233,7 @@ include('function_bank.php')
             // Action to perform after the alert is closed
             console.log('Alert closed');
             // You can perform additional actions here, such as redirecting the user
-            window.location.href = "bank.php";
+            window.location.href = "employee-type.php";
         });
 
         // Alternatively, you can automatically close the alert after some time

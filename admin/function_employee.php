@@ -7,6 +7,7 @@ include('cn.php');
 function employee_insert() {
     global $conn;
     if(isset($_POST['btnsave'])) {
+        $code = $conn->real_escape_string($_POST['code']);
         $firstname = $conn->real_escape_string($_POST['firstname']);
         $lastname = $conn->real_escape_string($_POST['lastname']);
         $gender = $conn->real_escape_string($_POST['gender']);
@@ -30,27 +31,27 @@ function employee_insert() {
         $salary = $conn->real_escape_string($_POST['salary']);
         $createby = $conn->real_escape_string($_POST['createby']);
         $remark = $conn->real_escape_string($_POST['remark']);
-        $status = isset($_POST['status']) ? 1 : 0;
+        //$status = isset($_POST['status']) ? 1 : 0;
         $employeeimage = $_FILES['employeeimage']['name'];
         $employeeimageTmp = $_FILES['employeeimage']['tmp_name'];
         $currentdate = date("Y_m_d_H_i_s");
         $employeenewimage = $currentdate . '_' . rand() . '_' . $employeeimage;
 
         if(!empty($employeeimage)) {
-            $sqlemployeeinsert = "INSERT INTO `employee` (`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
+            $sqlemployeeinsert = "INSERT INTO `employee` (`code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
                                 `OutletId`, `Position`, `EmployeeType`, `JoinAT`, `ResignAt`, `ReasonResign`, `Bank`, `AccountName`, `AccountNumber`, `IdCard`,
-                                `Currency`, `Salary`, `CreateBy`, `Remark`, `Status`, `Image`) 
-                                VALUES ('$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
+                                `Currency`, `Salary`, `CreateBy`, `Remark`, `Image`) 
+                                VALUES ('$code','$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
                                 '$branch', '$positions', '$employeetype', '$joindate', '$resigndate', '$reasonresign', '$bank', '$accountname', '$accountnumber', '$idcard', 
-                                '$currency', '$salary', '$createby', '$remark', 1, '$employeenewimage')";
+                                '$currency', '$salary', '$createby', '$remark', '$employeenewimage')";
                                 move_uploaded_file($employeeimageTmp, './ImageEmployee/' . $employeenewimage);
         } else {
-            $sqlemployeeinsert = "INSERT INTO `employee` (`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
+            $sqlemployeeinsert = "INSERT INTO `employee` (`code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
                                 `OutletId`, `Position`, `EmployeeType`, `JoinAT`, `ResignAt`, `ReasonResign`, `Bank`, `AccountName`, `AccountNumber`, `IdCard`,
-                                `Currency`, `Salary`, `CreateBy`, `Remark`, `Status`, `Image`) 
-                                VALUES ('$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
+                                `Currency`, `Salary`, `CreateBy`, `Remark`, `Image`) 
+                                VALUES ('$code','$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
                                 '$branch', '$positions', '$employeetype', '$joindate', '$resigndate', '$reasonresign', '$bank', '$accountname', '$accountnumber', '$idcard', 
-                                '$currency', '$salary', '$createby', '$remark', 1, 'no_image.png')";
+                                '$currency', '$salary', '$createby', '$remark', 'no_image.png')";
         }
 
         if ($conn->query($sqlemployeeinsert) === TRUE) {
@@ -87,6 +88,7 @@ function employee_update() {
 
     if (isset($_REQUEST['btnupdate'])) {
         $employeeid = $conn->real_escape_string($_REQUEST['Id']);
+        $code = $conn->real_escape_string($_POST['code']);
         $firstname = $conn->real_escape_string($_POST['firstname']);
         $lastname = $conn->real_escape_string($_POST['lastname']);
         $gender = $conn->real_escape_string($_POST['gender']);
@@ -117,6 +119,7 @@ function employee_update() {
         $update = $updateat . $currentdate;
         $employeenewimage = $currentdate . '_' . rand() . '_' . $employeeimage;
 
+        $profileUpdate = "";
         if (!empty($employeeimage)) {
             $getImage = $conn->query("SELECT `Image` FROM `employee` WHERE `Id`='$employeeid'")->fetch_assoc();
             if ($getImage) {
@@ -127,16 +130,15 @@ function employee_update() {
             }
             move_uploaded_file($employeeimageTmp, 'ImageEmployee/' . $employeenewimage);
             $profileUpdate = "`Image`='$employeenewimage',";
-        }else {
-            $profileUpdate = "";
         }
 
-        $sqlemployeeupdate = "UPDATE `employee` SET `Firstname`='$firstname', `Lastname` ='$lastname', `Gender` = '$gender', `Dob` = '$dateofbirth', `Nation` = '$nationality',
-                            `Marital` = '$marital', `Email` = '$email', `Tel` = '$telephone', `Address` = '$address', `OutletId` = '$branch', `Position` = '$positions', `EmployeeType` = '$employeetype',
-                            `JoinAT` = '$joindate', `ResignAt` ='$resigndate', `ReasonResign` = '$reasonresign', `Bank` = '$bank', `AccountName` = '$accountname', `AccountNumber` = '$accountnumber', `IdCard` = '$idcard',
-                            `Currency` = '$currency', `Salary` = '$salary', `CreateBy` = '$createby', `UpdateAt` = '$update', `Remark` = '$remark', $profileUpdate `Status` = 1 WHERE `Id` = '$employeeid'";
+        $sqlemployeeupdate = "UPDATE `employee` SET `Code`='$code', `Firstname`='$firstname', `Lastname`='$lastname', `Gender`='$gender', `Dob`='$dateofbirth', `Nation`='$nationality', 
+                                `Marital`='$marital', `Email`='$email', `Tel`='$telephone', `Address`='$address', `OutletId`='$branch', `Position`='$positions', `EmployeeType`='$employeetype', 
+                                `JoinAT`='$joindate', `ResignAt`='$resigndate', `ReasonResign`='$reasonresign', `Bank`='$bank', `AccountName`='$accountname', `AccountNumber`='$accountnumber', 
+                                `IdCard`='$idcard', `Currency`='$currency', `Salary`='$salary', `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' $profileUpdate 
+                              WHERE `Id`='$employeeid'";
         // Remove trailing comma if $profileUpdate is empty
-        $sqlemployeeupdate = str_replace(", WHERE", "WHERE", $sqlemployeeupdate);
+        $sqlemployeeupdate = str_replace(", WHERE", " WHERE", $sqlemployeeupdate);
 
         if($conn->query($sqlemployeeupdate) === TRUE) {
             echo '<script>
@@ -150,7 +152,7 @@ function employee_update() {
                         });
                     });
                   </script>';
-        }else {
+        } else {
             echo '<script>
                     document.addEventListener("DOMContentLoaded", function() {
                         swal({
@@ -165,6 +167,7 @@ function employee_update() {
         }
     }
 }
+
 
 // delete employee
 function employee_delete() {
