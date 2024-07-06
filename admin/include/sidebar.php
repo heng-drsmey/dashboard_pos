@@ -42,7 +42,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <li class="nav-item <?php echo ($current_page == 'employee-add.php' || $current_page == 'employee-list.php') ? 'active' : ''; ?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmp" aria-expanded="true" aria-controls="collapseEmp">
             <i class="fas fa-fw fa-user"></i>
-            <span>Employees</span>
+            <span>Employee</span>
         </a>
         <div id="collapseEmp" class="collapse" aria-labelledby="headingEmp" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -59,8 +59,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseCus" class="collapse" aria-labelledby="headingEmp" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="employee-add.php">Add Customer</a>
-                <a class="collapse-item" href="employee-list.php">Customer List</a>
+                <a class="collapse-item" href="customer-add.php">Add Customer</a>
+                <a class="collapse-item" href="customer-list.php">Customers List</a>
             </div>
         </div>
     </li>

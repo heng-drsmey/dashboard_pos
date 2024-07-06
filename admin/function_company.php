@@ -151,6 +151,7 @@ function company_delete(){
             'user' => 'OutletId',
             'employee' => 'OutletId',
             'invoice' => 'OutletId',
+            'customer' => 'OutletId',
             // Add more tables and their foreign key columns here
         ];
         

@@ -38,7 +38,7 @@ function employee_insert() {
         $employeenewimage = $currentdate . '_' . rand() . '_' . $employeeimage;
 
         if(!empty($employeeimage)) {
-            $sqlemployeeinsert = "INSERT INTO `employee` (`code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
+            $sqlemployeeinsert = "INSERT INTO `employee` (`Code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
                                 `OutletId`, `Position`, `EmployeeType`, `JoinAT`, `ResignAt`, `ReasonResign`, `Bank`, `AccountName`, `AccountNumber`, `IdCard`,
                                 `Currency`, `Salary`, `CreateBy`, `Remark`, `Image`) 
                                 VALUES ('$code','$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
@@ -46,7 +46,7 @@ function employee_insert() {
                                 '$currency', '$salary', '$createby', '$remark', '$employeenewimage')";
                                 move_uploaded_file($employeeimageTmp, './ImageEmployee/' . $employeenewimage);
         } else {
-            $sqlemployeeinsert = "INSERT INTO `employee` (`code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
+            $sqlemployeeinsert = "INSERT INTO `employee` (`Code`,`Firstname`, `Lastname`, `Gender`, `Dob`, `Nation`, `Marital`, `Email`, `Tel`, `Address`,
                                 `OutletId`, `Position`, `EmployeeType`, `JoinAT`, `ResignAt`, `ReasonResign`, `Bank`, `AccountName`, `AccountNumber`, `IdCard`,
                                 `Currency`, `Salary`, `CreateBy`, `Remark`, `Image`) 
                                 VALUES ('$code','$firstname', '$lastname', '$gender', '$dateofbirth', '$nationality', '$marital', '$email', '$telephone', '$address', 
@@ -119,7 +119,6 @@ function employee_update() {
         $update = $updateat . $currentdate;
         $employeenewimage = $currentdate . '_' . rand() . '_' . $employeeimage;
 
-        $profileUpdate = "";
         if (!empty($employeeimage)) {
             $getImage = $conn->query("SELECT `Image` FROM `employee` WHERE `Id`='$employeeid'")->fetch_assoc();
             if ($getImage) {
@@ -130,12 +129,14 @@ function employee_update() {
             }
             move_uploaded_file($employeeimageTmp, 'ImageEmployee/' . $employeenewimage);
             $profileUpdate = "`Image`='$employeenewimage',";
+        } else {
+            $profileUpdate = "";
         }
 
         $sqlemployeeupdate = "UPDATE `employee` SET `Code`='$code', `Firstname`='$firstname', `Lastname`='$lastname', `Gender`='$gender', `Dob`='$dateofbirth', `Nation`='$nationality', 
                                 `Marital`='$marital', `Email`='$email', `Tel`='$telephone', `Address`='$address', `OutletId`='$branch', `Position`='$positions', `EmployeeType`='$employeetype', 
                                 `JoinAT`='$joindate', `ResignAt`='$resigndate', `ReasonResign`='$reasonresign', `Bank`='$bank', `AccountName`='$accountname', `AccountNumber`='$accountnumber', 
-                                `IdCard`='$idcard', `Currency`='$currency', `Salary`='$salary', `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' $profileUpdate 
+                                `IdCard`='$idcard', `Currency`='$currency', `Salary`='$salary', `CreateBy`='$createby', `UpdateAt`='$update',$profileUpdate `Remark`='$remark'  
                               WHERE `Id`='$employeeid'";
         // Remove trailing comma if $profileUpdate is empty
         $sqlemployeeupdate = str_replace(", WHERE", " WHERE", $sqlemployeeupdate);

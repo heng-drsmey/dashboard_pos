@@ -1,8 +1,8 @@
 <?php
 include('include/head.php');
 
-// include call function-employee.php
-include('function_employee.php');
+// include call function-customer.php
+include('function_customer.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@ include('function_employee.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Employees List</title>
+    <title>SB Admin 2 - Customers List</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -61,8 +61,8 @@ include('function_employee.php');
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Employees List</h1>
-                        <a href="employee-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
+                        <h1 class="h3 mb-0 text-gray-800">Customers List</h1>
+                        <a href="customer-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -77,57 +77,54 @@ include('function_employee.php');
                                             <th>Last Name</th>
                                             <th>Gender</th>
                                             <th>Nationality</th>
-                                            <th>Positions</th>
-                                            <th>Employee Type</th>
+                                            <th>Currency</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <?php
                                         include('confirm_delete.php');
-                                        employee_delete();
+                                        customer_delete();
                                     ?>
                                     <tbody>
                                         <!-- view data in table -->
                                         <?php
-                                            $sqlSelectemployee = "SELECT * FROM `employee` WHERE del=1";
-                                            $final = $conn->query($sqlSelectemployee);
+                                            $sqlSelectcustomer = "SELECT * FROM `customer` WHERE del=1";
+                                            $final = $conn->query($sqlSelectcustomer);
 
                                             if($final->num_rows > 0) {
-                                                while ($rowemployee = $final->fetch_assoc()) {
-                                                    $branch = $conn->query("SELECT * FROM `outlet` WHERE Id=" .$rowemployee['OutletId'])->fetch_assoc();
-                                                    $nationality = $conn->query("SELECT * FROM `nationality` WHERE Id=" .$rowemployee['Nation'])->fetch_assoc();
-                                                    $positions = $conn->query("SELECT * FROM `positions` WHERE Id=" .$rowemployee['Position'])->fetch_assoc();
-                                                    $employeetype = $conn->query("SELECT * FROM `employeetype` WHERE Id=" .$rowemployee['EmployeeType'])->fetch_assoc();
+                                                while ($rowcustomer = $final->fetch_assoc()) {
+                                                    $branch = $conn->query("SELECT * FROM `outlet` WHERE Id=" .$rowcustomer['OutletId'])->fetch_assoc();
+                                                    $nationality = $conn->query("SELECT * FROM `nationality` WHERE Id=" .$rowcustomer['Nation'])->fetch_assoc();
+                                                    $currency = $conn->query("SELECT * FROM `currency` WHERE Id=" .$rowcustomer['Currency'])->fetch_assoc();
                                         ?>
                                         <tr>
                                             <td><?= $branch['Name']?></td>
-                                            <td><?= $rowemployee['Code']?></td>
-                                            <td><?= $rowemployee['Firstname']?></td>
-                                            <td><?= $rowemployee['Lastname']?></td>
-                                            <td><?= $rowemployee['Gender']?></td>
+                                            <td><?= $rowcustomer['Code']?></td>
+                                            <td><?= $rowcustomer['Firstname']?></td>
+                                            <td><?= $rowcustomer['Lastname']?></td>
+                                            <td><?= $rowcustomer['Gender']?></td>
                                             <td><?= $nationality['Nation']?></td>
-                                            <td><?= $positions['Positions']?></td>
-                                            <td><?= $employeetype['EmployeeType']?></td>
+                                            <td><?= $currency['Name']?></td>
                                             <td>
                                                 <?php
-                                                if ($rowemployee['Status'] == 1) {
-                                                    echo '<p><a href="statusEmployee.php?Id=' . $rowemployee['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                if ($rowcustomer['Status'] == 1) {
+                                                    echo '<p><a href="statusCustomer.php?Id=' . $rowcustomer['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
                                                 } else {
-                                                    echo '<p><a href="statusEmployee.php?Id=' . $rowemployee['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                    echo '<p><a href="statusCustomer.php?Id=' . $rowcustomer['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
                                                 }
                                                 ?>
                                             </td>
                                             <td>
-                                                <a href="employee-add.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                <a href="employee-information.php?Id=<?= $rowemployee['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="employee-list.php?delId=<?= $rowemployee['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                <a href="customer-add.php?Id=<?= $rowcustomer['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                <a href="customer-information.php?Id=<?= $rowcustomer['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="customer-list.php?delId=<?= $rowcustomer['Id'] ?>"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                         <?php
                                                 }
                                             }else {
-                                                echo '<tr><td colspan="8" class="text-center">No employees found.</td></tr>';
+                                                echo '<tr><td colspan="8" class="text-center">No customers found.</td></tr>';
                                             }
                                         ?>
                                     </tbody>
@@ -177,7 +174,7 @@ include('function_employee.php');
         // Action to perform after the alert is closed
         console.log('Alert closed');
         // You can perform additional actions here, such as redirecting the user
-        window.location.href = "employee-list.php";
+        window.location.href = "customer-list.php";
     });
 
     // Alternatively, you can automatically close the alert after some time

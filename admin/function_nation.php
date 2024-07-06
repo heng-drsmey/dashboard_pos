@@ -92,6 +92,7 @@ function nation_delete() {
         
         $foreignTables = [
             'employee' => 'Nation',
+            'customer' => 'Nation',
         ];
         $canDelete = true;
         foreach ($foreignTables as $table => $column) {
