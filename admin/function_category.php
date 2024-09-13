@@ -58,11 +58,9 @@ function category_update() {
 
     if (isset($_REQUEST['btnupdate'])) {
         $categoryid = $conn->real_escape_string($_REQUEST['Id']);
-        $categorycode = $conn->real_escape_string($_POST['categorycode']);
         $categoryname = $conn->real_escape_string($_POST['categoryname']);
         $description = $conn->real_escape_string($_POST['description']);
         $createby = $conn->real_escape_string($_POST['createby']);
-        $remark = $conn->real_escape_string($_POST['remark']);
         $categoryimage = $_FILES['categoryimage']['name'];
         $categoryimageTmp = $_FILES['categoryimage']['tmp_name'];
         $currentdate = date("Y_m_d_H_i_s");
@@ -73,7 +71,7 @@ function category_update() {
         if (!empty($categoryimage)) {
             $getImage = $conn->query("SELECT `Image` FROM `category` WHERE `Id`='$categoryid'")->fetch_assoc();
             if ($getImage) {
-                $oldImage = 'Imagecategory/' . $getImage['Image'];
+                $oldImage = 'ImageCategory/' . $getImage['Image'];
                 if (file_exists($oldImage)) {
                     unlink($oldImage);
                 }
@@ -85,7 +83,7 @@ function category_update() {
         }
 
         $sqlcategoryupdate = "UPDATE `category` SET 
-                        `Name`='$categoryname', `Code`= `description`='$description', $ImageUpdate `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$categoryid'";
+                        `Name`='$categoryname', `Description`='$description', $ImageUpdate `CreateBy`='$createby', `UpdateAt`='$update' WHERE `Id`='$categoryid'";
 
         // Remove trailing comma if $ImageUpdate is empty
         $sqlcategoryupdate = str_replace(", WHERE", " WHERE", $sqlcategoryupdate);
@@ -145,10 +143,9 @@ function category_delete(){
         
         // List of tables and the corresponding foreign key column that reference the category ID
         $foreignTables = [
-            'user' => 'categoryId',
-            'employee' => 'categoryId',
-            'invoice' => 'categoryId',
-            'customer' => 'categoryId',
+            'user' => 'Id',
+            
+            
             // Add more tables and their foreign key columns here
         ];
         
