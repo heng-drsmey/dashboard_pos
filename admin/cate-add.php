@@ -54,7 +54,7 @@ include('function_category.php');
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <!-- Page Heading //change status add company if click button edit view edit company-->
+                        <!-- Page Heading //change status add category if click button edit view edit category-->
                         <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Category' : 'Add Category'; ?></h1>
                         <a href="cate-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Category List</a>
                     </div>
@@ -67,33 +67,30 @@ include('function_category.php');
                                 <div class="card-body">
                                     <form action="cate-add.php" method="post" enctype="multipart/form-data">
                                     <?php
-                                        // Call function company insert
+                                        // Call function category insert
                                         cate_insert();
 
                                         // Initialize an empty array for the form data
                                         $rowFrm = array(
                                             "Id" => "", 
-                                            "Code" => "", 
-                                            "Name" => "", 
-                                            "Address" => "", 
+                                            "Name" => "",  
+                                            "Description" => "", 
                                             "CreateBy" => "", 
-                                            "Remark" => "", 
                                             "Status" => "", 
-                                            "Logo" => "", 
-                                            "UpdateAt" => "", 
-                                            "ApproveBy" => "", 
-                                            "ApproveAt" => ""
+                                            "Image" => "", 
+                                            "UpdateAt" => ""
+                                           
                                         );
 
                                         // Check if the `Id` parameter is set and valid
                                         if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
-                                            $companyid = $conn->real_escape_string($_REQUEST['Id']);
+                                            $categoryid = $conn->real_escape_string($_REQUEST['Id']);
                                             
-                                            // Call the company update function if needed
-                                            company_update();
+                                            // Call the category update function if needed
+                                            category_update();
 
-                                            // Fetch the company data for update
-                                            $result = $conn->query("SELECT * FROM `outlet` WHERE `Id` = '$companyid'");
+                                            // Fetch the category data for update
+                                            $result = $conn->query("SELECT * FROM `outlet` WHERE `Id` = '$categoryid'");
 
                                             if ($result && $result->num_rows > 0) {
                                                 $rowFrm = $result->fetch_assoc();
@@ -102,10 +99,10 @@ include('function_category.php');
                                                         document.addEventListener("DOMContentLoaded", function() {
                                                             swal({
                                                                 title: "Error",
-                                                                text: "Failed to fetch company data. Please try again.",
+                                                                text: "Failed to fetch category data. Please try again.",
                                                                 icon: "error"
                                                             }).then(function() {
-                                                                window.location = "company-list.php";
+                                                                window.location = "cate-list.php";
                                                             });
                                                         });
                                                     </script>';
@@ -124,7 +121,7 @@ include('function_category.php');
                                                 <!--  Description -->
                                                 <div class="form-group">
                                                     <label for="description">Description</label>
-                                                    <textarea type="text" rows="3" cols="10" class="form-control border-left-danger" id="description" name="description" value="<?php // echo htmlspecialchars($rowFrm['Description']); ?>" required> </textarea>
+                                                    <textarea type="text" rows="3" cols="10" class="form-control border-left-danger" id="description" name="description" value="<?php  echo htmlspecialchars($rowFrm['Description']); ?>" required> </textarea>
                                                 </div>
 
                                                 <!-- Created By -->
