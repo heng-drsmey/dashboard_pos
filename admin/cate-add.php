@@ -1,3 +1,7 @@
+<?php
+include('include/head.php');
+include('function_category.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +13,21 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Add Category</title>
+    <title>SB Admin 2 - Category</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+    <!-- Link bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- css for upload image -->
+    <link href="css/img-style.css" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -41,122 +52,198 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Add Category</h1>
-
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <!-- Page Heading //change status add category if click button edit view edit category-->
+                        <h1 class="h3 mb-4 text-gray-800"><?php echo isset($_REQUEST['Id']) ? 'Edit Category' : 'Add Category'; ?></h1>
+                        <a href="cate-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Category List</a>
+                    </div>
                     <div class="row">
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
 
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <label for="firstName">Category Name:</label>
-                                    <input type="text" class="form-control">
-                                    <label for="LastName">Eg:</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
+                                    <form action="cate-add.php" method="post" enctype="multipart/form-data">
+                                    <?php
+                                        // Call function category insert
+                                        cate_insert();
 
-                            <!-- Brand Buttons -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Brand Buttons</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Google and Facebook buttons are available featuring each company's respective
-                                        brand color. They are used on the user login and registration pages.</p>
-                                    <p>You can create more custom buttons by adding a new color variable in the
-                                        <code>_variables.scss</code> file and then using the Bootstrap button variant
-                                        mixin to create a new style, as demonstrated in the <code>_buttons.scss</code>
-                                        file.
-                                    </p>
-                                    <a href="#" class="btn btn-google btn-block"><i class="fab fa-google fa-fw"></i>
-                                        .btn-google</a>
-                                    <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f fa-fw"></i> .btn-facebook</a>
+                                        // Initialize an empty array for the form data
+                                        $rowFrm = array(
+                                            "Id" => "", 
+                                            "Name" => "",  
+                                            "Description" => "", 
+                                            "CreateBy" => "", 
+                                            "Status" => "", 
+                                            "Image" => "", 
+                                            "UpdateAt" => ""
+                                           
+                                        );
 
-                                </div>
-                            </div>
+                                        // Check if the `Id` parameter is set and valid
+                                        if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
+                                            $categoryid = $conn->real_escape_string($_REQUEST['Id']);
+                                            
+                                            // Call the category update function if needed
+                                            category_update();
 
-                        </div>
+                                            // Fetch the category data for update
+                                            $result = $conn->query("SELECT * FROM `outlet` WHERE `Id` = '$categoryid'");
 
-                        <div class="col-lg-6">
+                                            if ($result && $result->num_rows > 0) {
+                                                $rowFrm = $result->fetch_assoc();
+                                            } else {
+                                                echo '<script>
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            swal({
+                                                                title: "Error",
+                                                                text: "Failed to fetch category data. Please try again.",
+                                                                icon: "error"
+                                                            }).then(function() {
+                                                                window.location = "cate-list.php";
+                                                            });
+                                                        });
+                                                    </script>';
+                                            }
+                                        }
+                                    ?>
+                                        <div class="row">
+                                            <!-- Form Fields on the Left -->
+                                            <div class="col-lg-8">
+                                                <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
+                                                <!-- category Name -->
+                                                <div class="form-group">
+                                                    <label for="categoryname">Category Name</label>
+                                                    <input type="text" class="form-control border-left-danger" id="categoryname" name="categoryname" value="<?php echo htmlspecialchars($rowFrm['Name']); ?>" required>
+                                                </div>
+                                                <!--  Description -->
+                                                <div class="form-group">
+                                                    <label for="description">Description</label>
+                                                    <textarea type="text" rows="3" cols="10" class="form-control border-left-danger" id="description" name="description" value="<?php  echo htmlspecialchars($rowFrm['Description']); ?>" required> </textarea>
+                                                </div>
 
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
+                                                <!-- Created By -->
+                                                <div class="form-group">
+                                                    <label for="createby">Created By</label>
+                                                    <select class="form-control form-select-sm" id="createby" name="createby">
+                                                        <!-- select user view in input createby-->
+                                                        <?php
+                                                            $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
+                                                            $qrcreateby = $conn->query($sqlcreateby);
+                                                            while ($rowcreateby = $qrcreateby->fetch_assoc()) {
+                                                                $sel = ($rowcreateby['Id'] == $rowFrm['CreateBy']) ? 'selected' : '';
+                                                                echo '<option value="' . htmlspecialchars($rowcreateby['Id']) . '" ' . $sel . '>' . htmlspecialchars($rowcreateby['Username']) . '</option>';
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Hidden input for update date -->
+                                                    <input type="hidden" class="form-control" name="updateat">
+
+                                            </div>
+
+                                            <!-- Image Upload on the Right -->
+                                            <div class="col-lg-4 d-flex align-items-top justify-content-center">
+
+                                                <div class=" mb-4 p-3 text center">
+                                                    <div class="con-input-file">
+                                                        <button onclick="handleClickRemove()" type="button" class="remove-image">
+                                                            <i class="fa-solid fa-ban" style="color: red;"></i>
+                                                        </button>
+                                                        <div class="con-bg">
+                                                            <img class="bg" src="" alt="">
+                                                        </div>
+                                                        <div class="img-1">
+                                                            <?php
+                                                            if (!empty($rowFrm['Logo'])) {
+                                                                echo '<img class="image" id="Categoryimage" src="./ImageCategory/' . htmlspecialchars($rowFrm['Image']) . '" alt="Categoryimage" width="200px">';
+                                                            } else {
+                                                            ?>
+                                                                <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <linearGradient id="lg1">
+                                                                        <stop offset="0" stop-color="#cdec7a" />
+                                                                        <stop offset=".2157" stop-color="#b0e995" />
+                                                                        <stop offset=".5613" stop-color="#87e4bb" />
+                                                                        <stop offset=".8347" stop-color="#6ee1d2" />
+                                                                        <stop offset="1" stop-color="#65e0db" />
+                                                                    </linearGradient>
+                                                                    <linearGradient id="SVGID_3_" gradientTransform="matrix(.983 -.185 .185 .983 55.608 42.369)" gradientUnits="userSpaceOnUse" x1="15.52" x2="340.888" xlink:href="#lg1" y1="104.705" y2="430.073" />
+                                                                    <linearGradient id="lg2">
+                                                                        <stop offset="0" stop-color="#cdec7a" stop-opacity="0" />
+                                                                        <stop offset=".2354" stop-color="#9ad57d" stop-opacity=".235" />
+                                                                        <stop offset=".6035" stop-color="#51b482" stop-opacity=".604" />
+                                                                        <stop offset=".8679" stop-color="#239f85" stop-opacity=".868" />
+                                                                        <stop offset="1" stop-color="#119786" />
+                                                                    </linearGradient>
+                                                                    <linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="491.682" x2="450.637" xlink:href="#lg2" y1="256.546" y2="256.546" />
+                                                                    <linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="176.731" x2="176.731" xlink:href="#lg2" y1="466.917" y2="442.601" />
+                                                                    <linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="88.264" x2="413.632" y1="111.753" y2="437.121">
+                                                                        <stop offset="0" stop-color="#f8f6fb" />
+                                                                        <stop offset="1" stop-color="#efdcfb" />
+                                                                    </linearGradient>
+                                                                    <linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="112.768" x2="430.112" y1="101.155" y2="514.021">
+                                                                        <stop offset="0" stop-color="#18cefb" />
+                                                                        <stop offset=".2969" stop-color="#2bb9f9" />
+                                                                        <stop offset=".7345" stop-color="#42a0f7" />
+                                                                        <stop offset="1" stop-color="#4a97f6" />
+                                                                    </linearGradient>
+                                                                    <linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="75.588" x2="214.616" y1="316.53" y2="497.406">
+                                                                        <stop offset="0" stop-color="#cdec7a" />
+                                                                        <stop offset=".2154" stop-color="#b0e995" stop-opacity=".784" />
+                                                                        <stop offset=".5604" stop-color="#87e4bb" stop-opacity=".439" />
+                                                                        <stop offset=".8334" stop-color="#6ee1d2" stop-opacity=".165" />
+                                                                        <stop offset=".9985" stop-color="#65e0db" stop-opacity="0" />
+                                                                    </linearGradient>
+                                                                    <linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="198.822" x2="366.499" xlink:href="#lg1" y1="288.474" y2="506.622" />
+                                                                    <linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="117.242" x2="171.618" y1="131.922" y2="202.666">
+                                                                        <stop offset="0" stop-color="#ffd945" />
+                                                                        <stop offset=".3043" stop-color="#ffcd3e" />
+                                                                        <stop offset=".8558" stop-color="#ffad2b" />
+                                                                        <stop offset="1" stop-color="#ffa325" />
+                                                                    </linearGradient>
+                                                                    <path d="m424.01 448.166h-389.245c-18.715 0-33.886-15.171-33.886-33.886v-322.806c0-18.715 15.171-33.886 33.886-33.886h389.245c18.715 0 33.886 15.171 33.886 33.886v322.806c0 18.715-15.171 33.886-33.886 33.886z" fill="url(#SVGID_6_)" />
+                                                                    <g>
+                                                                        <path d="m392.279 416.326h-325.782c-15.663 0-28.361-12.698-28.361-28.361v-270.175c0-15.663 12.698-28.361 28.361-28.361h325.782c15.663 0 28.361 12.698 28.361 28.361v270.175c0 15.663-12.698 28.361-28.361 28.361z" fill="url(#SVGID_7_)" />
+                                                                        <g>
+                                                                            <path d="m252.069 416.326h-185.567c-15.666 0-28.37-12.694-28.37-28.359v-44.29l47.082-57.228c15.538-18.903 44.46-18.903 60.009 0l29.315 35.64z" fill="url(#SVGID_8_)" />
+                                                                            <path d="m420.643 316.75v71.217c0 15.666-12.704 28.359-28.37 28.359h-295.268l77.532-94.237 95.246-115.783c15.538-18.892 44.471-18.892 60.009 0z" fill="url(#SVGID_9_)" />
+                                                                        </g>
+                                                                        <circle cx="137.225" cy="157.919" fill="url(#SVGID_10_)" r="40.219" />
+                                                                    </g>
+                                                                </svg>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                        <div class="img-2">
+                                                            <div class="square-1"></div>
+                                                        </div>
+                                                        <div class="img-3">
+                                                            <div class="square-2"></div>
+                                                        </div>
+                                                        <input class="input" onchange="processFile(event)" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" ondragleave="dragLeave(event)" ondragenter="dragEnter(event)" ondragenter="dragEnter(event)" type="file" accept="image/*" name="categoryimage" id="">
+                                                    </div>
+                                                    <?php
+                                                        if (isset($_REQUEST['Id'])) {
+                                                            echo '
+                                                                <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
+                                                                <a href="cate-add.php" class="btn btn-info btn-sm mt-5"> New </a>
+                                                            ';
+                                                        } else {
+                                                            echo '
+                                                                <button type="submit" class="btn btn-primary btn-sm mt-5 w-100" name="btnsave">Save</button>
+                                                                ';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="card-body">
-                                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-                                        the markup in the examples below. The examples below also use the
-                                        <code>.text-white-50</code> helper class on the icons for additional styling,
-                                        but it is not required.
-                                    </p>
-                                    <a href="#" class="btn btn-primary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Primary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">Split Button Success</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Split Button Info</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-warning btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="text">Split Button Warning</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Split Button Danger</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-secondary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Secondary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-light btn-icon-split">
-                                        <span class="icon text-gray-600">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Light</span>
-                                    </a>
-                                    <div class="mb-4"></div>
-                                    <p>Also works with small and large button classes!</p>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Small</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Large</span>
-                                    </a>
-                                </div>
+
                             </div>
 
                         </div>

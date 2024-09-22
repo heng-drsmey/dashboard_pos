@@ -29,10 +29,13 @@ include('function_user.php');
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- bootstrap 5.3.3 -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
+<style>
 
+</style>
 
 <body id="page-top">
 
@@ -57,347 +60,163 @@ include('function_user.php');
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">POS</h1>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">POS</h1>
+                                <div class="search-box">
+                                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                                    <input type="text" class="input-search" placeholder="Type to Search...">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Table</option>
+                                <option value="t1">Table 1</option>
+                                <option value="t2">Table 2</option>
+                                <option value="t3">Table 3</option>
+                                <option value="t4">Table 4</option>
+                                <option value="t5">Table 5</option>
+                                <option value="t6">Table 6</option>
+                                <option value="t7">Table 7</option>
+                                <option value="t8">Table 8</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Outlet</option>
+                                <option value="o1">Sen Sok</option>
+                                <option value="o2">Toul Kork</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-8">
-                            <div class="row text-center mb-3 ">
-                                <div class="col-lg-4">
-                                    <a class="cate_card d-flex align-items-center justify-content-center" href="#">HOT</a>
-                                </div>
-                                <div class="col-lg-4">
-                                    <a class="cate_card d-flex align-items-center justify-content-center" href="#">ICED</a>
-                                </div>
-                                <div class="col-lg-4">
-                                    <a class="cate_card d-flex align-items-center justify-content-center" href="#">FRAPPED</a>
-                                </div>
-                            </div>
-                            <h5>All Items</h5>
                             <div class="row">
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
+                                <div class="col-lg-3">
+                                    <div class="card border-0">
+                                        <div class="thumbnail-wrapper">
+                                            <div class="thumbnail-inner img4by3">
+                                                <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
+
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
+                                            <p class="card-text">Iced Latte</p>
+                                            <h5 class="text-success">$3.00</h5>
+                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
+                                <div class="col-lg-3">
+                                    <div class="card border-0">
+                                        <div class="thumbnail-wrapper">
+                                            <div class="thumbnail-inner img4by3">
+                                                <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
+                                            <p class="card-text">Iced Cappucino</p>
+                                            <h5 class="text-success">$3.00</h5>
+                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
+                                <div class="col-lg-3">
+                                    <div class="card border-0">
+                                        <div class="thumbnail-wrapper">
+                                            <div class="thumbnail-inner img4by3">
+                                                <img src="https://www.mondomulia.com/wp-content/uploads/2015/02/Artisan-School-Latte-Art-15-1.jpg" class="rounded" alt="...">
+
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
+                                            <p class="card-text">Expresso</p>
+                                            <h5 class="text-success">$3.00</h5>
+                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
+                                <div class="col-lg-3">
+                                    <div class="card border-0">
+                                        <div class="thumbnail-wrapper">
+                                            <div class="thumbnail-inner img4by3">
+                                                <img src="https://majestycoffee.com/cdn/shop/articles/americano_b74a8154-454b-4f74-9a6c-95fbc4152ed3.jpg?v=1684048195" class="rounded" alt="...">
+
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="thumnail">
-                                            <div class="thumbnail-wrapper">
-                                                <div class="thumbnail-inner img4by3">
-                                                    <img src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Iced Latte</h5>
-                                            <h5 class="card-text text-success">$1.5</h5>
-                                            <a href="#" class="btn btn-primary">Add</a>
+                                            <p class="card-text">Americano</p>
+                                            <h5 class="text-success">$3.00</h5>
+                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 bg-white p-4" style="border-radius: 15px; border: 1px solid #dadada;">
-                            <h4>Order Number</h4>
-                            <b class="text-primary">0001</b>
-                            <h4>Order Items</h4>
-                            <div class="row order-detail mb-3">
+                        <div class="col-lg-4 bg-white py-4 rounded">
+                            <div class="row">
                                 <div class="col-lg-3">
                                     <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img1by1 rounded-circle">
-                                            <img class="rounded-circle" src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
+                                        <div class="thumbnail-inner img1by1">
+                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h5>Iced Cappucino</h5>
+                                    <div class="number-input" data-id="1">
+                                        <button onclick="decrement(1)">-</button>
+                                        <input type="text" id="number-1" value="1" readonly>
+                                        <button onclick="increment(1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                    <i class="fas fa-trash-alt ml-5 text-danger"></i>
+                                </div>
+                                <div class="col-lg-3 d-flex justify-content-center align-items-center">
+                                    <h5>$3.00</h5>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="thumbnail-wrapper">
+                                        <div class="thumbnail-inner img1by1">
+                                            <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <h5>Iced Latte</h5>
-                                    <h5 class="text-success">$1.50</h5>
-                                </div>
-                                <div class="col-lg-5 text-center" style="display: contents;">
-                                    <div class="input-group d-flex align-items-center mx-3">
-                                        <i class="fa-solid fa-minus btn-min-plus"></i>
-                                        <input type="number" name="" id="" style="width: 50px; text-align: center;" value="1">
-                                        <i class="fa-solid fa-plus btn-min-plus"></i>
+                                    <div class="number-input" data-id="2">
+                                        <button onclick="decrement(2)">-</button>
+                                        <input type="text" id="number-2" value="1" readonly>
+                                        <button onclick="increment(2)">+</button>
                                     </div>
-                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </div>
+                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                    <i class="fas fa-trash-alt ml-5 text-danger"></i>
+                                </div>
+                                <div class="col-lg-3 d-flex justify-content-center align-items-center">
+                                    <h5>$3.00</h5>
                                 </div>
                             </div>
-                            <div class="row order-detail mb-3">
-                                <div class="col-lg-3">
-                                    <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img1by1 rounded-circle">
-                                            <img class="rounded-circle" src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                        </div>
+                            <hr>
+                            <div class="px-4">
+                                <div class="row bg-light-blue py-3">
+                                    <div class="col-lg-6 text-left">
+                                        <h5 class="text-dark">Total</h5>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h5>Iced Latte</h5>
-                                    <h5 class="text-success">$1.50</h5>
-                                </div>
-                                <div class="col-lg-5 text-center" style="display: contents;">
-                                    <div class="input-group d-flex align-items-center mx-3">
-                                        <i class="fa-solid fa-minus btn-min-plus"></i>
-                                        <input type="number" name="" id="" style="width: 50px; text-align: center;" value="1">
-                                        <i class="fa-solid fa-plus btn-min-plus"></i>
-                                    </div>
-                                    <i class="fa-solid fa-trash-can text-danger"></i>
-                                </div>
-                            </div>
-                            <div class="row order-detail mb-3">
-                                <div class="col-lg-3">
-                                    <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img1by1 rounded-circle">
-                                            <img class="rounded-circle" src="https://globalassets.starbucks.com/digitalassets/products/bev/SBX20190607_IcedCaffeLatte.jpg?impolicy=1by1_wide_topcrop_630" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h5>Iced Latte</h5>
-                                    <h5 class="text-success">$1.50</h5>
-                                </div>
-                                <div class="col-lg-5 text-center" style="display: contents;">
-                                    <div class="input-group d-flex align-items-center mx-3">
-                                        <i class="fa-solid fa-minus btn-min-plus"></i>
-                                        <input type="number" name="" id="" style="width: 50px; text-align: center;" value="1">
-                                        <i class="fa-solid fa-plus btn-min-plus"></i>
-                                    </div>
-                                    <i class="fa-solid fa-trash-can text-danger"></i>
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center order-dec">
-                                <div class="col-lg-6 text-left">
-                                    <p>Sub Total</p>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                    <b>$1.50</b>
-                                </div>
-                                <div class="col-lg-6 text-left">
-                                    <p>Tax 10%</p>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                    <b>$0.15</b>
-                                </div>
-                                <div class="col-lg-6 text-left">
-                                    <p>Discount 0%</p>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                    <b>-$0.00</b>
-                                </div>
-                                <div class="col-lg-6 text-left">
-                                    <p>Total</p>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                    <b>$1.65</b>
-                                </div>
-                            </div>
-                            <h4 class="mt-3">Payment Method</h4>
-                            <div class="row mt-3">
-                                <div class="col-lg-6">
-                                    <a href="" class="payment-a">
-                                        <div class="payment">
-                                            <i class="fas fa-dollar-sign" style="font-size: 36px;"></i>
-                                            <p>Cash</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-6">
-                                    <a href="" class="payment-a" data-toggle="modal" data-target="#exampleModal">
-                                        <div class="payment">
-                                            <i class="fas fa-qrcode" style="font-size: 36px;"></i>
-                                            <p>KHQR</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">KHQR</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <img class="img-fluid" src="./img/qrcode.png" alt="">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
+                                    <div class="col-lg-6 text-right">
+                                        <h5 class="text-dark">$6.00</h5>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary form-control mt-3">Submit And Print Receipt</a>
+                            <a href="#" class="mt-5 btn btn-primary form-control">Checkout</a>
                         </div>
                     </div>
 
@@ -435,6 +254,20 @@ include('function_user.php');
                         }
                     }
                 }
+            }
+
+            function decrement(id) {
+                const numberInput = document.getElementById(`number-${id}`);
+                let currentValue = parseInt(numberInput.value);
+                if (currentValue > 0) {
+                    numberInput.value = currentValue - 1;
+                }
+            }
+
+            function increment(id) {
+                const numberInput = document.getElementById(`number-${id}`);
+                let currentValue = parseInt(numberInput.value);
+                numberInput.value = currentValue + 1;
             }
         </script>
     </div>

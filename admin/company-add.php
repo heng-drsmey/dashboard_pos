@@ -1,6 +1,5 @@
 <?php
 include('include/head.php');
-
 // include call function-company.php
 include('function_company.php');
 
