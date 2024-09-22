@@ -4,6 +4,20 @@ include('include/head.php');
 // include call function-company.php
 include('function_company.php');
 
+<<<<<<< Updated upstream
+=======
+// get data view in company-add.php for update.
+$company = null;
+if (isset($_GET['OutId'])) {
+    $OutId = $conn->real_escape_string($_GET['OutId']);
+    $company = fetch_company($OutId);
+
+}
+
+
+ // Check if form is submitted
+ handle_form_submission();
+>>>>>>> Stashed changes
 
 ?>
 
