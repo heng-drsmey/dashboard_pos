@@ -65,49 +65,27 @@ include('function_category.php');
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="cate-add.php" method="post" enctype="multipart/form-data">
+                                    <form  method="post" enctype="multipart/form-data">
                                     <?php
                                         // Call function category insert
                                         cate_insert();
-
-                                        // Initialize an empty array for the form data
-                                        $rowFrm = array(
-                                            "Id" => "", 
-                                            "Name" => "",  
-                                            "Description" => "", 
-                                            "CreateBy" => "", 
-                                            "Status" => "", 
-                                            "Image" => "", 
-                                            "UpdateAt" => ""
-                                           
-                                        );
-
-                                        // Check if the `Id` parameter is set and valid
-                                        if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
-                                            $categoryid = $conn->real_escape_string($_REQUEST['Id']);
-                                            
-                                            // Call the category update function if needed
+                                        // empty equal "" 
+                                        if(isset($_REQUEST['Id']) && !empty($_REQUEST['Id'])) {
+                                            $categoryid = $_REQUEST['Id'];
+                                            echo 'Edit Category' . $categoryid;
                                             category_update();
+                                            $rowFrm = $conn->query("SELECT * FROM `category` WHERE Id = $categoryid")->fetch_assoc();
 
-                                            // Fetch the category data for update
-                                            $result = $conn->query("SELECT * FROM `outlet` WHERE `Id` = '$categoryid'");
-
-                                            if ($result && $result->num_rows > 0) {
-                                                $rowFrm = $result->fetch_assoc();
-                                            } else {
-                                                echo '<script>
-                                                        document.addEventListener("DOMContentLoaded", function() {
-                                                            swal({
-                                                                title: "Error",
-                                                                text: "Failed to fetch category data. Please try again.",
-                                                                icon: "error"
-                                                            }).then(function() {
-                                                                window.location = "cate-list.php";
-                                                            });
-                                                        });
-                                                    </script>';
-                                            }
+                                        }elseif(isset($_REQUEST['view']) ) {
+                                            $categoryid = $_REQUEST['view'];
+                                            $rowFrm = $conn->query("SELECT * FROM `category` WHERE Id = $categoryid")->fetch_assoc();
+                                        }else{
+                                            // Initialize an empty array for the form data
+                                            $rowFrm = array(
+                                                "Id" => "", "Name" => "",  "Description" => "", "CreateBy" => "", "Status" => "", "Image" => "", "UpdateAt" => ""      
+                                                );
                                         }
+                                       
                                     ?>
                                         <div class="row">
                                             <!-- Form Fields on the Left -->
@@ -121,7 +99,7 @@ include('function_category.php');
                                                 <!--  Description -->
                                                 <div class="form-group">
                                                     <label for="description">Description</label>
-                                                    <textarea type="text" rows="3" cols="10" class="form-control border-left-danger" id="description" name="description" value="<?php  echo htmlspecialchars($rowFrm['Description']); ?>" required> </textarea>
+                                                    <textarea type="text" rows="3" cols="10" class="form-control border-left-danger" id="description" name="description" value="<?php  echo htmlspecialchars($rowFrm['Description']); ?>" required> <?php  echo htmlspecialchars($rowFrm['Description']); ?> </textarea>
                                                 </div>
 
                                                 <!-- Created By -->
@@ -154,13 +132,18 @@ include('function_category.php');
                                                             <i class="fa-solid fa-ban" style="color: red;"></i>
                                                         </button>
                                                         <div class="con-bg">
-                                                            <img class="bg" src="" alt="">
+                                                            <!-- <img class="bg" src="" alt=""> -->
+                                                            <?php
+                                                            if (!empty($rowFrm['Image'])) {
+                                                                echo '<img class="image" id="Categoryimage" src="./ImageCategory/' . htmlspecialchars($rowFrm['Image']) . '" alt="CategoryImage" height="250px">';
+                                                            } else {
+                                                            ?>
                                                         </div>
                                                         <div class="img-1">
                                                             <?php
-                                                            if (!empty($rowFrm['Logo'])) {
-                                                                echo '<img class="image" id="Categoryimage" src="./ImageCategory/' . htmlspecialchars($rowFrm['Image']) . '" alt="Categoryimage" width="200px">';
-                                                            } else {
+                                                            // if (!empty($rowFrm['Image'])) {
+                                                            //     echo '<img class="image" id="Categoryimage" src="./ImageCategory/' . htmlspecialchars($rowFrm['Image']) . '" alt="CategoryImage" height="230px">';
+                                                            // } else {
                                                             ?>
                                                                 <svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                                     <linearGradient id="lg1">
@@ -232,7 +215,10 @@ include('function_category.php');
                                                                 <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
                                                                 <a href="cate-add.php" class="btn btn-info btn-sm mt-5"> New </a>
                                                             ';
-                                                        } else {
+                                                        } elseif(isset($_REQUEST['view'])){
+                                                            echo '<a href="cate-add.php" class="btn btn-info btn-sm mt-5"> Back to list </a>';
+                                                        }
+                                                        else {
                                                             echo '
                                                                 <button type="submit" class="btn btn-primary btn-sm mt-5 w-100" name="btnsave">Save</button>
                                                                 ';
