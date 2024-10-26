@@ -24,7 +24,7 @@ function cate_insert() {
                                  VALUES ( '$categoryname', '$description', '$createby', 'no_image.png')";
         }
 
-        if ($conn->query($sqlcategoryinsert) === TRUE) {
+            if ($conn->query($sqlcategoryinsert) === TRUE) {
             echo '<script>
                     document.addEventListener("DOMContentLoaded", function() {
                         swal({
@@ -96,7 +96,7 @@ function category_update() {
                             text: "category updated successfully",
                             icon: "success"
                         }).then(function() {
-                            window.location = "category-list.php";
+                            window.location = "cate-list.php";
                         });
                     });
                   </script>';
@@ -108,7 +108,7 @@ function category_update() {
                             text: "There was an error updating the category. Please try again. Error: ' . $conn->error . '",
                             icon: "error"
                         }).then(function() {
-                            window.location = "category-list.php";
+                            window.location = "cate-list.php";
                         });
                     });
                   </script>';
@@ -143,7 +143,8 @@ function category_delete(){
         
         // List of tables and the corresponding foreign key column that reference the category ID
         $foreignTables = [
-            'user' => 'Id',
+            
+            'product' => 'CategoryId',
             
             
             // Add more tables and their foreign key columns here

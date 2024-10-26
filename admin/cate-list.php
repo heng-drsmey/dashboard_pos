@@ -1,5 +1,6 @@
 <?php
 include('include/head.php');
+include('function_category.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,15 +80,41 @@ include('include/head.php');
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                        <?php
+                                            include('confirm_delete.php');
+                                            category_delete();
+                                        ?>
                                         <!-- view data in table -->
                                         <?php
-                                            $sqlSelectcate = "SELECT * FROM `category` WHERE del=1";
-                                            $final = $conn->query($sqlSelectcate);
-                                            
-                                            if ($final->num_rows > 0) {
-                                                while ($rowcate = $final->fetch_assoc()) {
-                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" .$rowcate['CreateBy'])->fetch_assoc();
+                                        $sqlSelectcate = "SELECT * FROM `category` WHERE del=1";
+                                        $final = $conn->query($sqlSelectcate);
+
+                                        if ($final->num_rows > 0) {
+                                            while ($rowcate = $final->fetch_assoc()) {
+                                                $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowcate['CreateBy'])->fetch_assoc();
                                         ?>
+<<<<<<< Updated upstream
+                                                <tr>
+                                                    <td><?= $rowcate['Name'] ?></td>
+                                                    <td><?= $rowcate['Description'] ?></td>
+                                                    <td>
+                                                        <?php
+                                                        if ($rowcate['Status'] == 1) {
+                                                            echo '<p><a href="statusCategory.php?Id=' . $rowcate['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                        } else {
+                                                            echo '<p><a href="statusCategory.php?Id=' . $rowcate['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td><img src="ImageCategory/<?= $rowcate['Image'] ?>" alt="" width="50px" alt=""></td>
+                                                    <td><?= $createby['Username'] ?></td>
+                                                    <td>
+                                                        <a href="cate-add.php?Id=<?= $rowcate['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
+                                                        <a href="cate-add.php?Id=<?= $rowcate['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="cate-list.php?delId=<?= $rowcate['Id'] ?>"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+=======
                                         <tr>
                                             <td><?= $rowcate['Name'] ?></td>
                                             <td><?= $rowcate['Description'] ?></td>
@@ -104,15 +131,16 @@ include('include/head.php');
                                             <td><?= $createby['Username'] ?></td>
                                             <td>
                                                 <a href="cate-add.php?Id=<?= $rowcate['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                <a href="cate-add.php?Id=<?= $rowcate['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
+                                                <a href="cate-add.php?view=<?= $rowcate['Id'] ?>" class="btn btn-outline-success btn-sm "><i class="fa-solid fa-eye"></i></a>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="cate-list.php?delId=<?= $rowcate['Id'] ?>"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
+>>>>>>> Stashed changes
                                         <?php
-                                                }
-                                            } else {
-                                                echo '<tr><td colspan="8" class="text-center">No data found.</td></tr>';
                                             }
+                                        } else {
+                                            echo '<tr><td colspan="8" class="text-center">No data found.</td></tr>';
+                                        }
                                         ?>
                                     </tbody>
                                 </table>
