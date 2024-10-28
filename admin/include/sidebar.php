@@ -118,8 +118,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapsePayroll" class="collapse" aria-labelledby="headingCat" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="cate-add.php">Payroll By Month</a>
-                <a class="collapse-item" href="cate-list.php">Payroll By Employee</a>
+                <!-- <a class="collapse-item" href="cate-add.php">Payroll By Month</a> -->
+                <a class="collapse-item" href="payroll.php">Payroll</a>
                 <a class="collapse-item" href="cate-list.php">Review Salary</a>
             </div>
         </div>
