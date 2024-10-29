@@ -59,191 +59,187 @@ include('function_bank.php')
                     </div>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
-                        <form method="post" enctype="multipart/form-data">
-                            <?php
-                                            // Call function bank insert
-                                            bank_insert();
-                                            // Initialize an empty array for the form data
-                                            $rowFrm = array(
-                                                "Id" => "", "Bank" => "", "CreateBy" => "","Remark" => "","CreateAt" => "", "UpdateAt" => "", "Status" => ""
-                                            );
-                                            // check if the `Id` parameter is set and valid
-                                            if(isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
-                                               $bankid = $conn->real_escape_string($_REQUEST['Id']);
-                                               // Call the bank update function if needed
-                                               bank_update();
-                                               // Fetch the bank data for update
-                                               $result = $conn->query("SELECT * FROM `bank` WHERE `Id` = '$bankid'");
-                                               if ($result && $result->num_rows > 0) {
-                                                    $rowFrm = $result->fetch_assoc();
-                                                } else {
-                                                    echo '<script>
-                                                            document.addEventListener("DOMContentLoaded", function() {
-                                                                swal({
-                                                                    title: "Error",
-                                                                    text: "Failed to fetch bank data. Please try again.",
-                                                                    icon: "error"
-                                                                }).then(function() {
-                                                                    window.location = "bank.php";
-                                                                });
-                                                            });
-                                                        </script>';
-                                                }
-                                            }
-                                        ?>
+                                            <form method="post" enctype="multipart/form-data" oninput="calculateSalaries()">
                             <div class="card-body">
-                                <input type="text" style="display: none;" name="Id"
-                                    value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
+                                <h5 style="color:black;">Payroll Information</h5>
+                                <hr style="display: block; color: red; border: none; height: 1px; width: 100%; background-color: blue;">
+                                <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
                                 <div class="row">
                                     <div class="col-3">
                                         <label for="codepayroll">Code Payroll</label>
-                                        <input type="text" class="form-control border-left-danger" name="bank"
-                                            value="<?php echo '' . $rowFrm['Bank'] . '' ?>" required>
+                                        <input type="text" class="form-control border-left-danger" name="codepayroll" required>
                                     </div>
-                                    <div class="col-3">
-                                        <label for="date">Date</label>
-                                        <input type="date" class="form-control border-left-danger" name="bank"
-                                            value="<?php echo '' . $rowFrm['Bank'] . '' ?>" required>
-                                    </div>
+
                                     <div class="col-3">
                                         <label for="type">Type</label>
-                                        <select class="form-control mb-2" name="type" id="type" require>
-                                            <option value="Interim"
-                                                <?php echo ($rowFrm['type'] == 'interim') ? 'selected' : ''; ?>>Interim
-                                            </option>
-                                            <option value="Final"
-                                                <?php echo ($rowFrm['type'] == 'final') ? 'selected' : ''; ?>>Final
-                                            </option>
+                                        <select class="form-control border-left-danger" name="type" id="type" required>
+                                            <option value="Interim">Interim</option>
+                                            <option value="Final">Final</option>
                                         </select>
                                     </div>
                                     <div class="col-3">
-                                        <label for="employee">Employee</label>
-                                        <select class="form-control mb-2" style="width: 100%;" name="createby">
-                                            <?php
-                                                                    $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
-                                                                    $qrcreateby = $conn->query($sqlcreateby);
-                                                                    while ($rowcreateby = $qrcreateby->fetch_assoc()) {
-                                                                    if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
-                                                                    else $sel = '';
-                                                                    echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . $rowcreateby['Username'] . '</option>';
-                                                                    }
-
-                                                                ?>
-                                        </select>
+                                        <label for="numofday">Number of Day</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">A</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="numofday" id="numofday">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="numofmonth">Number of Month</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">B</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="numofmonth" id="numofmonth">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-3">
-                                        <label for="numofday">Number of Day</label>
-                                        <input type="number" min="1" class="form-control border-left-danger"
-                                            name="numofday" value="<?php echo '' . $rowFrm['Bank'] . '' ?>">
+                                        <label for="date">Date</label>
+                                        <input type="date" class="form-control border-left-danger" name="date" required>
                                     </div>
-                                    <div class="col-3">
-                                        <label for="numofmonth">Number of Month</label>
-                                        <input type="number" min="1" class="form-control border-left-danger"
-                                            name="numofmonth" value="<?php echo '' . $rowFrm['Bank'] . '' ?>">
-                                    </div>
+
                                     <div class="col-3">
                                         <label for="createby">Create By</label>
                                         <select class="form-control mb-2" style="width: 100%;" name="createby">
                                             <?php
-                                                                    $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
-                                                                    $qrcreateby = $conn->query($sqlcreateby);
-                                                                    while ($rowcreateby = $qrcreateby->fetch_assoc()) {
-                                                                    if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
-                                                                    else $sel = '';
-                                                                    echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . $rowcreateby['Username'] . '</option>';
-                                                                    }
-
-                                                                ?>
+                                            $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
+                                            $qrcreateby = $conn->query($sqlcreateby);
+                                            while ($rowcreateby = $qrcreateby->fetch_assoc()) {
+                                                if ($rowcreateby['Id'] == $rowFrm['CreateBy']) $sel = 'selected';
+                                                else $sel = '';
+                                                echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . $rowcreateby['Username'] . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-6">
                                         <label for="remark">Remark</label>
-                                        <input type="text" class="form-control " name="remark"
-                                            value="<?php echo '' . $rowFrm['Remark'] . '' ?>">
+                                        <input type="text" class="form-control" name="remark">
                                     </div>
                                 </div>
-                                <p style="color:red;">Noted: Base Salary x Number of Day / Number of Month.</p>
-                                <?php
-                                                if (isset($_REQUEST['Id'])) {
-                                                    echo '
-                                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
-                                                        <a href="bank.php" class="btn btn-info btn-sm mt-5"> NEW </a>
-                                                    ';
-                                                } else {
-                                                    echo '
-                                                        <button type="submit" class="btn btn-primary btn-sm mt-5 w-50" name="btnsave">Save</button>
-                                                        ';
-                                                }
-                                                ?>
                             </div>
-                        </form>
-                    </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- Add UOM -->
-                                <!-- List UOM -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Bank</th>
-                                                <th>CreateBy</th>
-                                                <th>Remark</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <?php
-                                                    include('confirm_delete.php');
-                                                    bank_delete();
-                                                ?>
-                                        <tbody>
-                                            <?php
-                                                $sqlbank = "SELECT * FROM `bank` WHERE del=1";
-                                                $item = $conn->query($sqlbank);
-                                                $rowbank = $item->fetch_assoc();
-                                                ?>
-                                            <?php foreach ($item as $rowbank) :
-
-                                                    $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowbank['CreateBy'])->fetch_assoc();
-                                                ?>
-                                            <tr>
-                                                <td><?= $rowbank['Bank'] ?></td>
-                                                <td><?= $createby['Username'] ?></td>
-                                                <td><?= $rowbank['Remark'] ?></td>
-                                                <td>
-                                                    <?php
-                                                            if ($rowbank['Status'] == 1) {
-                                                                echo '<p><a href="statusBank.php?Id=' . $rowbank['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
-                                                            } else {
-                                                                echo '<p><a href="statusBank.php?Id=' . $rowbank['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
-                                                            }
-                                                            ?>
-                                                </td>
-
-                                                <td>
-                                                    <a href="bank.php?Id=<?= $rowbank['Id'] ?>"
-                                                        class="btn btn-outline-primary btn-sm "><i
-                                                            class="fa fa-pencil"></i></a>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        data-toggle="modal" data-target="#confirm-delete"
-                                                        data-href="bank.php?delId=<?= $rowbank['Id'] ?>"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-
-                                            <?php endforeach  ?>
-                                        </tbody>
-                                    </table>
+                            <div class="card-body">
+                                <h5 style="color:black;">Payroll by Employee</h5>
+                                <hr style="display: block; color: red; border: none; height: 1px; width: 100%; background-color: blue;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="codeemployee">Code</label>
+                                        <input type="text" class="form-control border-left-danger" name="codeemployee" required>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="employee">Employee</label>
+                                        <input type="text" class="form-control" name="employee">
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="employeetype">Employee Type</label>
+                                        <input type="text" class="form-control" name="employeetype">
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="basesalary">Base Salary</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">C</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="basesalary" id="basesalary">
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="bonus">Bonus</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">D</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="bonus" id="bonus">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="allowance">Allowance</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">E</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="allowance" id="allowance">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="seniority">Seniority Payment</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">F</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="seniority" id="seniority">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="pension">Pension Fund Deduction</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">G</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="pension" id="pension">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="interimsalary">Interim Salary Payment</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">C x A / B</span>
+                                            </div>
+                                            <input type="number" class="form-control" name="interimsalary" id="interimsalary" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="netsalary">Net Salary Payment</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">C + D + E + F - G</span>
+                                            </div>
+                                            <input type="number" class="form-control" name="netsalary" id="netsalary" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                                if (isset($_REQUEST['Id'])) {
+                                    echo '
+                                        <input type="submit" value="UPDATE" class="btn btn-success btn-sm mt-5" name="btnupdate">
+                                        <a href="payroll.php" class="btn btn-info btn-sm mt-5"> NEW </a>
+                                    ';
+                                } else {
+                                    echo '
+                                        <button type="submit" class="btn btn-primary btn-sm mt-5 w-50" name="btnsave">Save</button>
+                                        ';
+                                }
+                                ?>
                             </div>
+                            <!-- JavaScript for automatic calculation -->
+                            <script>
+                                function calculateSalaries() {
+                                    const baseSalary = parseFloat(document.getElementById("basesalary").value) || 0;
+                                    const numOfDay = parseFloat(document.getElementById("numofday").value) || 0;
+                                    const numOfMonth = parseFloat(document.getElementById("numofmonth").value) || 0;
+                                    const bonus = parseFloat(document.getElementById("bonus").value) || 0;
+                                    const allowance = parseFloat(document.getElementById("allowance").value) || 0;
+                                    const seniority = parseFloat(document.getElementById("seniority").value) || 0;
+                                    const pension = parseFloat(document.getElementById("pension").value) || 0;
 
-                        </div>
+                                    const interimSalary = numOfMonth > 0 ? (baseSalary * numOfDay) / numOfMonth : 0;
+                                    document.getElementById("interimsalary").value = interimSalary.toFixed(2);
+
+                                    const netSalary = baseSalary + bonus + allowance + seniority - pension;
+                                    document.getElementById("netsalary").value = netSalary.toFixed(2);
+                                }
+                            </script>
+                        </form>
+
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -259,47 +255,7 @@ include('function_bank.php')
 
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Search -->
-    <script>
-    function myFunction() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("dataTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-
-    // controll alert
-    $(document).ready(function() {
-        // Event listener for when the alert is closed
-        $('#alert-success').on('closed.bs.alert', function() {
-            // Action to perform after the alert is closed
-            console.log('Alert closed');
-            // You can perform additional actions here, such as redirecting the user
-            window.location.href = "bank.php";
-        });
-
-        // Alternatively, you can automatically close the alert after some time
-        setTimeout(function() {
-            $('#alert-success').alert('close');
-        }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
-    });
-    </script>
+ 
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 
