@@ -98,6 +98,15 @@ include('function_bank.php')
                                 </div>
                                 <div class="row">
                                     <div class="col-3">
+                                        <label for="interimbasesalary">Interim Base Salary</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">C</span>
+                                            </div>
+                                            <input type="number" min="0" class="form-control" name="interimbasesalary" id="interimbasesalary">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
                                         <label for="date">Date</label>
                                         <input type="date" class="form-control border-left-danger" name="date" required>
                                     </div>
@@ -116,7 +125,7 @@ include('function_bank.php')
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-3">
                                         <label for="remark">Remark</label>
                                         <input type="text" class="form-control" name="remark">
                                     </div>
@@ -126,15 +135,15 @@ include('function_bank.php')
                                 <h5 style="color:black;">Payroll by Employee</h5>
                                 <hr style="display: block; color: red; border: none; height: 1px; width: 100%; background-color: blue;">
                                 <div class="row">
-                                    <div class="col-3">
-                                        <label for="codeemployee">Code</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal">Search</button>
-                                            </div>
-                                            <input type="text" class="form-control border-left-danger" name="codeemployee" id="codeemployee" readonly>
-                                        </div>
-                                    </div>
+                                <div class="col-3">
+        <label for="codeemployee">Code</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal">Search</button>
+            </div>
+            <input type="text" class="form-control border-left-danger" name="codeemployee" id="codeemployee" readonly>
+        </div>
+    </div>
                                     <div class="col-3">
                                         <label for="employee">Employee</label>
                                         <input type="text" class="form-control" name="employee" id="employee" readonly>
@@ -147,7 +156,7 @@ include('function_bank.php')
                                         <label for="basesalary">Base Salary</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">C</span>
+                                                <span class="input-group-text" id="">D</span>
                                             </div>
                                             <input type="number" min="0" class="form-control" name="basesalary" id="basesalary">
                                         </div>
@@ -158,7 +167,7 @@ include('function_bank.php')
                                         <label for="bonus">Bonus</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">D</span>
+                                                <span class="input-group-text" id="">E</span>
                                             </div>
                                             <input type="number" min="0" class="form-control" name="bonus" id="bonus">
                                         </div>
@@ -167,7 +176,7 @@ include('function_bank.php')
                                         <label for="allowance">Allowance</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">E</span>
+                                                <span class="input-group-text" id="">F</span>
                                             </div>
                                             <input type="number" min="0" class="form-control" name="allowance" id="allowance">
                                         </div>
@@ -176,7 +185,7 @@ include('function_bank.php')
                                         <label for="seniority">Seniority Payment</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">F</span>
+                                                <span class="input-group-text" id="">G</span>
                                             </div>
                                             <input type="number" min="0" class="form-control" name="seniority" id="seniority">
                                         </div>
@@ -185,7 +194,7 @@ include('function_bank.php')
                                         <label for="pension">Pension Fund Deduction</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">G</span>
+                                                <span class="input-group-text" id="">H</span>
                                             </div>
                                             <input type="number" min="0" class="form-control" name="pension" id="pension">
                                         </div>
@@ -205,7 +214,7 @@ include('function_bank.php')
                                         <label for="netsalary">Net Salary Payment</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">C + D + E + F - G</span>
+                                                <span class="input-group-text" id="">D + E + F + G - H</span>
                                             </div>
                                             <input type="number" class="form-control" name="netsalary" id="netsalary" readonly>
                                         </div>
@@ -226,46 +235,47 @@ include('function_bank.php')
                             </div>
                             <!-- Employee Modal -->
                             <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="employeeModalLabel">Select Employee</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <table class="table table-hover" id="employeeTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Code</th>
-                                                        <th>Name</th>
-                                                        <th>Employee Type</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    // Fetch employee data along with employee type from the database
-                                                    $query = "SELECT employee.Code, employee.Lastname, employeetype.EmployeeType 
-                                                            FROM employee
-                                                            LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
-                                                            WHERE employee.del = 1";
-                                                    $result = $conn->query($query);
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalLabel">Select Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="employeeTable">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Employee Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Fetch employee data along with employee type from the database
+                        $query = "SELECT employee.Code, employee.Lastname, employeetype.EmployeeType 
+                                FROM employee
+                                LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
+                                WHERE employee.del = 1";
+                        $result = $conn->query($query);
 
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo "<tr ondblclick='selectEmployee(this)'>";
-                                                        echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($row['EmployeeType']) . "</td>";
-                                                        echo "</tr>";
-                                                    }
-                                                    ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr ondblclick='selectEmployee(this)'>";
+                            echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['EmployeeType']) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                         </form>
 
@@ -285,73 +295,86 @@ include('function_bank.php')
 
     </div>
     <!-- End of Page Wrapper -->
-                             <!-- JavaScript for automatic calculation -->
-    <script>
-        function calculateSalaries() {
-            const baseSalary = parseFloat(document.getElementById("basesalary").value) || 0;
-            const numOfDay = parseFloat(document.getElementById("numofday").value) || 0;
-            const numOfMonth = parseFloat(document.getElementById("numofmonth").value) || 0;
-            const bonus = parseFloat(document.getElementById("bonus").value) || 0;
-            const allowance = parseFloat(document.getElementById("allowance").value) || 0;
-            const seniority = parseFloat(document.getElementById("seniority").value) || 0;
-            const pension = parseFloat(document.getElementById("pension").value) || 0;
 
-            const interimSalary = numOfMonth > 0 ? (baseSalary * numOfDay) / numOfMonth : 0;
-            document.getElementById("interimsalary").value = interimSalary.toFixed(2);
 
-            const netSalary = baseSalary + bonus + allowance + seniority - pension;
-            document.getElementById("netsalary").value = netSalary.toFixed(2);
-        }
+    <!-- JavaScript for calculating interim and net salaries separately -->
+<script>
+    function calculateInterimSalary() {
+        const interimbaseSalary = parseFloat(document.getElementById("interimbasesalary").value) || 0;
+        const numOfDay = parseFloat(document.getElementById("numofday").value) || 0;
+        const numOfMonth = parseFloat(document.getElementById("numofmonth").value) || 0;
 
-                // Define the selectEmployee function
-        function selectEmployee(row) {
-            // Ensure row is a valid element and not null
-            if (row) {
-                const code = row.cells[0].textContent;
-                const name = row.cells[1].textContent;
-                const employeeType = row.cells[2].textContent;
+        const interimSalary = numOfMonth > 0 ? (interimbaseSalary * numOfDay) / numOfMonth : 0;
+        document.getElementById("interimsalary").value = interimSalary.toFixed(2);
+    }
 
-                // Populate fields with data from the selected row
-                document.getElementById('codeemployee').value = code;
-                document.getElementById('employee').value = name;
-                document.getElementById('employeetype').value = employeeType;
+    function calculateNetSalary() {
+        const baseSalary = parseFloat(document.getElementById("basesalary").value) || 0;
+        const bonus = parseFloat(document.getElementById("bonus").value) || 0;
+        const allowance = parseFloat(document.getElementById("allowance").value) || 0;
+        const seniority = parseFloat(document.getElementById("seniority").value) || 0;
+        const pension = parseFloat(document.getElementById("pension").value) || 0;
 
-                // Close the modal
-                $('#employeeModal').modal('hide');
-            }
-        }
+        const netSalary = baseSalary + bonus + allowance + seniority - pension;
+        document.getElementById("netsalary").value = netSalary.toFixed(2);
+    }
 
-        // Make sure jQuery and Bootstrap are loaded correctly
-        $(document).ready(function() {
-            // No additional setup needed here for double-click handling
-        });
-    </script>
-    <!-- Scroll to Top Button-->
-    <?php include './include/scroll-btn.php' ?>
+    // Attach event listeners to trigger each calculation separately
+    document.getElementById("interimbasesalary").addEventListener("input", calculateInterimSalary);
+    document.getElementById("numofday").addEventListener("input", calculateInterimSalary);
+    document.getElementById("numofmonth").addEventListener("input", calculateInterimSalary);
 
-    <!-- Logout Modal-->
-    <?php include './include/logout-modal.php' ?>
+    document.getElementById("basesalary").addEventListener("input", calculateNetSalary);
+    document.getElementById("bonus").addEventListener("input", calculateNetSalary);
+    document.getElementById("allowance").addEventListener("input", calculateNetSalary);
+    document.getElementById("seniority").addEventListener("input", calculateNetSalary);
+    document.getElementById("pension").addEventListener("input", calculateNetSalary);
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- JavaScript includes - Ensure the order is correct -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/sb-admin-2.min.js"></script>
+<script src="js/demo/datatables-demo.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+<script>
+// Define the selectEmployee function in the global scope
+function selectEmployee(row) {
+    if (row) {
+        const code = row.cells[0].textContent;
+        const name = row.cells[1].textContent;
+        const employeeType = row.cells[2].textContent;
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        // Populate fields with data from the selected row
+        document.getElementById("codeemployee").value = code;
+        document.getElementById("employee").value = name;
+        document.getElementById("employeetype").value = employeeType;
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+        // Close the modal using jQuery
+        $('#employeeModal').modal('hide');
+    }
+}
 
-    <!-- Include Bootstrap's JS and jQuery (if not already included) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize DataTable on employeeTable
+    $('#employeeTable').DataTable();
+
+    // Add event listeners for double-clicking on each row after DataTable is initialized
+    $('#employeeTable tbody').on('dblclick', 'tr', function () {
+        selectEmployee(this);
+    });
+});
+</script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
+
+
+
 
 </body>
 
