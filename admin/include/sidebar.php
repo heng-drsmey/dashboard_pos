@@ -120,7 +120,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="bg-white py-2 collapse-inner rounded">
                 <!-- <a class="collapse-item" href="cate-add.php">Payroll By Month</a> -->
                 <a class="collapse-item" href="payroll.php">Payroll</a>
-                <a class="collapse-item" href="cate-list.php">Review Salary</a>
+                <a class="collapse-item" href="payroll-list.php">Review Salary</a>
             </div>
         </div>
     </li>

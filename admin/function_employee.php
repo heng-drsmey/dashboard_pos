@@ -181,6 +181,7 @@ function employee_delete() {
             'employeepayroll' => 'EmployeeId',
             'employeereviewsalary' => 'EmployeeId',
             'user' => 'EmployeeId',
+            'payroll' => 'CodeEmployee',
             // Add more tables and their foreign key columns here
         ];
         $canDelete = true;

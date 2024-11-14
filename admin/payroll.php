@@ -1,6 +1,6 @@
 <?php
 include('include/head.php');
-include('function_bank.php')
+include('function_payroll.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,8 +17,7 @@ include('function_bank.php')
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <!-- Font awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -55,26 +54,38 @@ include('function_bank.php')
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Payroll</h1>
-                        <!-- <a href="Tableduct-add.php" class="d-none d-sm-inline-block btn btn-success shadow-sm" disabled><i class="fas fa-user text-white-50"></i> Add New</a> -->
+                        <a href="payroll-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i>Payroll List</a>
                     </div>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
-                                            <form method="post" enctype="multipart/form-data" oninput="calculateSalaries()">
+                        <form action="payroll.php" method="post" enctype="multipart/form-data" oninput="calculateSalaries()">
+                            <?php
+                            // Call function payroll insert
+                            payroll_insert();
+                            // Initialize an empty array for the form data
+                            $rowFrm = array(
+                                "Id" => "","Code" => "", "Type" => "", "NumberDay"  => "", "NumberMonth"    => "", "InterimSalary" => "", "Date" => "", 
+                                "CreateBy" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "", "BaseSalary" => "",
+                                "Bonus" => "", "Allowance" => "", "Seniority" => "", "Deduction" =>"", "InterimPayment" => "", "SalaryPayment" => ""
+                            );                                   
+                            ?>
                             <div class="card-body">
                                 <h5 style="color:black;">Payroll Information</h5>
                                 <hr style="display: block; color: red; border: none; height: 1px; width: 100%; background-color: blue;">
-                                <input type="text" style="display: none;" name="Id" value="<?php echo htmlspecialchars($rowFrm['Id']); ?>">
+                                <input type="text" style="display: none;" name="Id" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id']) : ''; ?>">
+
+
                                 <div class="row">
                                     <div class="col-3">
                                         <label for="codepayroll">Code Payroll</label>
-                                        <input type="text" class="form-control border-left-danger" name="codepayroll" required>
+                                        <input type="text" class="form-control border-left-danger" name="codepayroll"  value="<?php echo isset($rowFrm['Code']) ? htmlspecialchars($rowFrm['Code']) : ''; ?>"  required>
                                     </div>
 
                                     <div class="col-3">
                                         <label for="type">Type</label>
-                                        <select class="form-control border-left-danger" name="type" id="type" required>
-                                            <option value="Interim">Interim</option>
-                                            <option value="Final">Final</option>
+                                        <select class="form-control border-left-danger" name="type" id="type">
+                                            <option value="interim" <?php echo (isset($rowFrm['Type']) && $rowFrm['Type'] == 'interim') ? 'selected' : ''; ?>>Interim</option>
+                                            <option value="final" <?php echo (isset($rowFrm['Type']) && $rowFrm['Type'] == 'final') ? 'selected' : ''; ?>>Final</option>
                                         </select>
                                     </div>
                                     <div class="col-3">
@@ -83,7 +94,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">A</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="numofday" id="numofday">
+                                            <input type="number" min="0" class="form-control" name="numofday" value="<?php echo htmlspecialchars($rowFrm['NumberDay']); ?>" id="numofday">
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -92,7 +103,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">B</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="numofmonth" id="numofmonth">
+                                            <input type="number" min="0" class="form-control" name="numofmonth" value="<?php echo htmlspecialchars($rowFrm['NumberMonth']); ?>" id="numofmonth">
                                         </div>
                                     </div>
                                 </div>
@@ -103,12 +114,12 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">C</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="interimbasesalary" id="interimbasesalary">
+                                            <input type="number" min="0" class="form-control" name="interimbasesalary" value="<?php echo htmlspecialchars($rowFrm['InterimSalary']); ?>" id="interimbasesalary">
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <label for="date">Date</label>
-                                        <input type="date" class="form-control border-left-danger" name="date" required>
+                                        <input type="date" class="form-control border-left-danger" name="date" value="<?php echo htmlspecialchars($rowFrm['Date']); ?>" id="date" required>
                                     </div>
 
                                     <div class="col-3">
@@ -127,7 +138,7 @@ include('function_bank.php')
                                     </div>
                                     <div class="col-3">
                                         <label for="remark">Remark</label>
-                                        <input type="text" class="form-control" name="remark">
+                                        <input type="text" class="form-control" name="remark" value="<?php echo isset($rowFrm['Remark']) ? htmlspecialchars($rowFrm['Remark']) : ''; ?>" id="remark">
                                     </div>
                                 </div>
                             </div>
@@ -135,22 +146,22 @@ include('function_bank.php')
                                 <h5 style="color:black;">Payroll by Employee</h5>
                                 <hr style="display: block; color: red; border: none; height: 1px; width: 100%; background-color: blue;">
                                 <div class="row">
-                                <div class="col-3">
-        <label for="codeemployee">Code</label>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal">Search</button>
-            </div>
-            <input type="text" class="form-control border-left-danger" name="codeemployee" id="codeemployee" readonly>
-        </div>
-    </div>
+                                    <div class="col-3">
+                                        <label for="codeemployee">Code</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal">Search</button>
+                                            </div>
+                                            <input type="text" class="form-control border-left-danger" name="codeemployee" value="<?php echo isset($rowFrm['CodeEmployee']) ? htmlspecialchars($rowFrm['CodeEmployee']) : ''; ?>" id="codeemployee" readonly>
+                                        </div>
+                                    </div>
                                     <div class="col-3">
                                         <label for="employee">Employee</label>
-                                        <input type="text" class="form-control" name="employee" id="employee" readonly>
+                                        <input type="text" class="form-control" name="employee" value="<?php echo isset($rowFrm['Employee']) ? htmlspecialchars($rowFrm['Employee']) : ''; ?>" id="employee" readonly>
                                     </div>
                                     <div class="col-3">
                                         <label for="employeetype">Employee Type</label>
-                                        <input type="text" class="form-control" name="employeetype" id="employeetype" readonly>
+                                        <input type="text" class="form-control" name="employeetype" value="<?php echo isset($rowFrm['EmployeeType']) ? htmlspecialchars($rowFrm['EmployeeType']) : ''; ?>" id="employeetype" readonly>
                                     </div>
                                     <div class="col-3">
                                         <label for="basesalary">Base Salary</label>
@@ -158,7 +169,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">D</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="basesalary" id="basesalary">
+                                            <input type="number" min="0" class="form-control" name="basesalary" value="<?php echo htmlspecialchars($rowFrm['BaseSalary']); ?>" id="basesalary">
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +180,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">E</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="bonus" id="bonus">
+                                            <input type="number" min="0" class="form-control" name="bonus" value="<?php echo htmlspecialchars($rowFrm['Bonus']); ?>" id="bonus">
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -178,7 +189,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">F</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="allowance" id="allowance">
+                                            <input type="number" min="0" class="form-control" name="allowance" value="<?php echo htmlspecialchars($rowFrm['Allowance']); ?>" id="allowance">
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -187,16 +198,16 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">G</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="seniority" id="seniority">
+                                            <input type="number" min="0" class="form-control" name="seniority" value="<?php echo htmlspecialchars($rowFrm['Seniority']); ?>" id="seniority">
                                         </div>
                                     </div>
                                     <div class="col-3">
-                                        <label for="pension">Pension Fund Deduction</label>
+                                        <label for="deduction">Pension Fund Deduction</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">H</span>
                                             </div>
-                                            <input type="number" min="0" class="form-control" name="pension" id="pension">
+                                            <input type="number" min="0" class="form-control" name="deduction" value="<?php echo htmlspecialchars($rowFrm['Deduction']); ?>" id="deduction">
                                         </div>
                                     </div>
                                 </div>
@@ -207,7 +218,7 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">C x A / B</span>
                                             </div>
-                                            <input type="number" class="form-control" name="interimsalary" id="interimsalary" readonly>
+                                            <input type="number" class="form-control" name="interimsalary" value="<?php echo htmlspecialchars($rowFrm['InterimPayment']); ?>" id="interimsalary" readonly>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -216,9 +227,14 @@ include('function_bank.php')
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">D + E + F + G - H</span>
                                             </div>
-                                            <input type="number" class="form-control" name="netsalary" id="netsalary" readonly>
+                                            <input type="number" class="form-control" name="netsalary" value="<?php echo htmlspecialchars($rowFrm['SalaryPayment']); ?>" id="netsalary" readonly>
                                         </div>
                                     </div>
+                                </div>
+                                <!-- Disable Checkbox -->
+                                <div class="form-check form-switch ms-4 mt-3">
+                                    <input type="checkbox" class="form-check-input" role="switch" id="status" name="status" <?php echo isset($payroll) && $payroll['Status'] ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="status">Disable</label>
                                 </div>
                                 <?php
                                 if (isset($_REQUEST['Id'])) {
@@ -235,48 +251,46 @@ include('function_bank.php')
                             </div>
                             <!-- Employee Modal -->
                             <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="employeeModalLabel">Select Employee</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-hover" id="employeeTable">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Employee Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Fetch employee data along with employee type from the database
-                        $query = "SELECT employee.Code, employee.Lastname, employeetype.EmployeeType 
-                                FROM employee
-                                LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
-                                WHERE employee.del = 1";
-                        $result = $conn->query($query);
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="employeeModalLabel">Select Employee</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-hover" id="employeeTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Code</th>
+                                                        <th>Name</th>
+                                                        <th>Employee Type</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    // Fetch employee data along with employee type from the database
+                                                    $query = "SELECT employee.Code, employee.Lastname, employeetype.EmployeeType 
+                                                            FROM employee
+                                                            LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
+                                                            WHERE employee.del = 1";
+                                                    $result = $conn->query($query);
 
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr ondblclick='selectEmployee(this)'>";
-                            echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['EmployeeType']) . "</td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<tr ondblclick='selectEmployee(this)'>";
+                                                        echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
+                                                        echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
+                                                        echo "<td>" . htmlspecialchars($row['EmployeeType']) . "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
 
                     </div>
@@ -313,9 +327,9 @@ include('function_bank.php')
         const bonus = parseFloat(document.getElementById("bonus").value) || 0;
         const allowance = parseFloat(document.getElementById("allowance").value) || 0;
         const seniority = parseFloat(document.getElementById("seniority").value) || 0;
-        const pension = parseFloat(document.getElementById("pension").value) || 0;
+        const deduction = parseFloat(document.getElementById("deduction").value) || 0;
 
-        const netSalary = baseSalary + bonus + allowance + seniority - pension;
+        const netSalary = baseSalary + bonus + allowance + seniority - deduction;
         document.getElementById("netsalary").value = netSalary.toFixed(2);
     }
 
@@ -328,7 +342,7 @@ include('function_bank.php')
     document.getElementById("bonus").addEventListener("input", calculateNetSalary);
     document.getElementById("allowance").addEventListener("input", calculateNetSalary);
     document.getElementById("seniority").addEventListener("input", calculateNetSalary);
-    document.getElementById("pension").addEventListener("input", calculateNetSalary);
+    document.getElementById("deduction").addEventListener("input", calculateNetSalary);
 
 </script>
 
@@ -342,39 +356,52 @@ include('function_bank.php')
 <script src="js/demo/datatables-demo.js"></script>
 
 <script>
-// Define the selectEmployee function in the global scope
-function selectEmployee(row) {
-    if (row) {
-        const code = row.cells[0].textContent;
-        const name = row.cells[1].textContent;
-        const employeeType = row.cells[2].textContent;
 
-        // Populate fields with data from the selected row
-        document.getElementById("codeemployee").value = code;
-        document.getElementById("employee").value = name;
-        document.getElementById("employeetype").value = employeeType;
+    // Define the selectEmployee function in the global scope
+    function selectEmployee(row) {
+        if (row) {
+            const code = row.cells[0].textContent;
+            const name = row.cells[1].textContent;
+            const employeeType = row.cells[2].textContent;
 
-        // Close the modal using jQuery
-        $('#employeeModal').modal('hide');
+            // Populate fields with data from the selected row
+            document.getElementById("codeemployee").value = code;
+            document.getElementById("employee").value = name;
+            document.getElementById("employeetype").value = employeeType;
+
+            // Close the modal
+            $('#employeeModal').modal('hide');
+        }
     }
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Initialize DataTable on employeeTable
-    $('#employeeTable').DataTable();
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchButton = document.querySelector('[data-target="#employeeModal"]');
 
-    // Add event listeners for double-clicking on each row after DataTable is initialized
-    $('#employeeTable tbody').on('dblclick', 'tr', function () {
-        selectEmployee(this);
+        // Initialize DataTable on employeeTable
+        $('#employeeTable').DataTable();
+
+        // Event listener for double-click on table rows to select employee
+        $('#employeeTable tbody').on('dblclick', 'tr', function () {
+            selectEmployee(this);
+        });
+
+        // Manage backdrop removal to prevent duplicates
+        $('#employeeModal').on('show.bs.modal', function () {
+            searchButton.disabled = true; // Disable button to prevent re-clicking
+        });
+
+        // Remove backdrops after modal hides
+        $('#employeeModal').on('hide.bs.modal', function () {
+            searchButton.disabled = false; // Re-enable search button
+        });
+
+        // Ensure all backdrops are removed after modal closes
+        $('#employeeModal').on('hidden.bs.modal', function () {
+            $('.modal-backdrop').remove();
+        });
     });
-});
+
 </script>
-
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
-
-
-
 
 </body>
 
