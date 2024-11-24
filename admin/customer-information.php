@@ -6,7 +6,7 @@ include('cn.php'); // Include your database connection
 $customer = array(
     "Id" => "","Code" => "", "Firstname" => "", "Lastname"  => "", "Gender" => "",
     "Dob" => "", "Nation" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "",
-    "Currency" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
+    "Currency" => "", "CreateBy" => "","CreateAt" => "","Remark" => "", "UpdateAt" => "",
     "Image" => "", "Status" => ""
 );
 

@@ -81,7 +81,9 @@ include('function_company.php');
                                         $rowFrm = array(
                                             "Id" => "", 
                                             "Code" => "", 
-                                            "Name" => "", 
+                                            "Name" => "",
+                                            "Telephone" => "",
+                                            "Email" => "", 
                                             "Address" => "", 
                                             "CreateBy" => "", 
                                             "Remark" => "", 
@@ -133,6 +135,16 @@ include('function_company.php');
                                                 <div class="form-group">
                                                     <label for="companyname">Company Name</label>
                                                     <input type="text" class="form-control border-left-danger" id="companyname" name="companyname" value="<?php echo htmlspecialchars($rowFrm['Name']); ?>" required>
+                                                </div>
+                                                <!--Telephone-->
+                                                <div class="form-group">
+                                                    <label for="telephone">Telephone</label>
+                                                    <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Telephone']); ?>">
+                                                </div>
+                                                <!--Email-->
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($rowFrm['Email']); ?>">
                                                 </div>
 
                                                 <!-- Address -->

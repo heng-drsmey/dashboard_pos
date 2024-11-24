@@ -6,7 +6,9 @@ include('cn.php'); // Include your database connection
 $company = array(
     "Id" => "", 
     "Code" => "", 
-    "Name" => "", 
+    "Name" => "",
+    "Telephone" => "",
+    "Email" => "", 
     "Address" => "", 
     "CreateBy" => "", 
     "Remark" => "", 
@@ -135,6 +137,16 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                                 <input type="text" class="form-control" id="companyname" name="companyname" value="<?php echo htmlspecialchars($company['Name']); ?>" readonly>
                                             </div>
 
+                                            <!-- Telephone -->
+                                            <div class="form-group">
+                                                <label for="telephone">Telephone</label>
+                                                <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($company['Telephone']); ?>" readonly>
+                                            </div>
+                                            <!-- Email -->
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="text" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($company['Email']); ?>" readonly>
+                                            </div>
                                             <!-- Address -->
                                             <div class="form-group">
                                                 <label for="address">Address</label>

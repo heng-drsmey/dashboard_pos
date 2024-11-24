@@ -7,7 +7,7 @@ $employee = array(
     "Id" => "","Code" => "", "Firstname" => "", "Lastname"  => "", "Gender"    => "", "Dob" => "", "Nation" => "",
     "Marital" => "", "Email" => "", "Tel" => "", "Address" => "", "OutletId" => "", "Position" => "",
     "EmployeeType" => "", "JoinAT" => "", "ResignAt" => "", "ReasonResign" =>"", "Bank" => "", "AccountName" => "",
-    "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","Remark" => "", "UpdateAt" => "",
+    "AccountNumber" => "", "IdCard" => "", "Currency" => "", "Salary" => "", "CreateBy" => "","CreateAt" => "","Remark" => "", "UpdateAt" => "",
     "Image" => "", "Status" => ""
 );
 

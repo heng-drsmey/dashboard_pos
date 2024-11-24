@@ -1,8 +1,7 @@
 <?php
 include('include/head.php');
 
-// include call function-payroll.php
-include('function_payroll.php');
+include('function_payroll.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +63,7 @@ include('function_payroll.php');
                         <h1 class="h3 mb-0 text-gray-800">Payroll List</h1>
                         <a href="payroll.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Add New</a>
                     </div>
-                    <!-- DataTales Example -->
+                    <!-- DataTales  -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -82,22 +81,21 @@ include('function_payroll.php');
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-
+                                    <?php
+                                        include('confirm_delete.php');
+                                        payroll_delete();
+                                    ?>
                                     <tbody>
                                         <!-- view data in table -->
                                         <?php
                                             $sqlSelectpayroll = "SELECT * FROM `payroll` WHERE del=1";
                                             $final = $conn->query($sqlSelectpayroll);
-
-                                            if($final->num_rows > 0) {
+                                            
+                                            if ($final->num_rows > 0) {
                                                 while ($rowpayroll = $final->fetch_assoc()) {
-                                                    // $branch = $conn->query("SELECT * FROM `outlet` WHERE Id=" .$rowemployee['OutletId'])->fetch_assoc();
-                                                    // $nationality = $conn->query("SELECT * FROM `nationality` WHERE Id=" .$rowemployee['Nation'])->fetch_assoc();
-                                                    // $positions = $conn->query("SELECT * FROM `positions` WHERE Id=" .$rowemployee['Position'])->fetch_assoc();
-                                                    // $employeetype = $conn->query("SELECT * FROM `employeetype` WHERE Id=" .$rowemployee['EmployeeType'])->fetch_assoc();
                                         ?>
                                         <tr>
-                                            <td><?= isset($rowpayroll['Date']) ? $rowpayroll['Date'] : '' ?></td>
+                                            <td><?= $rowpayroll['Date']?></td>
                                             <td><?= $rowpayroll['Code']?></td>
                                             <td><?= $rowpayroll['Type']?></td>
                                             <td><?= $rowpayroll['CodeEmployee']?></td>
@@ -121,7 +119,7 @@ include('function_payroll.php');
                                         </tr>
                                         <?php
                                                 }
-                                            }else {
+                                            } else {
                                                 echo '<tr><td colspan="9" class="text-center">No payroll found.</td></tr>';
                                             }
                                         ?>
@@ -130,7 +128,6 @@ include('function_payroll.php');
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -180,10 +177,10 @@ include('function_payroll.php');
         $('#alert-success').alert('close');
     }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
 });
-    </script>
-
+    </script>                                                
     </div>
-    <!-- End of Page Wrapper -->  
+    <!-- End of Page Wrapper -->
+
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 

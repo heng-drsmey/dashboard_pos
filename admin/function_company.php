@@ -9,6 +9,8 @@ function company_insert() {
     if (isset($_POST['btnsave'])) {
         $companycode = $conn->real_escape_string($_POST['companycode']);
         $companyname = $conn->real_escape_string($_POST['companyname']);
+        $telephone = $conn->real_escape_string($_POST['telephone']);
+        $email = $conn->real_escape_string($_POST['email']);
         $address = $conn->real_escape_string($_POST['address']);
         $createby = $conn->real_escape_string($_POST['createby']);
         $remark = $conn->real_escape_string($_POST['remark']);
@@ -19,12 +21,12 @@ function company_insert() {
         $companynewimage = $currentdate . '_' . rand() . '_' . $companyimage;
 
         if (!empty($companyimage)) {
-            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Logo`)
-                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', '$companynewimage')";
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`,`Telephone`,`Email`,`Address`, `CreateBy`, `Remark`, `Logo`)
+                                 VALUES ('$companycode', '$companyname','$telephone','$email','$address', '$createby', '$remark', '$companynewimage')";
             move_uploaded_file($companyimageTmp, './ImageCompany/' . $companynewimage);
         } else {
-            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`, `Address`, `CreateBy`, `Remark`, `Logo`)
-                                 VALUES ('$companycode', '$companyname', '$address', '$createby', '$remark', 'no_image.png')";
+            $sqlcompanyinsert = "INSERT INTO `outlet` (`Code`, `Name`,`Telephone`,`Email`,`Address`, `CreateBy`, `Remark`, `Logo`)
+                                 VALUES ('$companycode', '$companyname','$telephone','$email','$address', '$createby', '$remark', 'no_image.png')";
         }
 
         if ($conn->query($sqlcompanyinsert) === TRUE) {
@@ -63,6 +65,8 @@ function company_update() {
         $companyid = $conn->real_escape_string($_REQUEST['Id']);
         $companycode = $conn->real_escape_string($_POST['companycode']);
         $companyname = $conn->real_escape_string($_POST['companyname']);
+        $telephone = $conn->real_escape_string($_POST['telephone']);
+        $email = $conn->real_escape_string($_POST['email']);
         $address = $conn->real_escape_string($_POST['address']);
         $createby = $conn->real_escape_string($_POST['createby']);
         $remark = $conn->real_escape_string($_POST['remark']);
@@ -88,7 +92,7 @@ function company_update() {
         }
 
         $sqlcompanyupdate = "UPDATE `outlet` SET 
-                        `Name`='$companyname', `Code`='$companycode', `Address`='$address', $logoUpdate `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
+                        `Name`='$companyname', `Code`='$companycode',`Telephone` = '$telephone',`Email` = '$email', `Address`='$address', $logoUpdate `CreateBy`='$createby', `UpdateAt`='$update', `Remark`='$remark' WHERE `Id`='$companyid'";
 
         // Remove trailing comma if $logoUpdate is empty
         $sqlcompanyupdate = str_replace(", WHERE", " WHERE", $sqlcompanyupdate);

@@ -54,7 +54,7 @@ include('function_payroll.php')
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Payroll</h1>
-                        <a href="payroll-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i>Payroll List</a>
+                        <a href="payroll-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> Payroll List</a>
                     </div>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
@@ -67,7 +67,30 @@ include('function_payroll.php')
                                 "Id" => "","Code" => "", "Type" => "", "NumberDay"  => "", "NumberMonth"    => "", "InterimSalary" => "", "Date" => "", 
                                 "CreateBy" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "", "BaseSalary" => "",
                                 "Bonus" => "", "Allowance" => "", "Seniority" => "", "Deduction" =>"", "InterimPayment" => "", "SalaryPayment" => ""
-                            );                                   
+                            );
+                            // check if the `Id` parameter is set and valid
+                            if(isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
+                                $payrollid = $conn->real_escape_string($_REQUEST['Id']);
+                                // Call the employee update function if needed
+                                payroll_update();
+                                // Fetch the employee data for update
+                                $result = $conn->query("SELECT * FROM `payroll` WHERE `Id` = '$payrollid'");
+                                if ($result && $result->num_rows > 0) {
+                                     $rowFrm = $result->fetch_assoc();
+                                 } else {
+                                     echo '<script>
+                                             document.addEventListener("DOMContentLoaded", function() {
+                                                 swal({
+                                                     title: "Error",
+                                                     text: "Failed to fetch payroll data. Please try again.",
+                                                     icon: "error"
+                                                 }).then(function() {
+                                                     window.location = "payroll-list.php";
+                                                 });
+                                             });
+                                         </script>';
+                                 }
+                             }                                   
                             ?>
                             <div class="card-body">
                                 <h5 style="color:black;">Payroll Information</h5>
@@ -244,7 +267,7 @@ include('function_payroll.php')
                                     ';
                                 } else {
                                     echo '
-                                        <button type="submit" class="btn btn-primary btn-sm mt-5 w-50" name="btnsave">Save</button>
+                                        <button type="submit" class="btn btn-primary btn-sm mt-5" name="btnsave" style="width: 20%;">Save</button>
                                         ';
                                 }
                                 ?>

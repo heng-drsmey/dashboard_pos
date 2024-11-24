@@ -1,0 +1,126 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap);
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 20px;
+}
+
+.salary-slip {
+  width: 210mm;
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header .logo {
+  float: left;
+  width: 15%;
+}
+
+.header .company-info {
+  float: left;
+  width: 70%;
+  text-align: center;
+}
+
+.header img {
+  max-height: 80px;
+}
+
+.header h3,
+.header p,
+.header h4 {
+  margin: 0;
+}
+
+.header h3 {
+  font-size: 24px;
+}
+
+.header h4 {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.text-center-main {
+  margin-top: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.table-header th,
+.table-header td {
+  background-color: #eaecee;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+}
+
+.section-divider {
+  margin: 20px 0;
+}
+
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10%;
+}
+
+.signature-section div {
+  text-align: center;
+  width: 30%;
+}
+
+.signature-section div hr {
+  margin: 40% auto;
+  width: 80%;
+}
+
+@media print {
+  /* Ensure background colors are displayed in print */
+  .table-header th,
+  .table-header td {
+    background-color: #eaecee !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact; /* For Safari and Chrome */
+    print-color-adjust: exact; /* For other modern browsers */
+  }
+
+  /* Hide the print and back buttons */
+  .both {
+    display: none !important;
+  }
+
+  /* Remove any page numbers, date, time, and URL from the printed page */
+  @page {
+    margin: 0;
+  }
+
+  /* Ensure that only the main content (salary slip) is printed */
+  .salary-slip {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide extra elements that are not needed in print */
+  .both {
+    display: none !important;
+  }
+
+  /* Optional: Set background color for the body */
+  body {
+    background-color: white !important;
+  }
+}
