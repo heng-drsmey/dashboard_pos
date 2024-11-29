@@ -85,7 +85,9 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <!-- Custom styles -->
-    <link rel="stylesheet" href="css/payroll-style.css"> <!-- Linking payroll-style.css -->
+    <!-- <link rel="stylesheet" href="css/payroll-style.css"> Linking payroll-style.css -->
+    <link rel="stylesheet" href="css/payroll-style.css?v=1.0">
+
 </head>
 
 <body>
@@ -130,7 +132,7 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
             </tbody>
         </table>
 
-        <hr class="section-divider">
+        <!-- <hr class="section-divider"> -->
 
         <!-- Employee Information -->
         <table class="table table-bordered">
@@ -237,6 +239,7 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
