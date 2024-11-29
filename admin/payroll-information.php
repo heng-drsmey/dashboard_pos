@@ -5,7 +5,8 @@ include('cn.php'); // Include your database connection
 // Initialize an empty array for the employee data
 $payroll = array(
     "Id" => "","Code" => "", "Type" => "", "NumberDay"  => "", "NumberMonth"    => "", "InterimSalary" => "", "Date" => "", 
-    "CreateBy" => "","CreateAt" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "", "BaseSalary" => "",
+    "CreateBy" => "","CreateAt" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "","Positions" => "",
+    "Nation" => "", "Telephone" =>"", "OutletName" =>"", "Bank" =>"", "AccountName" =>"", "AccountNumber" =>"", "BaseSalary" => "",
     "Bonus" => "", "Allowance" => "", "Seniority" => "", "Deduction" =>"", "InterimPayment" => "", "SalaryPayment" => "",
     "UpdateAt" => "","Status" => ""
 );
@@ -191,6 +192,38 @@ if (isset($_REQUEST['Id']) && is_numeric($_REQUEST['Id'])) {
                                         <input type="text" class="form-control" name="employeetype" value="<?php echo isset($payroll['EmployeeType']) ? htmlspecialchars($payroll['EmployeeType']) : ''; ?>" id="employeetype" readonly>
                                     </div>
                                     <div class="col-3">
+                                        <label for="positions">Positions</label>
+                                        <input type="text" class="form-control" name="positions" value="<?php echo isset($payroll['Positions']) ? htmlspecialchars($payroll['Positions']) : ''; ?>" id="positions" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="nationality">Nationality</label>
+                                        <input type="text" class="form-control" name="nationality" value="<?php echo isset($payroll['Nation']) ? htmlspecialchars($payroll['Nation']) : ''; ?>" id="nationality" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="telephone">Telephone</label>
+                                        <input type="text" class="form-control" name="telephone" value="<?php echo isset($payroll['Telephone']) ? htmlspecialchars($payroll['Telephone']) : ''; ?>" id="telephone" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="branch">Branch</label>
+                                        <input type="text" class="form-control" name="branch" value="<?php echo isset($payroll['OutletName']) ? htmlspecialchars($payroll['OutletName']) : ''; ?>" id="branch" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="bank">Bank</label>
+                                        <input type="text" class="form-control" name="bank" value="<?php echo isset($payroll['Bank']) ? htmlspecialchars($payroll['Bank']) : ''; ?>" id="bank" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="accountname">Account Name</label>
+                                        <input type="text" class="form-control" name="accountname" value="<?php echo isset($payroll['AccountName']) ? htmlspecialchars($payroll['AccountName']) : ''; ?>" id="accountname" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="accountnumber">Account Number</label>
+                                        <input type="text" class="form-control" name="accountnumber" value="<?php echo isset($payroll['AccountNumber']) ? htmlspecialchars($payroll['AccountNumber']) : ''; ?>" id="accountnumber" readonly>
+                                    </div>
+                                    <div class="col-6">
                                         <label for="basesalary">Base Salary</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">

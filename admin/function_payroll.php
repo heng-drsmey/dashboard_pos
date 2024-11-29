@@ -18,6 +18,13 @@ function payroll_insert() {
         $codeemployee = $conn->real_escape_string($_POST['codeemployee']);
         $employee = $conn->real_escape_string($_POST['employee']);
         $employeetype = $conn->real_escape_string($_POST['employeetype']);
+        $positions = $conn->real_escape_string($_POST['positions']);
+        $nationality = $conn->real_escape_string($_POST['nationality']);
+        $telephone = $conn->real_escape_string($_POST['telephone']);
+        $branch = $conn->real_escape_string($_POST['branch']);
+        $bank = $conn->real_escape_string($_POST['bank']);
+        $accountname = $conn->real_escape_string($_POST['accountname']);
+        $accountnumber = $conn->real_escape_string($_POST['accountnumber']);
         $basesalary = $conn->real_escape_string($_POST['basesalary']);
         $bonus = $conn->real_escape_string($_POST['bonus']);
         $allowance = $conn->real_escape_string($_POST['allowance']);
@@ -26,8 +33,8 @@ function payroll_insert() {
         $interimsalary = $conn->real_escape_string($_POST['interimsalary']);
         $netsalary = $conn->real_escape_string($_POST['netsalary']);
 
-        $sqlpayrollinsert = "INSERT INTO `payroll` (`Code`,`Type`,`NumberDay`,`NumberMonth`,`InterimSalary`,`Date`,`CreateBy`,`Remark`,`CodeEmployee`,`Employee`,`EmployeeType`,`BaseSalary`,`Bonus`,`Allowance`,`Seniority`,`Deduction`,`InterimPayment`,`SalaryPayment`)
-        VALUES ('$codepayroll','$type','$numofday','$numofmonth','$interimbasesalary','$date','$createby','$remark','$codeemployee','$employee','$employeetype','$basesalary','$bonus','$allowance','$seniority','$deduction','$interimsalary','$netsalary')";
+        $sqlpayrollinsert = "INSERT INTO `payroll` (`Code`,`Type`,`NumberDay`,`NumberMonth`,`InterimSalary`,`Date`,`CreateBy`,`Remark`,`CodeEmployee`,`Employee`,`EmployeeType`,`Positions`,`Nation`,`Telephone`,`OutletName`,`Bank`,`AccountName`,`AccountNumber`,`BaseSalary`,`Bonus`,`Allowance`,`Seniority`,`Deduction`,`InterimPayment`,`SalaryPayment`)
+        VALUES ('$codepayroll','$type','$numofday','$numofmonth','$interimbasesalary','$date','$createby','$remark','$codeemployee','$employee','$employeetype','$positions','$nationality','$telephone','$branch','$bank','$accountname','$accountnumber','$basesalary','$bonus','$allowance','$seniority','$deduction','$interimsalary','$netsalary')";
 
         
         if($conn->query($sqlpayrollinsert) === TRUE) {
@@ -75,6 +82,13 @@ function payroll_update() {
         $codeemployee = $conn->real_escape_string($_POST['codeemployee']);
         $employee = $conn->real_escape_string($_POST['employee']);
         $employeetype = $conn->real_escape_string($_POST['employeetype']);
+        $positions = $conn->real_escape_string($_POST['positions']);
+        $nationality = $conn->real_escape_string($_POST['nationality']);
+        $telephone = $conn->real_escape_string($_POST['telephone']);
+        $branch = $conn->real_escape_string($_POST['branch']);
+        $bank = $conn->real_escape_string($_POST['bank']);
+        $accountname = $conn->real_escape_string($_POST['accountname']);
+        $accountnumber = $conn->real_escape_string($_POST['accountnumber']);
         $basesalary = $conn->real_escape_string($_POST['basesalary']);
         $bonus = $conn->real_escape_string($_POST['bonus']);
         $allowance = $conn->real_escape_string($_POST['allowance']);
@@ -86,7 +100,7 @@ function payroll_update() {
         $updateat = isset($_REQUEST['updateat']) ? $conn->real_escape_string($_REQUEST['updateat']) : '';
         $update = $updateat . $currentdate;
 
-        $sqlpayrollupdate = "UPDATE `payroll` SET `Code` = '$codepayroll',`Type` = '$type',`NumberDay` = '$numofday',`NumberMonth` = '$numofmonth',`InterimSalary` = '$interimbasesalary',`Date` = '$date',`CreateBy` = '$createby',`Remark` = '$remark',`CodeEmployee` = '$codeemployee',`Employee` = '$employee',`EmployeeType` = '$employeetype',`BaseSalary` = '$basesalary',`Bonus` = '$bonus',`Allowance` = '$allowance',`Seniority` = '$seniority',`Deduction` = '$deduction',`InterimPayment` = '$interimsalary',`SalaryPayment` = '$netsalary',`UpdateAt`='$update' WHERE Id=$payrollid";
+        $sqlpayrollupdate = "UPDATE `payroll` SET `Code` = '$codepayroll',`Type` = '$type',`NumberDay` = '$numofday',`NumberMonth` = '$numofmonth',`InterimSalary` = '$interimbasesalary',`Date` = '$date',`CreateBy` = '$createby',`Remark` = '$remark',`CodeEmployee` = '$codeemployee',`Employee` = '$employee',`EmployeeType` = '$employeetype',`Positions` = '$positions',`Nation` = '$nationality',`Telephone` = '$telephone',`OutletName` = '$branch',`Bank` = '$bank',`AccountName` = '$accountname',`AccountNumber` = '$accountnumber',`BaseSalary` = '$basesalary',`Bonus` = '$bonus',`Allowance` = '$allowance',`Seniority` = '$seniority',`Deduction` = '$deduction',`InterimPayment` = '$interimsalary',`SalaryPayment` = '$netsalary',`UpdateAt`='$update' WHERE Id=$payrollid";
 
         if($conn->query($sqlpayrollupdate) === TRUE) {
             echo '<script>

@@ -65,7 +65,8 @@ include('function_payroll.php')
                             // Initialize an empty array for the form data
                             $rowFrm = array(
                                 "Id" => "","Code" => "", "Type" => "", "NumberDay"  => "", "NumberMonth"    => "", "InterimSalary" => "", "Date" => "", 
-                                "CreateBy" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "", "BaseSalary" => "",
+                                "CreateBy" => "", "Remark" => "", "CodeEmployee" => "", "Employee" => "", "EmployeeType" => "","Positions" => "",
+                                "Nation" => "", "Telephone" =>"", "OutletName" =>"", "Bank" =>"", "AccountName" =>"", "AccountNumber" =>"", "BaseSalary" => "",
                                 "Bonus" => "", "Allowance" => "", "Seniority" => "", "Deduction" =>"", "InterimPayment" => "", "SalaryPayment" => ""
                             );
                             // check if the `Id` parameter is set and valid
@@ -173,7 +174,7 @@ include('function_payroll.php')
                                         <label for="codeemployee">Code</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
-                                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal">Search</button>
+                                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#employeeModal" onclick="adjustModalWidth()">Search</button>
                                             </div>
                                             <input type="text" class="form-control border-left-danger" name="codeemployee" value="<?php echo isset($rowFrm['CodeEmployee']) ? htmlspecialchars($rowFrm['CodeEmployee']) : ''; ?>" id="codeemployee" readonly>
                                         </div>
@@ -187,6 +188,38 @@ include('function_payroll.php')
                                         <input type="text" class="form-control" name="employeetype" value="<?php echo isset($rowFrm['EmployeeType']) ? htmlspecialchars($rowFrm['EmployeeType']) : ''; ?>" id="employeetype" readonly>
                                     </div>
                                     <div class="col-3">
+                                        <label for="positions">Positions</label>
+                                        <input type="text" class="form-control" name="positions" value="<?php echo isset($rowFrm['Positions']) ? htmlspecialchars($rowFrm['Positions']) : ''; ?>" id="positions" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="nationality">Nationality</label>
+                                        <input type="text" class="form-control" name="nationality" value="<?php echo isset($rowFrm['Nation']) ? htmlspecialchars($rowFrm['Nation']) : ''; ?>" id="nationality" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="telephone">Telephone</label>
+                                        <input type="text" class="form-control" name="telephone" value="<?php echo isset($rowFrm['Telephone']) ? htmlspecialchars($rowFrm['Telephone']) : ''; ?>" id="telephone" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="branch">Branch</label>
+                                        <input type="text" class="form-control" name="branch" value="<?php echo isset($rowFrm['OutletName']) ? htmlspecialchars($rowFrm['OutletName']) : ''; ?>" id="branch" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="bank">Bank</label>
+                                        <input type="text" class="form-control" name="bank" value="<?php echo isset($rowFrm['Bank']) ? htmlspecialchars($rowFrm['Bank']) : ''; ?>" id="bank" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="accountname">Account Name</label>
+                                        <input type="text" class="form-control" name="accountname" value="<?php echo isset($rowFrm['AccountName']) ? htmlspecialchars($rowFrm['AccountName']) : ''; ?>" id="accountname" readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="accountnumber">Account Number</label>
+                                        <input type="text" class="form-control" name="accountnumber" value="<?php echo isset($rowFrm['AccountNumber']) ? htmlspecialchars($rowFrm['AccountNumber']) : ''; ?>" id="accountnumber" readonly>
+                                    </div>
+                                    <div class="col-6">
                                         <label for="basesalary">Base Salary</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -274,7 +307,7 @@ include('function_payroll.php')
                             </div>
                             <!-- Employee Modal -->
                             <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
+                                <div class="modal-dialog modal-lg" id="employeeModalDialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="employeeModalLabel">Select Employee</h5>
@@ -282,30 +315,63 @@ include('function_payroll.php')
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="table-responsive">
                                             <table class="table table-hover" id="employeeTable">
                                                 <thead>
                                                     <tr>
                                                         <th>Code</th>
                                                         <th>Name</th>
                                                         <th>Employee Type</th>
+                                                        <th>Positions</th>
+                                                        <th>Nationality</th>
+                                                        <th>Telephone</th>
+                                                        <th>Branch</th>
+                                                        <th>Bank</th>
+                                                        <th>AC Name</th>
+                                                        <th>AC Number</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    // Fetch employee data along with employee type from the database
-                                                    $query = "SELECT employee.Code, employee.Lastname, employeetype.EmployeeType 
-                                                            FROM employee
-                                                            LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
-                                                            WHERE employee.del = 1";
+                                                    $query = "
+                                                    SELECT 
+                                                        employee.Code, 
+                                                        employee.Lastname, 
+                                                        employeetype.EmployeeType AS EmployeeTypeName, 
+                                                        positions.Positions AS PositionName, 
+                                                        nationality.Nation AS NationalityName, 
+                                                        employee.Tel, 
+                                                        outlet.Name AS BranchName, 
+                                                        bank.Bank AS BankName, 
+                                                        employee.AccountName, 
+                                                        employee.AccountNumber
+                                                    FROM employee
+                                                    LEFT JOIN employeetype ON employee.EmployeeType = employeetype.Id
+                                                    LEFT JOIN positions ON employee.Position = positions.Id
+                                                    LEFT JOIN nationality ON employee.Nation = nationality.Id
+                                                    LEFT JOIN outlet ON employee.OutletId = outlet.Id
+                                                    LEFT JOIN bank ON employee.Bank = bank.Id
+                                                    WHERE employee.del = 1";
+
                                                     $result = $conn->query($query);
 
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo "<tr ondblclick='selectEmployee(this)'>";
-                                                        echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($row['EmployeeType']) . "</td>";
-                                                        echo "</tr>";
+                                                    if ($result) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<tr ondblclick='selectEmployee(this)'>";
+                                                            echo "<td>" . htmlspecialchars($row['Code']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['Lastname']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['EmployeeTypeName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['PositionName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['NationalityName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['Tel']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['BranchName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['BankName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['AccountName']) . "</td>";
+                                                            echo "<td>" . htmlspecialchars($row['AccountNumber']) . "</td>";
+                                                            echo "</tr>";
+                                                        }
+                                                    } else {
+                                                        echo "Error: " . $conn->error;
                                                     }
                                                     ?>
                                                 </tbody>
@@ -386,11 +452,25 @@ include('function_payroll.php')
             const code = row.cells[0].textContent;
             const name = row.cells[1].textContent;
             const employeeType = row.cells[2].textContent;
+            const positions = row.cells[3].textContent;
+            const nation = row.cells[4].textContent;
+            const telephone = row.cells[5].textContent;
+            const branch = row.cells[6].textContent;
+            const bank = row.cells[7].textContent;
+            const acname = row.cells[8].textContent;
+            const acnumber = row.cells[9].textContent;
 
             // Populate fields with data from the selected row
             document.getElementById("codeemployee").value = code;
             document.getElementById("employee").value = name;
             document.getElementById("employeetype").value = employeeType;
+            document.getElementById("positions").value = positions;
+            document.getElementById("nationality").value = nation;
+            document.getElementById("telephone").value = telephone;
+            document.getElementById("branch").value = branch;
+            document.getElementById("bank").value = bank;
+            document.getElementById("accountname").value = acname;
+            document.getElementById("accountnumber").value = acnumber;
 
             // Close the modal
             $('#employeeModal').modal('hide');
@@ -425,7 +505,12 @@ include('function_payroll.php')
     });
 
 </script>
-
+<script>
+    function adjustModalWidth() {
+        const modalDialog = document.getElementById('employeeModalDialog');
+        modalDialog.style.maxWidth = '90%'; // Set modal width to 90% of viewport
+    }
+</script>
 </body>
 
 </html>

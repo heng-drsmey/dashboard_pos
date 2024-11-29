@@ -2,7 +2,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
-  margin: 0;
+  margin: 5%;
   padding: 20px;
 }
 
@@ -10,7 +10,7 @@ body {
   width: 210mm;
   max-width: 100%;
   margin: auto;
-  padding: 20px;
+  padding: 40px;
   background-color: #fff;
   border-radius: 5px;
 }
@@ -65,7 +65,7 @@ body {
 
 .table-bordered th,
 .table-bordered td {
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
 }
 
 .section-divider {
@@ -75,16 +75,16 @@ body {
 .signature-section {
   display: flex;
   justify-content: space-between;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .signature-section div {
   text-align: center;
-  width: 30%;
+  width: 20%;
 }
 
 .signature-section div hr {
-  margin: 40% auto;
+  margin: 30% auto;
   width: 80%;
 }
 

@@ -146,7 +146,7 @@ include('function_employee.php');
                                                         <!-- nationality -->
                                                     <div class="col-3">
                                                         <label for="nationality">Nationality</label>
-                                                        <select class="form-control mb-2" name="nationality" id="nationality">
+                                                        <select class="form-control border-left-danger mb-2" name="nationality" id="nationality">
                                                             <?php
                                                                 $sqlnationality = "SELECT * FROM `nationality` WHERE del=1";
                                                                 $qrnationality = $conn->query($sqlnationality);
@@ -176,7 +176,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- telephone -->
                                                         <label for="telephone">Telephone</label>
-                                                        <input type="text" class="form-control" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Tel']); ?>">
+                                                        <input type="text" class="form-control border-left-danger" id="telephone" name="telephone" value="<?php echo htmlspecialchars($rowFrm['Tel']); ?>">
                                                     </div>
                                                     <div class="col-9">
                                                             <!-- address -->
@@ -191,7 +191,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- branch -->
                                                         <label for="branch">Branch</label>
-                                                        <select class="form-control mb-2" name="branch" id="branch">
+                                                        <select class="form-control border-left-danger mb-2" name="branch" id="branch">
                                                             <?php
                                                                 $sqlbranch = "SELECT * FROM `outlet` WHERE del=1";
                                                                 $qrbranch = $conn->query($sqlbranch);
@@ -205,7 +205,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- positions -->
                                                         <label for="positions">Positions</label>
-                                                        <select class="form-control mb-2" name="positions" id="positions">
+                                                        <select class="form-control border-left-danger mb-2" name="positions" id="positions">
                                                             <?php
                                                                 $sqlpositions = "SELECT * FROM `positions` WHERE del=1";
                                                                 $qrpositions = $conn->query($sqlpositions);
@@ -219,7 +219,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- employee type -->
                                                         <label for="employeetype">Employee Type</label>
-                                                        <select class="form-control mb-2" name="employeetype" id="employeetype">
+                                                        <select class="form-control border-left-danger mb-2" name="employeetype" id="employeetype">
                                                             <?php
                                                                 $sqlemptype = "SELECT * FROM `employeetype` WHERE del=1";
                                                                 $qremptype = $conn->query($sqlemptype);
@@ -256,7 +256,7 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- bank -->
                                                         <label for="bank">Bank</label>
-                                                        <select class="form-control mb-2" name="bank" id="bank">
+                                                        <select class="form-control border-left-danger mb-2" name="bank" id="bank">
                                                             <option value=""></option>
                                                             <?php
                                                                 $sqlbank = "SELECT * FROM `bank` WHERE del=1";
@@ -271,12 +271,12 @@ include('function_employee.php');
                                                     <div class="col-3">
                                                             <!-- account name -->
                                                         <label for="accountname">Account Name</label>
-                                                        <input type="text" class="form-control" id="accountname" name="accountname" value="<?php echo htmlspecialchars($rowFrm['AccountName']); ?>">
+                                                        <input type="text" class="form-control border-left-danger" id="accountname" name="accountname" value="<?php echo htmlspecialchars($rowFrm['AccountName']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- account number -->
                                                         <label for="accountnumber">Account Number</label>
-                                                        <input type="text" class="form-control" id="accountnumber" name="accountnumber" value="<?php echo htmlspecialchars($rowFrm['AccountNumber']); ?>">
+                                                        <input type="text" class="form-control border-left-danger" id="accountnumber" name="accountnumber" value="<?php echo htmlspecialchars($rowFrm['AccountNumber']); ?>">
                                                     </div>
                                                     <div class="col-3">
                                                             <!-- ID card -->
