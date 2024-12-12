@@ -13,7 +13,7 @@ include('function_category.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Category</title>
+    <title> Admin - Category</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -72,7 +72,7 @@ include('function_category.php');
                                         // empty equal "" 
                                         if(isset($_REQUEST['Id']) && !empty($_REQUEST['Id'])) {
                                             $categoryid = $_REQUEST['Id'];
-                                            echo 'Edit Category' . $categoryid;
+                                            // echo 'Edit Category' . $categoryid;
                                             category_update();
                                             $rowFrm = $conn->query("SELECT * FROM `category` WHERE Id = $categoryid")->fetch_assoc();
 

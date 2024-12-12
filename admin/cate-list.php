@@ -13,7 +13,7 @@ include('function_category.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Categories List</title>
+    <title> Admin - Categories List</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -93,7 +93,6 @@ include('function_category.php');
                                             while ($rowcate = $final->fetch_assoc()) {
                                                 $createby = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowcate['CreateBy'])->fetch_assoc();
                                         ?>
-<<<<<<< Updated upstream
                                                 <tr>
                                                     <td><?= $rowcate['Name'] ?></td>
                                                     <td><?= $rowcate['Description'] ?></td>
@@ -114,7 +113,6 @@ include('function_category.php');
                                                         <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="cate-list.php?delId=<?= $rowcate['Id'] ?>"><i class="fas fa-trash"></i></button>
                                                     </td>
                                                 </tr>
-=======
                                         <tr>
                                             <td><?= $rowcate['Name'] ?></td>
                                             <td><?= $rowcate['Description'] ?></td>
@@ -135,7 +133,6 @@ include('function_category.php');
                                                 <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="cate-list.php?delId=<?= $rowcate['Id'] ?>"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
->>>>>>> Stashed changes
                                         <?php
                                             }
                                         } else {
