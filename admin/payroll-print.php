@@ -76,7 +76,7 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay Slip</title>
+    <title>Payslip</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -114,7 +114,7 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
         <hr class="section-divider">
 
         <!-- Title and Basic Details -->
-        <h4 class="text-center-main">Pay Slip</h4>
+        <h4 class="text-center-main">Payslip</h4>
         <table class="table">
             <tbody>
                 <tr>
