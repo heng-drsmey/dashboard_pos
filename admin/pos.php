@@ -1,13 +1,11 @@
-<!-- Session user  -->
 <?php
 include('include/head.php');
-include('function_user.php');
+include('function_payroll.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,60 +17,45 @@ include('function_user.php');
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <!-- Font awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/img-ratio.css">
     <link rel="stylesheet" href="css/pos.css">
-
-    <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <!-- bootstrap 5.3.3 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-</head>
-<style>
+    <style>
+        .nav-link.active {
+            background-color: #007bff !important; 
+            color: white !important;               
+        }
+        .nav-link {
+            transition: background-color 0.3s ease;
+        }
+    </style>
 
-</style>
+</head>
 
 <body id="page-top">
-
-    <!-- Page Wrapper -->
     <div id="wrapper">
-
-        <!-- Sidebar -->
         <?php include './include/sidebar.php' ?>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
                 <?php include './include/topbar.php' ?>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-6">
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">POS</h1>
+                                <h1 class="h3 mb-0 text-gray-800">Point of Sales</h1>
                                 <div class="search-box">
                                     <button class="btn-search"><i class="fas fa-search"></i></button>
                                     <input type="text" class="input-search" placeholder="Type to Search...">
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-lg-2">
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select">
                                 <option selected>Table</option>
                                 <option value="t1">Table 1</option>
                                 <option value="t2">Table 2</option>
@@ -85,7 +68,14 @@ include('function_user.php');
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select">
+                                <option selected>Customer</option>
+                                <option value="c1">General Customer</option>
+                                <option value="c2">Sorn Samneang</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-select">
                                 <option selected>Outlet</option>
                                 <option value="o1">Sen Sok</option>
                                 <option value="o2">Toul Kork</option>
@@ -93,209 +83,468 @@ include('function_user.php');
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="card border-0">
-                                        <div class="thumbnail-wrapper">
-                                            <div class="thumbnail-inner img4by3">
-                                                <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
-
+                        <div class="col bg-white py-4 rounded">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-tabs" id="itemGroupTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="beverages-tab" data-bs-toggle="tab" data-bs-target="#beverages" type="button" role="tab" aria-controls="beverages" aria-selected="true">Beverages</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="snacks-tab" data-bs-toggle="tab" data-bs-target="#snacks" type="button" role="tab" aria-controls="snacks" aria-selected="false">Snacks</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="itemGroupTabsContent">
+                                    <div class="tab-pane fade show active" id="beverages" role="tabpanel" aria-labelledby="beverages-tab">
+                                        <div class="row">
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Latte</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Latte" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <p class="card-text">Iced Latte</p>
-                                            <h5 class="text-success">$3.00</h5>
-                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
+                                        <div class="row">
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Latte</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Latte" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 pt-3 pb-3">
+                                                <div class="card border-1">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Iced Cappuccino</p>
+                                                        <h5 class="text-success">$3.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Iced Cappuccino" data-price="3.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="card border-0">
-                                        <div class="thumbnail-wrapper">
-                                            <div class="thumbnail-inner img4by3">
-                                                <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
-
+                                    <div class="tab-pane fade" id="snacks" role="tabpanel" aria-labelledby="snacks-tab">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="card border-0">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://example.com/snack1.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Snack 1</p>
+                                                        <h5 class="text-success">$2.00</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Snack 1" data-price="2.00"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">Iced Cappucino</p>
-                                            <h5 class="text-success">$3.00</h5>
-                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="card border-0">
-                                        <div class="thumbnail-wrapper">
-                                            <div class="thumbnail-inner img4by3">
-                                                <img src="https://www.mondomulia.com/wp-content/uploads/2015/02/Artisan-School-Latte-Art-15-1.jpg" class="rounded" alt="...">
-
+                                            <div class="col-lg-3">
+                                                <div class="card border-0">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://example.com/snack2.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Snack 2</p>
+                                                        <h5 class="text-success">$2.50</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Snack 2" data-price="2.50"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">Expresso</p>
-                                            <h5 class="text-success">$3.00</h5>
-                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="card border-0">
-                                        <div class="thumbnail-wrapper">
-                                            <div class="thumbnail-inner img4by3">
-                                                <img src="https://majestycoffee.com/cdn/shop/articles/americano_b74a8154-454b-4f74-9a6c-95fbc4152ed3.jpg?v=1684048195" class="rounded" alt="...">
-
+                                            <div class="col-lg-3">
+                                                <div class="card border-0">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://example.com/snack2.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Snack 2</p>
+                                                        <h5 class="text-success">$2.50</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Snack 2" data-price="2.50"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">Americano</p>
-                                            <h5 class="text-success">$3.00</h5>
-                                            <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a>
+                                            <div class="col-lg-3">
+                                                <div class="card border-0">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://example.com/snack2.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Snack 2</p>
+                                                        <h5 class="text-success">$2.50</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Snack 2" data-price="2.50"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="card border-0">
+                                                    <div class="thumbnail-wrapper">
+                                                        <div class="thumbnail-inner img4by3">
+                                                            <img src="https://example.com/snack2.jpg" class="rounded" alt="...">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text">Snack 2</p>
+                                                        <h5 class="text-success">$2.50</h5>
+                                                        <button class="btn btn-primary add-to-cart" data-item="Snack 2" data-price="2.50"><i class="fas fa-plus"></i> Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 bg-white py-4 rounded">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img1by1">
-                                            <img src="https://images.ctfassets.net/v601h1fyjgba/6TroCkgvDucbXj1OSPeve5/7cfeb09a7498e59bd7a48c4e048d2cec/Lite_Iced_Cappuccino_Hi.jpg" class="rounded" alt="...">
-                                        </div>
+                        <div class="col-lg-4 bg-white py-4 rounded ml-4">
+                            <div id="order-details">
+                                <h5 class="text-center">Order Details</h5>
+                                <ul id="order-list" class="list-group fw-bold fs-5"></ul>
+                                <hr>
+                                <div>
+                                    <label for="discount" class="form-label fw-bold">Discount (%):</label>
+                                    <input type="number" min="0" id="discount" class="form-control fw-bold" value="0">
+                                    <div class="mt-4">
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="5">5%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="10">10%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="15">15%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="20">20%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="25">25%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="30">30%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="50">50%</button>
+                                        <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="100">100%</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <h5>Iced Cappucino</h5>
-                                    <div class="number-input" data-id="1">
-                                        <button onclick="decrement(1)">-</button>
-                                        <input type="text" id="number-1" value="1" readonly>
-                                        <button onclick="increment(1)">+</button>
-                                    </div>
+                                <div class="mt-3">
+                                    <label for="discount-amount" class="form-label fw-bold">Discount ($):</label>
+                                    <input type="number" min="0" id="discount-amount" class="form-control fw-bold" value="0">
                                 </div>
-                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-trash-alt ml-5 text-danger"></i>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <h5>Total:</h5>
+                                    <h5 id="total-price">$0.00</h5>
                                 </div>
-                                <div class="col-lg-3 d-flex justify-content-center align-items-center">
-                                    <h5>$3.00</h5>
+                                <button class="btn btn-success mt-3" id="checkout" data-bs-toggle="modal" data-bs-target="#paymentModal">Checkout</button>
+                                <button class="btn btn-secondary mt-3" id="print-bill">Print Bill</button>
+                            </div>
+                            <div id="receipt-preview" style="display: none;">
+                                <h5 class="text-center">Receipt</h5>
+                                <ul id="receipt-list" class="list-group"></ul>
+                                <hr>
+                                <div class="d-flex justify-content-between fs-4">
+                                    <h5>Total:</h5>
+                                    <h5 id="receipt-total">$0.00</h5>
                                 </div>
                             </div>
-
-                            <div class="row mt-4">
-                                <div class="col-lg-3">
-                                    <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img1by1">
-                                            <img src="https://images.ctfassets.net/v601h1fyjgba/4GLzOncHIe8rq3xY099cZ/dd17ce72ebb6fb01659c763fe64953db/Iced_Latte.jpg" class="rounded" alt="...">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h5>Iced Latte</h5>
-                                    <div class="number-input" data-id="2">
-                                        <button onclick="decrement(2)">-</button>
-                                        <input type="text" id="number-2" value="1" readonly>
-                                        <button onclick="increment(2)">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 d-flex justify-content-center align-items-center">
-                                    <i class="fas fa-trash-alt ml-5 text-danger"></i>
-                                </div>
-                                <div class="col-lg-3 d-flex justify-content-center align-items-center">
-                                    <h5>$3.00</h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="px-4">
-                                <div class="row bg-light-blue py-3">
-                                    <div class="col-lg-6 text-left">
-                                        <h5 class="text-dark">Total</h5>
-                                    </div>
-                                    <div class="col-lg-6 text-right">
-                                        <h5 class="text-dark">$6.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#" class="mt-5 btn btn-primary form-control">Checkout</a>
                         </div>
                     </div>
-
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <?php include './include/footer.php' ?>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
-        <!-- Search -->
-        <script>
-            function myFunction() {
-                // Declare variables
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("dataTable");
-                tr = table.getElementsByTagName("tr");
 
-                // Loop through all table rows, and hide those who don't match the search query
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[0];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="paymentModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Payment Summary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Summary Details -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between fw-bold fs-3">
+                        <span>Before Discount Total:</span>
+                        <span id="modal-before-discount">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-3">
+                        <span>Discount Percentage:</span>
+                        <span id="modal-discount-percentage">0%</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-3">
+                        <span>Discount Amount:</span>
+                        <span id="modal-discount-amount">$0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-3">
+                        <span>Total After Discount:</span>
+                        <span id="modal-total-after-discount">$0.00</span>
+                    </div>
+                </div>
 
-            function decrement(id) {
-                const numberInput = document.getElementById(`number-${id}`);
-                let currentValue = parseInt(numberInput.value);
-                if (currentValue > 0) {
-                    numberInput.value = currentValue - 1;
-                }
-            }
+                <!-- Payment Method -->
+                <div class="mb-3">
+                    <label for="payment-method" class="form-label fw-bold fs-4">Payment Method:</label>
+                    <select id="payment-method" class="form-select fw-bold fs-5">
+                        <option value="cash-usd" selected>Cash USD</option>
+                        <option value="aba-bank">ABA Bank</option>
+                        <option value="acleda-bank">ACLEDA Bank</option>
+                    </select>
+                </div>
 
-            function increment(id) {
-                const numberInput = document.getElementById(`number-${id}`);
-                let currentValue = parseInt(numberInput.value);
-                numberInput.value = currentValue + 1;
-            }
-        </script>
+                <!-- Payment Input -->
+                <div class="mb-3">
+                    <label for="payment-received" class="form-label fw-bold fs-4">Payment Received:</label>
+                    <input type="number" min="0" id="payment-received" class="form-control fw-bold fs-4" placeholder="Enter amount received">
+                </div>
+
+                <!-- Quick Payment Buttons -->
+                <div class="mb-3">
+                    <h6>Quick Payment:</h6>
+                    <div class="d-flex gap-4">
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="1">1$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="2">2$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="5">5$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="10">10$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="20">20$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="50">50$</button>
+                        <button type="button" class="btn btn-secondary quick-payment fw-bold" data-value="100">100$</button>
+                    </div>
+                </div>
+
+                <!-- Change -->
+                <div class="d-flex justify-content-between mt-4 fw-bold fs-2">
+                    <span>Change:</span>
+                    <span id="modal-change">$0.00</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="finalize-payment">Finalize Payment</button>
+            </div>
+        </div>
     </div>
-    <!-- End of Page Wrapper -->
+</div>
 
-    <!-- Scroll to Top Button-->
-    <?php include './include/scroll-btn.php' ?>
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const cart = [];
+    const orderList = document.getElementById('order-list');
+    const totalPrice = document.getElementById('total-price');
+    const discountInput = document.getElementById('discount');
+    const discountAmountInput = document.getElementById('discount-amount'); //new
+    const discountButtons = document.querySelectorAll('.discount-btn'); //new
+    const totalPriceElement = document.getElementById('total-price'); //new
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    const modalBeforeDiscount = document.getElementById('modal-before-discount');
+    const modalDiscountPercentage = document.getElementById('modal-discount-percentage');
+    const modalDiscountAmount = document.getElementById('modal-discount-amount');
+    const modalTotalAfterDiscount = document.getElementById('modal-total-after-discount');
+    const paymentReceivedInput = document.getElementById('payment-received');
+    const modalChange = document.getElementById('modal-change');
 
-    <!-- Logout Modal-->
-    <?php include './include/logout-modal.php' ?>
+    // function updateCart() {
+    //     orderList.innerHTML = '';
+    //     let total = 0;
+    //     cart.forEach((item, index) => {
+    //         total += item.price * item.quantity;
+    //         const li = document.createElement('li');
+    //         li.classList.add('list-group-item');
+    //         li.innerHTML = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} <button class='btn btn-danger btn-sm float-end' onclick='removeItem(${index})'>Remove</button>`;
+    //         orderList.appendChild(li);
+    //     });
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    //     const discount = parseFloat(discountInput.value) || 0;
+    //     const discountAmount = total * (discount / 100);
+    //     const discountedTotal = total - discountAmount;
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    //     totalPrice.textContent = `$${discountedTotal.toFixed(2)}`;
+        
+    // }
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    function updateCart() {
+        orderList.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price * item.quantity;
+            const li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.innerHTML = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} <button class='btn btn-danger btn-sm float-end' onclick='removeItem(${index})'>Remove</button>`;
+            orderList.appendChild(li);
+        });
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        const discountPercentage = parseFloat(discountInput.value) || 0;
+        const discountByAmount = parseFloat(discountAmountInput.value) || 0;
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+        let discountFromPercentage = total * (discountPercentage / 100);
+        let discountedTotal = total - discountFromPercentage - discountByAmount;
 
+        discountedTotal = Math.max(discountedTotal, 0); // Ensure total is not negative
+
+        totalPrice.textContent = `$${discountedTotal.toFixed(2)}`;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', () => {
+            const itemName = button.getAttribute('data-item');
+            const itemPrice = parseFloat(button.getAttribute('data-price'));
+            const existingItem = cart.find(item => item.name === itemName);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+            }
+
+            updateCart();
+        });
+    });
+
+    // discountInput.addEventListener('input', updateCart);
+    discountInput.addEventListener('input', updateCart);
+    discountAmountInput.addEventListener('input', updateCart);
+
+    discountButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const percentage = parseFloat(button.getAttribute('data-discount'));
+            discountInput.value = percentage;
+            updateCart();
+        });
+    });
+
+    document.getElementById('checkout').addEventListener('click', () => {
+        // const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        // const discount = parseFloat(discountInput.value) || 0;
+        // const discountAmount = total * (discount / 100);
+        // const totalAfterDiscount = total - discountAmount;
+
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const discount = parseFloat(discountInput.value) || 0;
+        const discountAmount = parseFloat(discountAmountInput.value) || 0;
+        const discountFromPercentage = total * (discount / 100);
+        const totalAfterDiscount = total - discountFromPercentage - discountAmount;
+
+        modalBeforeDiscount.textContent = `$${total.toFixed(2)}`;
+        modalDiscountPercentage.textContent = `${discount}%`;
+        modalDiscountAmount.textContent = `$${discountAmount.toFixed(2)}`;
+        modalTotalAfterDiscount.textContent = `$${totalAfterDiscount.toFixed(2)}`;
+    });
+
+    document.querySelectorAll('.quick-payment').forEach(button => {
+        button.addEventListener('click', () => {
+            const value = parseFloat(button.getAttribute('data-value'));
+            const current = parseFloat(paymentReceivedInput.value) || 0;
+            paymentReceivedInput.value = current + value;
+            paymentReceivedInput.dispatchEvent(new Event('input'));
+        });
+    });
+
+    paymentReceivedInput.addEventListener('input', () => {
+        const received = parseFloat(paymentReceivedInput.value) || 0;
+        const totalAfterDiscount = parseFloat(modalTotalAfterDiscount.textContent.replace('$', ''));
+        const change = received - totalAfterDiscount;
+
+        modalChange.textContent = `$${change.toFixed(2)}`;
+    });
+
+    document.getElementById('finalize-payment').addEventListener('click', () => {
+        alert('Payment finalized!');
+        paymentModal.hide();
+    });
+});
+
+function adjustModalWidth() {
+        const modalDialog = document.getElementById('paymentModalDialog');
+        modalDialog.style.maxWidth = '10%'; // Set modal width to 90% of viewport
+    }
+        </script>
 </body>
 
 </html>
