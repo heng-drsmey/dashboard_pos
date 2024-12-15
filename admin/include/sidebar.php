@@ -189,11 +189,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseSet1" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="purchse.php">Purchase</a>
-                <a class="collapse-item" href="./Report/daily-sales.php">Daily Sales</a>
-                <a class="collapse-item" href="./Report/sales-by-item.php">Sales By Item</a>
-                <a class="collapse-item" href="./Report/payroll-expense.php">Payroll Expense</a>
-                <a class="collapse-item" href="./Report/net-revenue.php">Net Revenue</a>
+                <a class="collapse-item" href="report_purchse.php">Purchase</a>
+                <a class="collapse-item" href="report_daily_sales.php">Daily Sales</a>
+                <a class="collapse-item" href="report_sales_by_item.php">Sales By Item</a>
+                <a class="collapse-item" href="report_payroll_expense.php">Payroll Expense</a>
+                <a class="collapse-item" href="report_net_revenue.php">Net Revenue</a>
             </div>
         </div>
     </li>

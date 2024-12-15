@@ -13,7 +13,7 @@ include('function_Pro.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Admin  - Add Product</title>
+    <title> Admin  - Product</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +40,14 @@ include('function_Pro.php');
                 <?php include './include/topbar.php' ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex align-item-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add Product</h1>
+                        <?php
+                            if (isset($_REQUEST['Id'])) {
+                                echo '<h1 class="h3 mb-0 text-gray-800">Edit Product</h1>';
+                            }else{
+                                echo '<h1 class="h3 mb-0 text-gray-800">Add Product</h1>';
+                            }
+                        ?>
+                        <!-- <h1 class="h3 mb-0 text-gray-800">Add Product</h1> -->
                         <a href="product-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm">Product List</a>
                     </div>
                 <!-- form add product -->
@@ -69,8 +76,8 @@ include('function_Pro.php');
                     <div class="row">
                         <div class="col-8">
                             <div class="card-body">
-                                <label for="Code">code</label>
-                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" value="<?php  echo '' . htmlspecialchars($rowProduct['ProCode']) . '' ?>">
+                                <label for="Code">Code</label>
+                                <input type="text" class="form-control mb-2" name="txtcode" value="<?php  echo '' . htmlspecialchars($rowProduct['ProCode']) . '' ?>">
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control mb-2 border-left-danger" name="txtname" required value="<?php echo '' . htmlspecialchars($rowProduct['Name']) . '' ?>">
                                 
