@@ -1,6 +1,6 @@
 <?php
 include('include/head.php');
-include('function_pro.php')
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@ include('function_pro.php')
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Product List</title>
+    <title>Report Daily Sales</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -51,18 +51,18 @@ include('function_pro.php')
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Product List</h1>
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <a href="product.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add New</a>
                             <a href="product-addOn-uom.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add On UOM</a>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered auto-scroll" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Code</th>
@@ -93,51 +93,25 @@ include('function_pro.php')
                                         </tr>
                                     </tfoot>
                                     <?php
-                                        include('confirm_delete.php');
-                                        delete_product();
+                                        // include('confirm_delete.php');
+                                        // delete_product();
                                     ?>
                                     <tbody>
-                                        <?php
-                                        $sqlPro = "SELECT * FROM `product` WHERE del=1";
-                                        $item = $conn->query($sqlPro);
-                                        $rowPro = $item->fetch_assoc();
                                         
-                                        ?>
-                                        <?php foreach ($item as $rowPro) :
-                                            
-                                            $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPro['uom'])->fetch_assoc();
-                                            $Cate = $conn->query("SELECT * FROM `category` WHERE Id=" . $rowPro['CategoryId'])->fetch_assoc();
-                                            $CreateBy = $conn->query("SELECT * FROM `user` WHERE Id=" . $rowPro['CreateBy'])->fetch_assoc();
-                                            $Currency = $conn->query("SELECT * FROM `currency` WHERE Id=" . $rowPro['currency'])->fetch_assoc();
-
-                                        ?>
 
                                             <tr>
-                                                <td><?= $rowPro['ProCode'] ?></td>
-                                                <td><?= $rowPro['Name'] ?></td>
-                                                <td><?= $Uom['Name'] ?></td>
-                                                <td><?= $Currency['Symbol'] ?><?= $rowPro['price'] ?></td>
-                                                <td><?= $Cate['Name'] ?></td>
-                                                <td><?= $rowPro['Description'] ?></td>
-                                                <td><img src="ImageProduct/<?= $rowPro['Image'] ?>" alt="" width="50px"></td>
-                                                <td>
-                                                    <?php
-                                                    if ($rowPro['Status'] == 1) {
-                                                        echo '<p><a href="statusPro.php?Id=' . $rowPro['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
-                                                    } else {
-                                                        echo '<p><a href="statusPro.php?Id=' . $rowPro['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <!-- <td><?= $rowPro['CreateAt'] ?></td> -->
-                                                <td><?= $CreateBy['Username'] ?></td>
-                                                <td>
-                                                    <a href="product.php?Id=<?= $rowPro['Id'] ?>" class="btn btn-outline-primary btn-sm "><i class="fa fa-pencil"></i></a>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" data-href="product-list.php?delId=<?= $rowPro['Id'] ?>"><i class="fas fa-trash"></i></button>
-                                                </td>
+                                                <td>1</td>
+                                                <td>2</td>
+                                                <td>3</td>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>6</td>
+                                                <td>7</td>
+                                                <td>8</td>
+                                                <td>9</td>
+                                                <td>10</td>
                                             </tr>
 
-                                        <?php endforeach ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -159,7 +159,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item <?php echo ($current_page == 'product.php') ? 'active' : ''; ?>" href="product.php">Add Product</a>
                         <a class="collapse-item <?php echo ($current_page == 'product-list.php') ? 'active' : ''; ?>" href="product-list.php">Product List</a>
-                        <a class="collapse-item <?php echo ($current_page == 'product-addOn-uom.php') ? 'active' : ''; ?>" href="product-addOn-uom.php">Product Add On UOM</a>
                         <a class="collapse-item <?php echo ($current_page == 'uom.php') ? 'active' : ''; ?>" href="uom.php">Unit Of Measure</a>
                         <a class="collapse-item" href="cate-list.php">Category List</a>
                     </div>
@@ -191,10 +190,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div id="collapseSet1" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="purchse.php">Purchase</a>
-                <a class="collapse-item" href="daily-sales.php">Daily Sales</a>
-                <a class="collapse-item" href="sales-by-item.php">Sales By Item</a>
-                <a class="collapse-item" href="payroll-expense.php">Payroll Expense</a>
-                <a class="collapse-item" href="net-revenue.php">Net Revenue</a>
+                <a class="collapse-item" href="./Report/daily-sales.php">Daily Sales</a>
+                <a class="collapse-item" href="./Report/sales-by-item.php">Sales By Item</a>
+                <a class="collapse-item" href="./Report/payroll-expense.php">Payroll Expense</a>
+                <a class="collapse-item" href="./Report/net-revenue.php">Net Revenue</a>
             </div>
         </div>
     </li>

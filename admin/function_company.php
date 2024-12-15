@@ -4,7 +4,8 @@
 include('cn.php');
 
 //insert company
-function company_insert() {
+function company_insert()
+{
     global $conn;
     if (isset($_POST['btnsave'])) {
         $companycode = $conn->real_escape_string($_POST['companycode']);
@@ -58,7 +59,8 @@ function company_insert() {
 }
 
 // update company
-function company_update() {
+function company_update()
+{
     global $conn;
 
     if (isset($_REQUEST['btnupdate'])) {
@@ -145,11 +147,12 @@ function company_update() {
 //     }
 // }
 
-function company_delete(){
+function company_delete()
+{
     global $conn;
     if (isset($_GET['delId'])) {
         $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        
+
         // List of tables and the corresponding foreign key column that reference the company ID
         $foreignTables = [
             'user' => 'OutletId',
@@ -158,19 +161,19 @@ function company_delete(){
             'customer' => 'OutletId',
             // Add more tables and their foreign key columns here
         ];
-        
+
         $canDelete = true;
         foreach ($foreignTables as $table => $column) {
             $checkForeignKey = "SELECT COUNT(*) as count FROM `$table` WHERE `$column` = '$delId'";
             $resultForeignKey = $conn->query($checkForeignKey);
             $rowForeignKey = $resultForeignKey->fetch_assoc();
-            
+
             if ($rowForeignKey['count'] > 0) {
                 $canDelete = false;
                 break;
             }
         }
-        
+
         if ($canDelete) {
             $sqlcompanydelete = "UPDATE `outlet` SET `del` = 0 WHERE `Id` = '$delId'";
             if ($conn->query($sqlcompanydelete) === TRUE) {
@@ -198,4 +201,3 @@ function company_delete(){
 
 
 ?>
-

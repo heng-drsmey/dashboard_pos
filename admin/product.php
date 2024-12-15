@@ -13,7 +13,7 @@ include('function_Pro.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Add Product</title>
+    <title> Admin  - Add Product</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,14 +56,13 @@ include('function_Pro.php');
                         $pro = $_REQUEST['Id'];                                   
                         UpdateProduct();
                         $rowProduct = $conn->query("SELECT * FROM `product` WHERE Id=$pro")->fetch_assoc();
-                        // $pro = $conn->query("SELECT * FROM `product` WHERE Id=" . $productId['ProductId'])->fetch_assoc();
                     } else {
-                        $rowProduct = array("ProCode" => "", "CategoryId" => "", "SkuId" => "","Name" => "","Description" => "","Status" => "","Image" => "","CreateBy" => "");
+                        $rowProduct = array("ProCode" => "", "CategoryId" => "", "uom" => "","price" => "","currency" => "","Name" => "","Description" => "","Status" => "","Image" => "","CreateBy" => "");
                     }
                     ?>
                     <pre>
                     <?php
-                        //var_dump($rowProduct);
+                        // var_dump($rowProduct);
                     ?>
                     </pre>
 
@@ -71,7 +70,7 @@ include('function_Pro.php');
                         <div class="col-8">
                             <div class="card-body">
                                 <label for="Code">code</label>
-                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" required value="<?php  echo '' . htmlspecialchars($rowProduct['ProCode']) . '' ?>">
+                                <input type="text" class="form-control mb-2 border-left-danger" name="txtcode" value="<?php  echo '' . htmlspecialchars($rowProduct['ProCode']) . '' ?>">
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control mb-2 border-left-danger" name="txtname" required value="<?php echo '' . htmlspecialchars($rowProduct['Name']) . '' ?>">
                                 
@@ -89,26 +88,22 @@ include('function_Pro.php');
                                     ?>
                                 </select>
                                 <label for="UOM">UOM</label>
-                                <select <?php if(isset($_REQUEST['Id'])){
-                                    echo'style="display: none;"';
-                                } ?> class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
+                                <select  class="form-control mb-2 border-left-danger" style="width: 100%;" name="txtuom">
                                     <?php
                                     $sqlUom = "SELECT * FROM `UOM` WHERE del=1";
                                     $qrUom = $conn->query($sqlUom);
                                     while ($rowUom = $qrUom->fetch_assoc()) {
-                                        if ($rowUom['Id'] == $rowProduct['Uom']) $sel = 'selected';
+                                        if ($rowUom['Id'] == $rowProduct['uom']) $sel = 'selected';
                                         else $sel = '';
                                         echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
                                     }
 
                                     ?>
                                 </select>
-                                <div class="row" <?php if(isset($_REQUEST['Id'])){
-                                    echo'style="display: none;"';
-                                } ?> >
+                                <div class="row">
                                     <div class="col-6" >
                                         <label for="Price">Price</label>
-                                        <input type="number" class="form-control mb-2 border-left-danger" name="txtprice" value="<?php // echo '' . htmlspecialchars($rowProduct['Price']) . '' ?>">
+                                        <input type="number" class="form-control mb-2 border-left-danger" name="txtprice" value="<?php  echo '' . htmlspecialchars($rowProduct['price']) ?? 0.00. '' ?>"  step="0.01">
                                     </div>
                                     <div class="col-6">
                                         <label  for="Currency">Currency</label>
@@ -117,7 +112,7 @@ include('function_Pro.php');
                                             $sqlCurrency = "SELECT * FROM `currency` WHERE del=1";
                                             $qrCurrency = $conn->query($sqlCurrency);
                                             while ($rowCurrency = $qrCurrency->fetch_assoc()) {
-                                                if ($rowCurrency['Id'] == $rowProduct['Currency']) $sel = 'selected';
+                                                if ($rowCurrency['Id'] == $rowProduct['currency']) $sel = 'selected';
                                                 else $sel = '';
                                                 echo '<option value="' . $rowCurrency['Id'] . '" ' . $sel . '>' . $rowCurrency['Code'] . '</option>';
                                             }
