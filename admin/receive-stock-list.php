@@ -16,7 +16,7 @@ include('function_recieve_stock.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 -  Stock Recieve List</title>
+    <title>Admin -  Stock Recieve List</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

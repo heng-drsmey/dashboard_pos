@@ -13,7 +13,7 @@ include('function_user.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Add User</title>
+    <title>Admin  -  User</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +40,14 @@ include('function_user.php');
                 <?php include './include/topbar.php' ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex align-item-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add User</h1>
+                        <?php
+                            if(isset($_REQUEST['Id'])){
+                                echo '<h1 class="h3 mb-0 text-gray-800">Edit User</h1>';
+                            }else{
+                                echo '<h1 class="h3 mb-0 text-gray-800">Add User</h1>';
+                            }
+                        ?>
+                        <!-- <h1 class="h3 mb-0 text-gray-800">Add User</h1> -->
                         <a href="user-list.php" class="d-none d-sm-inline-block btn btn-success shadow-sm">User List</a>
                     </div>
                     <!-- form add user -->

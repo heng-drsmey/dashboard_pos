@@ -13,7 +13,7 @@ include('include/head.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Report Daily Sales</title>
+    <title>Admin - Report Purchase</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -65,30 +65,35 @@ include('include/head.php');
                                 <table class="table table-bordered auto-scroll" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
+                                            <th>Receive Date</th>
+                                            <th>Receive By</th>
+                                            <th>Supplier</th>
+                                            <th>Purchase No</th>
+                                            <th>Product Name</th>
                                             <th>UOM</th>
-                                            <th>Price</th>
-                                            <th>Category</th>
+                                            <th>QTY</th>
+                                            <th>Unit Cost</th>
+                                            <th>Discount Amount</th>
                                             <th>Description</th>
-                                            <th>Image</th>
-                                            <th>Status</th>
-                                            <th>CreateBy</th>
-                                            <th>Action</th>
+                                            <th>Paid Amount</th>
+                                            <th>Payment Status</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
+                                            <th>Receive Date</th>
+                                            <th>Receive By</th>
+                                            <th>Supplier</th>
+                                            <th>Purchase No</th>
+                                            <th>Product Name</th>
                                             <th>UOM</th>
-                                            <th>Price</th>
-                                            <th>Category</th>
+                                            <th>QTY</th>
+                                            <th>Unit Cost</th>
+                                            <th>Discount Amount</th>
                                             <th>Description</th>
-                                            <th>Image</th>
-                                            <th>Status</th>
-                                            <th>CreateBy</th>
-                                            <th>Action</th>
+                                            <th>Paid Amount</th>
+                                            <th>Payment Status</th>
 
                                         </tr>
                                     </tfoot>
@@ -108,6 +113,8 @@ include('include/head.php');
                                                 <td>6</td>
                                                 <td>7</td>
                                                 <td>8</td>
+                                                <td>9</td>
+                                                <td>10</td>
                                                 <td>9</td>
                                                 <td>10</td>
                                             </tr>

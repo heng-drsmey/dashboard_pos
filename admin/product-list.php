@@ -13,7 +13,7 @@ include('function_pro.php')
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Product List</title>
+    <title> Admin - Product List</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,7 +55,6 @@ include('function_pro.php')
                         <h1 class="h3 mb-0 text-gray-800">Product List</h1>
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <a href="product.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add New</a>
-                            <a href="product-addOn-uom.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add On UOM</a>
                         </div>
                     </div>
                     <!-- DataTales -->

@@ -13,7 +13,7 @@ include ('function_recieve_stock.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Receive Stock</title>
+    <title> Admin  - Receive Stock</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -165,7 +165,7 @@ include ('function_recieve_stock.php');
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
-                                                        <label for="Paid">Paid</label>
+                                                        <label for="Paid">Paid Amount</label>
                                                         <input type="text" class="form-control mb-2 border-left-danger" name="paid" required value="<?php echo ''.$rowFrm['Paid'].'' ?>">
                                                     </div>
                                                     <div class="col-lg-6">

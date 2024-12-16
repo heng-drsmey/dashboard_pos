@@ -14,7 +14,7 @@ include('function_uom.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Unit Of Measure</title>
+    <title> Admin - Unit Of Measure</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
