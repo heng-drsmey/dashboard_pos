@@ -51,18 +51,18 @@ include('include/head.php');
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Product List</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Purchase</h1>
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <a href="product.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add New</a>
-                            <a href="product-addOn-uom.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> Add On UOM</a>
+                            <a href="pos.php" class="d-none d-sm-inline btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> POS</a>
+                            <!-- <i class="fa fa-plus-square" aria-hidden="true"></i> -->
                         </div>
-                    </div> -->
+                    </div>
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered auto-scroll" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered " id="dataTable" width="auto" cellspacing="0" style="font-size: small; ">
                                     <thead>
                                         <tr>
                                             <th>Receive Date</th>
@@ -76,8 +76,8 @@ include('include/head.php');
                                             <th>Discount Amount</th>
                                             <th>Description</th>
                                             <th>Paid Amount</th>
-                                            <th>Payment Status</th>
-                                            
+                                            <th>Status</th>
+
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -93,32 +93,52 @@ include('include/head.php');
                                             <th>Discount Amount</th>
                                             <th>Description</th>
                                             <th>Paid Amount</th>
-                                            <th>Payment Status</th>
+                                            <th>Status</th>
 
                                         </tr>
                                     </tfoot>
-                                    <?php
-                                        // include('confirm_delete.php');
-                                        // delete_product();
-                                    ?>
                                     <tbody>
-                                        
+                                    <?php
+                                        $sqlPayroll = "SELECT * FROM `pro_in`";
+                                        $resultPayroll = $conn->query($sqlPayroll);
+                                        $rowPayroll = $resultPayroll->fetch_assoc();
+                                    ?>
+                                    <?php foreach ($resultPayroll as $rowPayroll) :
+                                        $Emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowPayroll['RecieveBy'])->fetch_assoc();
+                                        $Supplier = $conn->query("SELECT * FROM `supplier` WHERE Id=" . $rowPayroll['Supplier'])->fetch_assoc();
+                                        $Product = $conn->query("SELECT * FROM `product` WHERE Id=" . $rowPayroll['ProId'])->fetch_assoc();	
+                                        $Uom = $conn->query("SELECT * FROM `uom` WHERE Id=" . $rowPayroll['Uom'])->fetch_assoc();
+                                        $Currency = $conn->query("SELECT * FROM `currency` WHERE Id=" . $rowPayroll['Currency'])->fetch_assoc();
+                                        $Status = $conn->query("SELECT * FROM `values` WHERE Id=" . $rowPayroll['PaymentStatus'])->fetch_assoc();	
+                                    ?>
 
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>6</td>
-                                                <td>7</td>
-                                                <td>8</td>
-                                                <td>9</td>
-                                                <td>10</td>
-                                                <td>9</td>
-                                                <td>10</td>
-                                            </tr>
 
+                                        <tr>
+                                            <td><?= $rowPayroll['RecieveDate'] ?></td>
+                                            <td><?= $Emp['Lastname'] ?></td>
+                                            <td><?= $Supplier['Name']; ?></td>
+                                            <td><?= $rowPayroll['PurchaseNo']; ?></td>
+                                            <td><?= $Product['Name']; ?></td>
+                                            <td><?= $Uom['Name']; ?></td>
+                                            <td><?= $rowPayroll['Qty_In']; ?></td>
+                                            <td><?= $Currency['Symbol']; ?><?= $rowPayroll['Price_In']; ?></td>
+                                            <td><?= $rowPayroll['DiscountAmount']; ?></td>
+                                            <td><?= $rowPayroll['Description']; ?></td>
+                                            <td><?= $rowPayroll['Paid']; ?></td>
+                                            <td>
+                                                <!-- <?= $Status['Name']; ?> -->
+                                                <?php
+                                                    if ($rowPayroll['PaymentStatus'] == 4) {
+                                                        echo '<p class="d-sm-inline badge badge-warning shadow-sm"> '.$Status['Name'].' </p>';
+                                                    } else if ($rowPayroll['PaymentStatus'] == 5) {
+                                                        echo '<p class="d-sm-inline badge badge-success shadow-sm"> '.$Status['Name'].' </p>';
+                                                    } else {
+                                                        echo '<p class="d-sm-inline badge badge-primary shadow-sm"> '.$Status['Name'].' </p>';
+                                                    }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -168,7 +188,7 @@ include('include/head.php');
         // controll alert
         $(document).ready(function() {
             // Event listener for when the alert is closed
-            $('#alert-success').on('closed.bs.alert', function () {
+            $('#alert-success').on('closed.bs.alert', function() {
                 // Action to perform after the alert is closed
                 console.log('Alert closed');
                 // You can perform additional actions here, such as redirecting the user

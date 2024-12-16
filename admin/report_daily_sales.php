@@ -62,7 +62,7 @@ include('function_user.php');
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small; ">
                                     <thead>
                                         <tr>
                                             <th>Location</th>
@@ -70,8 +70,6 @@ include('function_user.php');
                                             <th>Total Amount</th>
                                             <th>Discount</th>
                                             <th>Total After Discount</th>
-                                            
-
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -81,32 +79,45 @@ include('function_user.php');
                                             <th>Total Amount</th>
                                             <th>Discount</th>
                                             <th>Total After Discount</th>
-                                            
                                         </tr>
                                     </tfoot>
-
                                     <tbody>
                                         <?php
-                                        $sqlUser = "SELECT * FROM `user` WHERE del=1";
-                                        $item = $conn->query($sqlUser);
-                                        $rowUser = $item->fetch_assoc();
+                                        $sqlInvoice = "SELECT 
+                                                            outlet.Name AS OutletName, 
+                                                            DATE(invoice.CreateAt) AS InvoiceDate, 
+                                                            SUM(invoice.TotalBeDis) AS TotalAmount, 
+                                                            SUM(invoice.DiscountCur) AS Discount,
+                                                            CASE 
+                                                                WHEN SUM(invoice.DiscountCur) = 0 THEN SUM(invoice.TotalBeDis)
+                                                                ELSE SUM(invoice.TotalBeDis) - SUM(invoice.DiscountCur)
+                                                            END AS TotalAfterDiscount
+                                                        FROM `invoice` 
+                                                        INNER JOIN `outlet` ON invoice.OutletId = outlet.Id 
+                                                        WHERE invoice.del = 1 
+                                                        GROUP BY outlet.Name, DATE(invoice.CreateAt)
+                                                        ORDER BY InvoiceDate ASC";
+                                        $Invoice = $conn->query($sqlInvoice);
+                                        if ($Invoice) {
+                                            while ($rowInvoice = $Invoice->fetch_assoc()) :
                                         ?>
-                                        <?php foreach ($item as $rowUser) :
-                                            $outlet = $conn->query("SELECT * FROM `outlet` WHERE Id=" . $rowUser['OutletId'])->fetch_assoc();
-                                            $role = $conn->query("SELECT * FROM `role` WHERE Id=" . $rowUser['RoleId'])->fetch_assoc();
-                                            $emp = $conn->query("SELECT * FROM `employee` WHERE Id=" . $rowUser['EmployeeId'])->fetch_assoc();
+                                                <tr>
+                                                    <td><?= htmlspecialchars($rowInvoice['OutletName']) ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($rowInvoice['InvoiceDate'])) ?></td>
+                                                    <td><?= number_format($rowInvoice['TotalAmount'], 2) ?></td>
+                                                    <td><?= number_format($rowInvoice['Discount'], 2) ?></td>
+                                                    <td><?= number_format($rowInvoice['TotalAfterDiscount'], 2) ?></td>
+                                                </tr>
+                                        <?php endwhile;
+                                        } else {
+                                            echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                        }
                                         ?>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                               
-                                            </tr>
-                                        <?php endforeach ?>
                                     </tbody>
-                                </table>
+                                    </table>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -123,45 +134,45 @@ include('function_user.php');
 
         </div>
         <!-- End of Content Wrapper -->
-   <!-- Search -->
-   <script>
-        function myFunction() {
-            // Declare variables
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("dataTable");
-            tr = table.getElementsByTagName("tr");
+        <!-- Search -->
+        <script>
+            function myFunction() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("dataTable");
+                tr = table.getElementsByTagName("tr");
 
-            // Loop through all table rows, and hide those who don't match the search query
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
                     }
                 }
             }
-        }
-// controll alert
-        $(document).ready(function() {
-    // Event listener for when the alert is closed
-    $('#alert-success').on('closed.bs.alert', function () {
-        // Action to perform after the alert is closed
-        console.log('Alert closed');
-        // You can perform additional actions here, such as redirecting the user
-        window.location.href = "user-list.php";
-    });
+            // controll alert
+            $(document).ready(function() {
+                // Event listener for when the alert is closed
+                $('#alert-success').on('closed.bs.alert', function() {
+                    // Action to perform after the alert is closed
+                    console.log('Alert closed');
+                    // You can perform additional actions here, such as redirecting the user
+                    window.location.href = "user-list.php";
+                });
 
-    // Alternatively, you can automatically close the alert after some time
-    setTimeout(function() {
-        $('#alert-success').alert('close');
-    }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
-});
-    </script>
+                // Alternatively, you can automatically close the alert after some time
+                setTimeout(function() {
+                    $('#alert-success').alert('close');
+                }, 2000); // Adjust the time (2000 milliseconds = 2 seconds) as needed
+            });
+        </script>
     </div>
     <!-- End of Page Wrapper -->
 
