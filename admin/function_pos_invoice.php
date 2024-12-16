@@ -1,162 +1,177 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- link sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <?php
 include('cn.php');
 
-function receive_stock() {
+//insert pos-invoice
+// function pos_invoice_insert() {
+//     global $conn;
+//     if (isset($_POST['btnsave'])) {
+//         $branch = $conn->real_escape_string($_POST['branch']);
+//         $userid = $conn->real_escape_string($_POST['userid']);
+//         $table = $conn->real_escape_string($_POST['table']);
+//         $customer = $conn->real_escape_string($_POST['customer']);
+//         $shift = $conn->real_escape_string($_POST['shift']);
+//         $payment = $conn->real_escape_string($_POST['payment']);
+//         $invoiceno = $conn->real_escape_string($_POST['invoiceno']);
+//         $catename = $conn->real_escape_string($_POST['catename']);
+//         $procode = $conn->real_escape_string($_POST['procode']);
+//         $proname = $conn->real_escape_string($_POST['proname']);
+//         $uom = $conn->real_escape_string($_POST['uom']);
+//         $price = $conn->real_escape_string($_POST['price']);
+//         $qty = $conn->real_escape_string($_POST['qty']);
+//         $amount = $conn->real_escape_string($_POST['amount']);
+//         $totalbedis = $conn->real_escape_string($_POST['totalbedis']);
+//         $discountper = $conn->real_escape_string($_POST['discountper']);
+//         $discountcur = $conn->real_escape_string($_POST['discountcur']);
+//         $totalaftdis = $conn->real_escape_string($_POST['totalaftdis']);
+//         $paidinusd = $conn->real_escape_string($_POST['paidinusd']);
+//         $changeusd = $conn->real_escape_string($_POST['changeusd']);
+
+//         $sqlposinvoiceinsert = "INSERT INTO `invoice` (`OutletId`, `UserId`, `TableId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceNo`, `CateName`, `ProCode`, `ProName`, `UOM`, `Price`, `QTY`, `Amount`, `TotalBeDis`, `DiscountPer`, `DiscountCur`, `AmountInUSD`, `PaidInUSD`, `ChangeUSD`)
+//         VALUES ('$branch','$userid','$table','$customer','$shift','$payment','$invoiceno','$catename','$procode','$proname','$uom','$price','$qty','$amount','$totalbedis','$discountper','$discountcur','$totalaftdis','$paidinusd','$changeusd')";
+
+        
+//         if($conn->query($sqlposinvoiceinsert) === TRUE) {
+//             echo '<script>
+//                     document.addEventListener("DOMContentLoaded", function() {
+//                         swal({
+//                             title: "Success",
+//                             text: "Payment successfully",
+//                             icon: "success"
+//                         }).then(function() {
+//                             window.location = "pos.php";
+//                         });
+//                     });
+//                   </script>';
+//         }else {
+//             echo '<script>
+//                     document.addEventListener("DOMContentLoaded", function() {
+//                         swal({
+//                             title: "Error",
+//                             text: "There was an error payment the pos. Please try again. Error: ' . $conn->error . '",
+//                             icon: "error"
+//                         }).then(function() {
+//                             window.location = "pos.php";
+//                         });
+//                     });
+//                   </script>';
+//         }
+//     }
+// }
+
+function pos_invoice_insert() {
     global $conn;
 
-    if (isset($_POST['btnAdd'])) {
-        $recievedate = $conn->real_escape_string($_POST['receivedate']);
-        $recieveby = $conn->real_escape_string($_POST['receiveby']);
-        $purchaseno = $conn->real_escape_string($_POST['purchaseno']);
-        $supplier = $conn->real_escape_string($_POST['supplier']);
-        $product = $conn->real_escape_string($_POST['product']);
-        $uom = $conn->real_escape_string($_POST['uom']);
-        $quantity = $conn->real_escape_string($_POST['quantity']);
-        $price = $conn->real_escape_string($_POST['price']);
-        $currency = $conn->real_escape_string($_POST['currency']);
-        $paid = $conn->real_escape_string($_POST['paid']);
-        $paymentstatus = $conn->real_escape_string($_POST['paymentstatus']);
-        $discount = $conn->real_escape_string($_POST['discount']);
-        $createby = $conn->real_escape_string($_POST['createby']);
-        $description = $conn->real_escape_string($_POST['description']);
-        $moment_pro_id = $conn->real_escape_string($_POST['moment_pro_id']);
-        $moment_pro_in = $conn->real_escape_string($_POST['moment_pro_in']);
-        $moment_pro_out = $conn->real_escape_string($_POST['moment_pro_out']);
+    if (isset($_POST['btnsave'])) {
+        // Fetch and sanitize user inputs
+        $branch = trim($_POST['branch']);
+        $userid = trim($_POST['userid']);
+        $table = trim($_POST['table']);
+        $customer = trim($_POST['customer']);
+        $shift = trim($_POST['shift']);
+        $payment = trim($_POST['payment']);
+        $invoiceno = trim($_POST['invoiceno']);
+        $catename = trim($_POST['catename']);
+        $procode = trim($_POST['procode']);
+        $proname = trim($_POST['proname']);
+        $uom = trim($_POST['uom']);
+        $price = trim($_POST['price']);
+        $qty = trim($_POST['qty']);
+        $amount = trim($_POST['amount']);
+        $totalbedis = trim($_POST['totalbedis']);
+        $discountper = trim($_POST['discountper']);
+        $discountcur = trim($_POST['discountcur']);
+        $totalaftdis = trim($_POST['totalaftdis']);
+        $paidinusd = trim($_POST['paidinusd']);
+        $changeusd = trim($_POST['changeusd']);
 
-        // Verify if the Pro_Out_Id exists in pro_out table
-        // $query_check_pro_out = "SELECT * FROM `pro_out` WHERE `Id` = '$moment_pro_out'";
-        // $result_check_pro_out = $conn->query($query_check_pro_out);
+        // Validate essential fields
+        if (empty($branch) || empty($userid) || empty($invoiceno) || empty($price) || empty($qty)) {
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        swal({
+                            title: "Error",
+                            text: "Missing required fields. Please fill all required fields.",
+                            icon: "error"
+                        });
+                    });
+                  </script>';
+            return;
+        }
 
-        // if ($result_check_pro_out->num_rows == 0) {
-        //     echo '
-        //         <script>
-        //             swal({
-        //                 title: "Error",
-        //                 text: "Pro_Out_Id does not exist in pro_out table",
-        //                 icon: "error",
-        //             });
-        //         </script>
-        //     ';
-        //     return;
-        // }
+        // Prepare SQL statement
+        $sqlposinvoiceinsert = "INSERT INTO `invoice` 
+            (`OutletId`, `UserId`, `TableId`, `CustomerId`, `ShiftDetailsId`, `PaymentMethodId`, `InvoiceNo`, `CateName`, `ProCode`, `ProName`, `UOM`, `Price`, `QTY`, `Amount`, `TotalBeDis`, `DiscountPer`, `DiscountCur`, `AmountInUSD`, `PaidInUSD`, `ChangeUSD`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-        $recieve_stock = "INSERT INTO `pro_in`( `RecieveDate`, `RecieveBy`, `Supplier`, `PurchaseNo`, `ProId`,`Uom`, `Qty_In`, `Price_In`, `DiscountAmount`, `Currency`, `Description`, `Paid`, `PaymentStatus`, `CreateBy`) VALUES
-        ('$recievedate','$recieveby','$supplier','$purchaseno','$product','$uom','$quantity','$price','$discount','$currency','$description','$paid','$paymentstatus','$createby')";
+        $stmt = $conn->prepare($sqlposinvoiceinsert);
+        if ($stmt === false) {
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        swal({
+                            title: "Error",
+                            text: "Failed to prepare the SQL statement. Error: ' . $conn->error . '",
+                            icon: "error"
+                        });
+                    });
+                  </script>';
+            return;
+        }
 
-        if ($conn->query($recieve_stock) === TRUE) {
-            $moment_pro_in = $conn->insert_id; // Get the last inserted ID from pro_in table
-            $moment_pro_id = $product;
+        // Bind parameters to prevent SQL injection
+        $stmt->bind_param(
+            'sssssssssssdddsdddddd', 
+            $branch, 
+            $userid, 
+            $table, 
+            $customer, 
+            $shift, 
+            $payment, 
+            $invoiceno, 
+            $catename, 
+            $procode, 
+            $proname, 
+            $uom, 
+            $price, 
+            $qty, 
+            $amount, 
+            $totalbedis, 
+            $discountper, 
+            $discountcur, 
+            $totalaftdis, 
+            $paidinusd, 
+            $changeusd
+        );
 
-            $record_moment = "INSERT INTO `pro_moment`(`ProId`, `Pro_In_Id`) VALUES ('$moment_pro_id', '$moment_pro_in')";
-
-            if ($conn->query($record_moment) === TRUE) {
-                echo '
-                    <script>
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
                         swal({
                             title: "Success",
-                            text: "Data insert success",
-                            icon: "success",
+                            text: "Payment successfully processed.",
+                            icon: "success"
+                        }).then(function() {
+                            window.location = "pos.php";
                         });
-                    </script>
-                ';
-            } else {
-                echo '
-                    <script>
+                    });
+                  </script>';
+        } else {
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
                         swal({
-                            title: "Try Again",
-                            text: "Data cannot be inserted into pro_moment",
-                            icon: "error",
+                            title: "Error",
+                            text: "Failed to insert invoice. Error: ' . $stmt->error . '",
+                            icon: "error"
+                        }).then(function() {
+                            window.location = "pos.php";
                         });
-                    </script>
-                ';
-            }
-        } else {
-            echo '
-                <script>
-                    swal({
-                        title: "Try Again",
-                        text: "Data cannot be inserted into pro_in",
-                        icon: "error",
                     });
-                </script>
-            ';
+                  </script>';
         }
+
+        // Close the statement
+        $stmt->close();
     }
 }
-
-// delete_recieve_1 we can restore data come back again just update del=1
-function delete_recieve_1(){
-    global $conn;
-    if (isset($_GET['delId'])) {
-        $delId = mysqli_real_escape_string($conn, $_GET['delId']);
-        $sqlDeleteuser = "UPDATE `pro_in` SET `del`=0 WHERE `Id`='$delId'";
-        if ($conn->query($sqlDeleteuser) === TRUE) {
-        echo '
-                    <script>
-                    swal({
-                        title: "Success",
-                        text: "Data delete success",
-                        icon: "success",
-                    });
-                    </script> 
-        ';
-        } else {
-        echo "Error deleting record: " . $conn->error;
-        }
-    } else {
-        echo "";
-    }
-}
-function update_receive_stock()
-{
-  global $conn;
-  // selece data for update
-  if (isset($_REQUEST['btnUpdate'])) {
-    $receiveId = $_REQUEST['Id'];
-    $recievedate = $conn->real_escape_string($_POST['receivedate']);
-    $recieveby = $conn->real_escape_string($_POST['receiveby']);
-    $purchaseno = $conn->real_escape_string($_POST['purchaseno']);
-    $supplier = $conn->real_escape_string($_POST['supplier']);
-    $product = $conn->real_escape_string($_POST['product']);
-    $uom = $conn->real_escape_string($_POST['uom']);
-    $quantity = $conn->real_escape_string($_POST['quantity']);
-    $price = $conn->real_escape_string($_POST['price']);
-    $currency = $conn->real_escape_string($_POST['currency']);
-    $paid = $conn->real_escape_string($_POST['paid']);
-    $paymentstatus = $conn->real_escape_string($_POST['paymentstatus']);
-    $discount = $conn->real_escape_string($_POST['discount']);
-    $createby = $conn->real_escape_string($_POST['createby']);
-    $description = $conn->real_escape_string($_POST['description']);
-    $curentDate = date("Y_m_d_H_i_s");
-    $update_at = $_REQUEST['txtupdate_at'];
-    $update = $update_at . $curentDate;
-
-    $sqlUpdate = "UPDATE `pro_in` SET `RecieveDate`='$recievedate',`RecieveBy`='$recieveby',`Supplier`='$supplier',
-    `PurchaseNo`='$purchaseno',`ProId`='$product',`Uom`='$uom',`Qty_In`='$quantity',`Price_In`='$price',
-    `DiscountAmount`='$discount',`Currency`='$currency',`Description`='$description',`Paid`='$paid',
-    `PaymentStatus`='$paymentstatus',`CreateBy`='$createby',`UpdateAt`='$update'  WHERE Id=$receiveId";
-    if ($conn->query($sqlUpdate) === TRUE) {
-      echo '
-                                <script>
-                                  swal({
-                                    title: "Success",
-                                    text: "Data Update success",
-                                    icon: "success",
-                                  });
-                                </script>
-                                ';
-    } else {
-      echo '
-                                <script>
-                                  swal({
-                                    title: "Try again",
-                                    text: "Data can not Update",
-                                    icon: "error",
-                                  });
-                                </script>
-                                ';
-    }
-  }
-}
-
