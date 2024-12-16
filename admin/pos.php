@@ -102,87 +102,86 @@ include('function_pos_invoice.php');
                         </div>
                         <div class="row">
 
-                        <div class="col bg-white py-4 rounded card shadow mb-4">
-    <div class="col-lg-12">
-        <!-- Tablist -->
-        <ul class="nav nav-tabs" id="itemGroupTabs" role="tablist">
-            <?php
-            $categories = $conn->query("SELECT DISTINCT Name FROM `category`");
-            $firstTab = true; // First tab active
-            while ($category = $categories->fetch_assoc()) : 
-                $categoryName = $category['Name'];
-            ?>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link <?= $firstTab ? 'active' : '' ?>" id="<?= strtolower($categoryName) ?>-tab"
-                        data-bs-toggle="tab" data-bs-target="#<?= strtolower($categoryName) ?>" type="button" role="tab"
-                        aria-controls="<?= strtolower($categoryName) ?>" aria-selected="<?= $firstTab ? 'true' : 'false' ?>">
-                        <?= $categoryName ?>
-                    </button>
-                </li>
-            <?php 
-                $firstTab = false;
-            endwhile; 
-            ?>
-        </ul>
+                                <div class="col bg-white py-4 rounded card shadow mb-4">
+                                    <div class="col-lg-12">
+                                        <!-- Tablist -->
+                                        <ul class="nav nav-tabs" id="itemGroupTabs" role="tablist">
+                                            <?php
+                                            $categories = $conn->query("SELECT DISTINCT Name FROM `category`");
+                                            $firstTab = true; // First tab active
+                                            while ($category = $categories->fetch_assoc()) : 
+                                                $categoryName = $category['Name'];
+                                            ?>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link <?= $firstTab ? 'active' : '' ?>" id="<?= strtolower($categoryName) ?>-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#<?= strtolower($categoryName) ?>" type="button" role="tab"
+                                                        aria-controls="<?= strtolower($categoryName) ?>" aria-selected="<?= $firstTab ? 'true' : 'false' ?>">
+                                                        <?= $categoryName ?>
+                                                    </button>
+                                                </li>
+                                            <?php 
+                                                $firstTab = false;
+                                            endwhile; 
+                                            ?>
+                                        </ul>
 
-        <!-- Tab Content -->
-        <div class="tab-content overflow-auto" id="itemGroupTabsContent" style="max-height: 600px; overflow-y: auto;">
-            <?php
-            $categories = $conn->query("SELECT DISTINCT Name FROM `category`");
-            $firstTab = true;
-            while ($category = $categories->fetch_assoc()) : 
-                $categoryName = $category['Name'];
-            ?>
-                <div class="tab-pane fade <?= $firstTab ? 'show active' : '' ?>" id="<?= strtolower($categoryName) ?>" role="tabpanel"
-                    aria-labelledby="<?= strtolower($categoryName) ?>-tab">
-                    <div class="row">
-                        <?php
-                        $products = $conn->query("
-                            SELECT 
-                                p.Name AS ProductName,
-                                p.Image AS ProductImage,
-                                p.Price AS ProductPrice,
-                                u.Name AS UOMName
-                            FROM 
-                                product p
-                            JOIN 
-                                uom u ON u.Id = p.UomId
-                            JOIN 
-                                category c ON c.Id = p.CategoryId
-                            WHERE 
-                                c.Name = '$categoryName' AND p.del = 1
-                        ");
+                                        <!-- Tab Content -->
+                                        <div class="tab-content overflow-auto" id="itemGroupTabsContent" style="max-height: 600px; overflow-y: auto;">
+                                            <?php
+                                            $categories = $conn->query("SELECT DISTINCT Name FROM `category`");
+                                            $firstTab = true;
+                                            while ($category = $categories->fetch_assoc()) : 
+                                                $categoryName = $category['Name'];
+                                            ?>
+                                                <div class="tab-pane fade <?= $firstTab ? 'show active' : '' ?>" id="<?= strtolower($categoryName) ?>" role="tabpanel"
+                                                    aria-labelledby="<?= strtolower($categoryName) ?>-tab">
+                                                    <div class="row">
+                                                        <?php
+                                                        $products = $conn->query("
+                                                            SELECT 
+                                                                p.Name AS ProductName,
+                                                                p.Image AS ProductImage,
+                                                                p.price AS ProductPrice,
+                                                                u.Name AS UOMName
+                                                            FROM 
+                                                                product p
+                                                            JOIN 
+                                                                uom u ON u.Id = p.uom
+                                                            JOIN 
+                                                                category c ON c.Id = p.CategoryId
+                                                            WHERE 
+                                                                c.Name = '$categoryName' AND p.del = 1
+                                                        ");
 
-                        while ($row = $products->fetch_assoc()) :
-                        ?>
-                            <div class="col-lg-3 pt-3 pb-3 product-item" data-name="<?= strtolower($row['ProductName']) ?>">
-                                <div class="card border-1">
-                                    <div class="thumbnail-wrapper">
-                                        <div class="thumbnail-inner img4by3">
-                                            <img src="ImageProduct/<?= $row['ProductImage'] ?>" class="rounded" alt="<?= $row['ProductName'] ?>">
+                                                        while ($row = $products->fetch_assoc()) :
+                                                        ?>
+                                                            <div class="col-lg-3 pt-3 pb-3 product-item" data-name="<?= strtolower($row['ProductName']) ?>">
+                                                                <div class="card border-1">
+                                                                    <div class="thumbnail-wrapper">
+                                                                        <div class="thumbnail-inner img4by3">
+                                                                            <img src="ImageProduct/<?= $row['ProductImage'] ?>" class="rounded" alt="<?= $row['ProductName'] ?>">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <p class="card-text"><?= $row['ProductName'] ?></p>
+                                                                        <h5 class="text-success"><?= $row['ProductPrice'] ?></h5>
+                                                                        <p class="text-muted"><?= $row['UOMName'] ?></p>
+                                                                        <button class="btn btn-primary add-to-cart" type="button" data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>">
+                                                                            <i class="fas fa-plus"></i> Add
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php endwhile; ?>
+                                                    </div>
+                                                </div>
+                                            <?php 
+                                                $firstTab = false;
+                                            endwhile;
+                                            ?>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text"><?= $row['ProductName'] ?></p>
-                                        <h5 class="text-success"><?= $row['ProductPrice'] ?></h5>
-                                        <p class="text-muted"><?= $row['UOMName'] ?></p>
-                                        <button class="btn btn-primary add-to-cart" data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>">
-                                            <i class="fas fa-plus"></i> Add
-                                        </button>
-                                    </div>
                                 </div>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
-                </div>
-            <?php 
-                $firstTab = false;
-            endwhile;
-            ?>
-        </div>
-    </div>
-</div>
-
 
                             <div class="col-lg-4 bg-white py-4 rounded ml-4 card shadow mb-4">
                                 <div id="order-details">
@@ -205,14 +204,14 @@ include('function_pos_invoice.php');
                                         <label for="discount" class="form-label fw-bold">Discount (%):</label>
                                         <input type="number" min="0" id="discount" class="form-control fw-bold" value="0">
                                         <div class="mt-4">
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="5">5%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="10">10%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="15">15%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="20">20%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="25">25%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="30">30%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="50">50%</button>
-                                            <button class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="100">100%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="5">5%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="10">10%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="15">15%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="20">20%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="25">25%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="30">30%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="50">50%</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="100">100%</button>
                                         </div>
                                     </div>
                                     <div class="mt-3">
@@ -224,9 +223,9 @@ include('function_pos_invoice.php');
                                         <h5>Total:</h5>
                                         <h5 id="total-price">$0.00</h5>
                                     </div>
-                                    <button class="btn btn-success mt-3" id="checkout"><i class="fa-brands fa-paypal"></i> Checkout</button>
+                                    <button class="btn btn-success mt-3" id="checkout" type="button"><i class="fa-brands fa-paypal"></i> Checkout</button>
 
-                                    <button class="btn btn-secondary mt-3" id="print-bill"><i class="fa-solid fa-print"></i> Print Bill</button>
+                                    <button class="btn btn-secondary mt-3" id="print-bill" type="button"><i class="fa-solid fa-print"></i> Print Bill</button>
                                 </div>
                                 <div id="receipt-preview" style="display: none;">
                                     <h5 class="text-center">Receipt</h5>
