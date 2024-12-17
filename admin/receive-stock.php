@@ -1,6 +1,6 @@
 <?php
 include('include/head.php');
-include ('function_recieve_stock.php');
+include('function_recieve_stock.php');
 ?>
 
 <html lang="en">
@@ -13,7 +13,7 @@ include ('function_recieve_stock.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Admin  - Receive Stock</title>
+    <title> Admin - Receive Stock</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,15 +53,14 @@ include ('function_recieve_stock.php');
                                     receive_stock();
                                     // call data for update and view
                                     if (isset($_REQUEST['Id'])) {
-                                        $receiveId = $_REQUEST['Id'];                                   
+                                        $receiveId = $_REQUEST['Id'];
                                         update_receive_stock();
                                         $rowFrm = $conn->query("SELECT * FROM `pro_in` WHERE Id=$receiveId")->fetch_assoc();
-                                    }elseif(isset($_REQUEST['view'])){
-                                        $receiveId = $_REQUEST['view'];                                   
+                                    } elseif (isset($_REQUEST['view'])) {
+                                        $receiveId = $_REQUEST['view'];
                                         $rowFrm = $conn->query("SELECT * FROM `pro_in` WHERE Id=$receiveId")->fetch_assoc();
-                                    }
-                                     else {
-                                        $rowFrm = array("RecieveDate" => "", "RecieveBy" => " ", "Supplier" => "", "PurchaseNo" => "","ProId" => "","Uom" => "","Qty_In" => "","Price_In" => "","DiscountAmount" => "","Currency" => "","Description" => "","Paid" => "","CreateBy" => "","UpdateAt" => "",);
+                                    } else {
+                                        $rowFrm = array("RecieveDate" => "", "RecieveBy" => " ", "Supplier" => "", "PurchaseNo" => "", "ProId" => "", "Uom" => "", "Qty_In" => "", "Price_In" => "", "DiscountAmount" => "", "Currency" => "", "Description" => "", "Paid" => "", "CreateBy" => "", "UpdateAt" => "",);
                                     }
                                     ?>
                                     <div class="row">
@@ -70,12 +69,12 @@ include ('function_recieve_stock.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Receive Date">Receive Date</label>
-                                                        <input type="date" class="form-control mb-2 border-left-danger" name="receivedate" required value="<?php echo ''.htmlspecialchars($rowFrm['RecieveDate']).'' ?>">
+                                                        <input type="date" class="form-control mb-2 border-left-danger" name="receivedate" required value="<?php echo '' . htmlspecialchars($rowFrm['RecieveDate']) . '' ?>">
 
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Receive By">Receive By(Emp)</label>
-                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="receiveby" >
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="receiveby">
                                                             <?php
                                                             $sqlEmployee = "SELECT * FROM `employee`";
                                                             $qrEmployee = $conn->query($sqlEmployee);
@@ -91,7 +90,7 @@ include ('function_recieve_stock.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="PurchaseNo">Purchase No.</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="purchaseno" required value="<?php echo ''.htmlspecialchars($rowFrm['PurchaseNo']).'' ?>" >
+                                                        <input type="text" class="form-control mb-2 border-left-danger" name="purchaseno" required value="<?php echo '' . htmlspecialchars($rowFrm['PurchaseNo']) . '' ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Supplier">Supplier</label>
@@ -139,34 +138,33 @@ include ('function_recieve_stock.php');
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                <div class="col-lg-4">
-                                                    <label for="UOM">UOM</label>
-                                                    <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="uom">
-                                                        <?php
-                                                        $sqlUom = "SELECT * FROM `uom`";
-                                                        $qrUom = $conn->query($sqlUom);
-                                                        while ($rowUom = $qrUom->fetch_assoc()) {
-                                                            if ($rowUom['Id'] == $rowFrm['Uom']) $sel = 'selected';
-                                                            else $sel = '';
-                                                            echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
+                                                    <div class="col-lg-4">
+                                                        <label for="UOM">UOM</label>
+                                                        <select class="form-control mb-2 border-left-danger" style="width: 100%;" name="uom">
+                                                            <?php
+                                                            $sqlUom = "SELECT * FROM `uom`";
+                                                            $qrUom = $conn->query($sqlUom);
+                                                            while ($rowUom = $qrUom->fetch_assoc()) {
+                                                                if ($rowUom['Id'] == $rowFrm['Uom']) $sel = 'selected';
+                                                                else $sel = '';
+                                                                echo '<option value="' . $rowUom['Id'] . '" ' . $sel . '>' . $rowUom['Name'] . '</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
                                                     <div class="col-lg-4">
                                                         <label for="Quantity">Quantity</label>
-                                                        <input type="number" class="form-control mb-2 border-left-danger" name="quantity" required value="<?php echo ''.$rowFrm['Qty_In'].'' ?>">
+                                                        <input type="number" class="form-control mb-2 border-left-danger" id="quantity" name="quantity" required value="<?php echo isset($rowFrm['Qty_In']) ? $rowFrm['Qty_In'] : '' ?>">
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <label for="Price">Price</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="price" required value="<?php echo ''.$rowFrm['Price_In'].'' ?>">
-
+                                                        <input type="text" class="form-control mb-2 border-left-danger" id="price" name="price" required value="<?php echo isset($rowFrm['Price_In']) ? $rowFrm['Price_In'] : '' ?>">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="Paid">Paid Amount</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="paid" required value="<?php echo ''.$rowFrm['Paid'].'' ?>">
+                                                        <input type="text" class="form-control mb-2 border-left-danger" id="paid" name="paid" readonly value="<?php echo isset($rowFrm['Paid']) ? $rowFrm['Paid'] : '' ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="Payment Status">Payment Status</label>
@@ -186,7 +184,7 @@ include ('function_recieve_stock.php');
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <label for="DiscountAmount">Discount Amount</label>
-                                                        <input type="text" class="form-control mb-2 border-left-danger" name="discount" value="<?php echo ''.$rowFrm['DiscountAmount'].'' ?>">
+                                                        <input type="text" class="form-control mb-2 " name="discount" value="<?php echo '' . $rowFrm['DiscountAmount'] . '' ?>">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="CreateBy">CreateBy</label>
@@ -207,7 +205,7 @@ include ('function_recieve_stock.php');
 
                                             </div>
                                             <label for="Description">Description</label>
-                                            <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="description" value="<?php echo ''.htmlspecialchars($rowFrm['Description']).'' ?>" ><?php echo ''.htmlspecialchars($rowFrm['Description']).'' ?></textarea>
+                                            <textarea type="text" class="form-control mb-2 " rows="3" cols="10" name="description" value="<?php echo '' . htmlspecialchars($rowFrm['Description']) . '' ?>"><?php echo '' . htmlspecialchars($rowFrm['Description']) . '' ?></textarea>
 
                                             <input style="display: none;" type="text" class="form-control" name="txtupdate_at">
                                             <input style="display: none;" type="text" class="form-control" name="moment_pro_id">
@@ -221,10 +219,9 @@ include ('function_recieve_stock.php');
                                                     <input type="submit" value="UPDATE" class="btn btn-success btn-sm " name="btnUpdate">
                                                     <a href="Receive-stock.php" class="btn btn-info btn-sm "> NEW </a>
                                                 ';
-                                    } elseif(isset($_REQUEST['view'])){
+                                    } elseif (isset($_REQUEST['view'])) {
                                         echo '<a href="Receive-stock-list.php" class="btn btn-info btn-sm "> Back to list </a>';
-                                    }
-                                    else {
+                                    } else {
                                         echo '
                                             <button type="submit" class="btn btn-primary bg-gradient-info w-25" name="btnAdd">Save</button>
                                         ';
@@ -241,6 +238,24 @@ include ('function_recieve_stock.php');
     </div><!--content-->
     </div> <!--content-wrapper-->
     </div> <!--wrapper-->
+    <script>
+        // Function to calculate paid amount
+        function calculatePaidAmount() {
+            // Get input values
+            let quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            let price = parseFloat(document.getElementById('price').value) || 0;
+
+            // Calculate the total paid amount
+            let paidAmount = quantity * price;
+
+            // Update the 'Paid Amount' input field
+            document.getElementById('paid').value = paidAmount.toFixed(2); // Format to 2 decimal places
+        }
+
+        // Add event listeners to trigger calculation
+        document.getElementById('quantity').addEventListener('input', calculatePaidAmount);
+        document.getElementById('price').addEventListener('input', calculatePaidAmount);
+    </script>
     <!-- Scroll to Top Button-->
     <?php include './include/scroll-btn.php' ?>
 

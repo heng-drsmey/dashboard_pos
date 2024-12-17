@@ -148,9 +148,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
         <div id="collapseStock_controller" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="receive-stock.php">Recieve Stock</a>
-
-                <a class="collapse-item" href="stock-moment.php">Stock Moment</a>
+                <a class="collapse-item" href="receive-stock.php">Recieve Stock</a>               
                 <!-- <a class="collapse-item" href="user-list.php">POS</a> -->
                 <a class="collapse-item" href="#" data-toggle="collapse" data-target="#collapseEmployee" aria-expanded="true" aria-controls="collapseEmployee">
                     <span style="color: blue;">Product</span>
@@ -193,7 +191,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a class="collapse-item" href="report_daily_sales.php">Daily Sales</a>
                 <a class="collapse-item" href="report_sales_by_item.php">Sales By Item</a>
                 <a class="collapse-item" href="report_payroll_expense.php">Payroll Expense</a>
-                <a class="collapse-item" href="report_net_revenue.php">Net Revenue</a>
+                <a class="collapse-item" href="report_stock_moment1.php">Stock Moment</a>
+                <!-- <a class="collapse-item" href="report_net_revenue.php">Net Revenue</a> -->
             </div>
         </div>
     </li>
