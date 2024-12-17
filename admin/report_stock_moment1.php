@@ -65,72 +65,72 @@ include('function_recieve_stock.php');
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Product Code</th>
-            <th>Product</th>
-            <th>UOM</th>
-            <th>Total Stock In</th>
-            <th>Total Stock Out</th>
-            <th>Remain</th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Product Code</th>
-            <th>Product</th>
-            <th>UOM</th>
-            <th>Total Stock In</th>
-            <th>Total Stock Out</th>
-            <th>Remain</th>
-        </tr>
-    </tfoot>
-    <tbody>
-        <?php
-        // Optimized SQL query with GROUP BY and SUM
-        $INV = "SELECT 
-                    i.ProCode,
-                    i.ProName,
-                    u.Name AS UOM_Name,
-                    SUM(p.Qty_In) AS Total_Stock_In,
-                    SUM(i.QTY) AS Total_Stock_Out
-                FROM 
-                    invoice i
-                LEFT JOIN 
-                    pro_in p ON i.Id = p.Id
-                LEFT JOIN 
-                    uom u ON i.UOM = u.Id
-                WHERE 
-                    i.del = 1
-                GROUP BY 
-                    i.ProCode, i.ProName, u.Name";
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small;">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Code</th>
+                                            <th>Product</th>
+                                            <th>UOM</th>
+                                            <th>Total Stock In</th>
+                                            <th>Total Stock Out</th>
+                                            <th>Remain</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Product Code</th>
+                                            <th>Product</th>
+                                            <th>UOM</th>
+                                            <th>Total Stock In</th>
+                                            <th>Total Stock Out</th>
+                                            <th>Remain</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <?php
+                                        // Optimized SQL query with GROUP BY and SUM
+                                        $INV = "SELECT 
+                                                        i.ProCode,
+                                                        i.ProName,
+                                                        u.Name AS UOM_Name,
+                                                        SUM(p.Qty_In) AS Total_Stock_In,
+                                                        SUM(i.QTY) AS Total_Stock_Out
+                                                    FROM 
+                                                        invoice i
+                                                    LEFT JOIN 
+                                                        pro_in p ON i.Id = p.Id
+                                                    LEFT JOIN 
+                                                        uom u ON i.UOM = u.Id
+                                                    WHERE 
+                                                        i.del = 1
+                                                    GROUP BY 
+                                                        i.ProCode, i.ProName, u.Name";
 
-        $result = $conn->query($INV);
+                                        $result = $conn->query($INV);
 
-        // Check if query executed successfully
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalStockIn = $row['Total_Stock_In'] ?? 0;
-                $totalStockOut = $row['Total_Stock_Out'] ?? 0;
-                $remain = $totalStockIn - $totalStockOut;
-        ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['ProCode']); ?></td>
-                    <td><?= htmlspecialchars($row['ProName']); ?></td>
-                    <td><?= htmlspecialchars($row['UOM_Name']); ?></td>
-                    <td><?= $totalStockIn; ?></td>
-                    <td><?= $totalStockOut; ?></td>
-                    <td><?= $remain; ?></td>
-                </tr>
-        <?php
-            }
-        } else {
-            echo "<tr><td colspan='6'>No data available</td></tr>";
-        }
-        ?>
-    </tbody>
-</table>
+                                        // Check if query executed successfully
+                                        if ($result && $result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $totalStockIn = $row['Total_Stock_In'] ?? 0;
+                                                $totalStockOut = $row['Total_Stock_Out'] ?? 0;
+                                                $remain = $totalStockIn - $totalStockOut;
+                                        ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($row['ProCode']); ?></td>
+                                                    <td><?= htmlspecialchars($row['ProName']); ?></td>
+                                                    <td><?= htmlspecialchars($row['UOM_Name']); ?></td>
+                                                    <td><?= $totalStockIn; ?></td>
+                                                    <td><?= $totalStockOut; ?></td>
+                                                    <td><?= $remain; ?></td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='6'>No data available</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
 
                             </div>
                         </div>
