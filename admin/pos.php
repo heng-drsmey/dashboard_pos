@@ -1,7 +1,43 @@
 <?php
+// Include the database connection and other necessary files
 include('include/head.php');
 include('function_pos_invoice.php');
+include('function_shift.php');
+
+// Fetch the most recent shift record with Status = 1 (Open)
+$sqlLatestShift = "SELECT * FROM `shift` WHERE Status = 1 ORDER BY CreateAt DESC LIMIT 1";
+$resultLatestShift = $conn->query($sqlLatestShift);
+
+// Initialize variables
+$shiftDetailsId = '';
+$userId = '';
+$status = 'Closed'; // Default status
+
+if ($resultLatestShift && $resultLatestShift->num_rows > 0) {
+    $latestShift = $resultLatestShift->fetch_assoc();
+    $shiftDetailsId = $latestShift['Id'];
+    $shiftDetailsName = $latestShift['Name'];        // The ID of the shift
+    $userId = $latestShift['CreateBy'];          // The User ID who created the shift
+    $status = $latestShift['Status'] == 1 ? 'Open' : 'Closed'; // Determine shift status
+}
+
+// Fetch the username based on the UserId
+$username = 'Unknown User'; // Default username
+if (!empty($userId)) {
+    $sqlUser = "SELECT Username FROM user WHERE Id = ?";
+    $stmtUser = $conn->prepare($sqlUser);
+    $stmtUser->bind_param('i', $userId);
+    $stmtUser->execute();
+    $stmtUser->bind_result($fetchedUsername);
+    if ($stmtUser->fetch()) {
+        $username = htmlspecialchars($fetchedUsername); // Sanitize username for display
+    }
+    $stmtUser->close();
+}
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,6 +70,19 @@ include('function_pos_invoice.php');
         .nav-link {
             transition: background-color 0.3s ease;
         }
+
+        form {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column; /* Adjust child layout if needed */
+            justify-content: center; /* Center items vertically */
+            align-items: center; /* Center items horizontally */
+            box-sizing: border-box;
+            padding: 20px; /* Optional padding */
+            background-color: #f9f9f9; /* Background color */
+        }
+
     </style>
 
 </head>
@@ -41,10 +90,23 @@ include('function_pos_invoice.php');
 <body id="page-top">
     <div id="wrapper">
         <?php include './include/sidebar.php' ?>
-        <form action="pos.php" method="post" enctype="multipart/form-data" oninput="calculatePOS()">
+        <form method="post" enctype="multipart/form-data" oninput="calculatePOS()">
+        <?php
+    // Call function payroll insert
+    pos_invoice_insert(); // Added the missing semicolon here
+    
+    // Initialize an empty array for the form data
+    $rowFrm = array(
+        "Id" => "", "OutletId" => "", "UserId" => "", "TableId"  => "", "CustomerId"    => "", 
+        "ShiftDetailsId" => "", "PaymentMethodId" => "", "InvoiceNo" => "", 
+        "CateName" => "", "ProCode" => "", "ProName" => "", "UOM" => "", "Price" => "",
+        "QTY" => "", "Amount" => "", "TotalBeDis" => "", "DiscountPer" => "", 
+        "DiscountCur" => "", "AmountInUSD" => "", "PaidInUSD" => "", "ChangeUSD" => ""
+    );
+?>
+
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-                    <?php include './include/topbar.php' ?>
                     <div class="container-fluid">
                         <div class="row d-flex justify-content-between">
                             <div class="col-lg-3">
@@ -55,14 +117,27 @@ include('function_pos_invoice.php');
                             </div>
                             <div class="col-lg-4 bg-primary text-center rounded w-25 h-25 p-2">
                                 <span class="font-weight-bold text-white">
-                                    Cashier: <span id="userid" name="userid" value="<?php echo htmlspecialchars($rowFrm['UserId']); ?>"></span>
+                                    Cashier: <span id="userid" name="userid" value="<?php echo htmlspecialchars($userId); ?>">
+                                        <?php echo !empty($username) ? $username : 'Unknown User'; ?>
+                                    </span>
                                 </span>
                                 <span class="font-weight-bold text-white">|</span>
                                 <span class="font-weight-bold text-white">
-                                    Shift: <span id="shift" name="shift" value="<?php echo htmlspecialchars($rowFrm['ShiftDetailsId']); ?>"></span>
+                                    <span id="shift" name="shift" value="<?php echo htmlspecialchars($shiftDetailsName); ?>">
+                                        <?php echo !empty($shiftDetailsName) ? htmlspecialchars($shiftDetailsName) : 'No Shift Found'; ?>
+                                    </span>
                                 </span>
+                                <span class="font-weight-bold text-white">|</span>
+                                <span class="font-weight-bold text-white">
+                                    Status: <span id="status">
+                                        <?php echo htmlspecialchars($status); ?>
+                                    </span>
+                                </span>
+                                <input type="hidden" name="ShiftDetailsId" value="<?php echo htmlspecialchars($shiftDetailsId); ?>">
+                                <input type="hidden" name="UserId" value="<?php echo htmlspecialchars($userId); ?>">
                             </div>
                             <div class="col-lg-2">
+                            <input type="text" style="display: none;" name="Id" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id']) : ''; ?>">
                                 <select class="form-select" name="table" id="table">
                                     <option value="" disabled selected>Select table...</option>
                                         <?php
@@ -126,7 +201,7 @@ include('function_pos_invoice.php');
                                         </ul>
 
                                         <!-- Tab Content -->
-                                        <div class="tab-content overflow-auto" id="itemGroupTabsContent" style="max-height: 600px; overflow-y: auto;">
+                                        <div class="tab-content " id="itemGroupTabsContent" style="max-height: 600px; overflow: auto; display: block;">
                                             <?php
                                             $categories = $conn->query("SELECT DISTINCT Name FROM `category`");
                                             $firstTab = true;
@@ -155,7 +230,7 @@ include('function_pos_invoice.php');
 
                                                         while ($row = $products->fetch_assoc()) :
                                                         ?>
-                                                            <div class="col-lg-3 pt-3 pb-3 product-item" data-name="<?= strtolower($row['ProductName']) ?>">
+                                                            <div class="col-3 pt-2 pb-2 product-item" data-name="<?= strtolower($row['ProductName']) ?>">
                                                                 <div class="card border-1">
                                                                     <div class="thumbnail-wrapper">
                                                                         <div class="thumbnail-inner img4by3">
@@ -186,19 +261,43 @@ include('function_pos_invoice.php');
                             <div class="col-lg-4 bg-white py-4 rounded ml-4 card shadow mb-4">
                                 <div id="order-details">
                                     <h5 class="text-center">Order Details</h5>
-                                    <table class="table table-hover">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>Description</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="order-list">
-                                        </tbody>
-                                    </table>
+                                        <table class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <!-- Scrollable body -->
+                                        <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden;">
+                                        <input type="text" style="display: none;" name="invoiceno" value="<?php echo generateInvoiceNo(); ?>">
+                                            <table class="table table-hover">
+                                                <tbody id="order-list">
+                                                    <!-- Dynamically generated content -->
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="CateName" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['CateName']); ?>" readonly>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="Price" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['Price']); ?>" readonly>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="QTY" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['QTY']); ?>" readonly>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="Amount" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['Amount']); ?>" readonly>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     <hr>
                                     <div>
                                         <label for="discount" class="form-label fw-bold">Discount (%):</label>
@@ -220,10 +319,10 @@ include('function_pos_invoice.php');
                                     </div>
                                     <hr>
                                     <div class="d-flex justify-content-between">
-                                        <h5>Total:</h5>
-                                        <h5 id="total-price">$0.00</h5>
+                                        <label class="fw-bold fs-4">Total:</label>
+                                        <label class="fw-bold fs-4" id="total-price">$0.00</label>
                                     </div>
-                                    <button class="btn btn-success mt-3" id="checkout" type="button"><i class="fa-brands fa-paypal"></i> Checkout</button>
+                                    <button class="btn btn-success mt-3" id="checkout" type="button"><i class="fa-brands fa-paypal"></i> Tender</button>
 
                                     <button class="btn btn-secondary mt-3" id="print-bill" type="button"><i class="fa-solid fa-print"></i> Print Bill</button>
                                 </div>
@@ -238,7 +337,9 @@ include('function_pos_invoice.php');
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between">
-                                    <a href=""class="btn btn-primary mt-4 mr-2 p-2" id="open-shift"><i class="fa-solid fa-door-open"></i> Open Shift</a>
+                                <!-- Open Shift Button -->
+
+                                <a href="shift-add.php" class="btn btn-primary mt-4 mr-2 p-2" id="open-shift"><i class="fa-solid fa-door-open"></i> Open Shift</a>
                                     <a href=""class="btn btn-danger mt-4 mr-2 p-2" id="close-shift"><i class="fa-solid fa-door-closed"></i> Close Shift</a>
                                     <a href=""class="btn btn-warning mt-4 mr-2 p-2" id="delete-invoice"> <i class="fa-solid fa-rectangle-xmark"></i> Delete Invoice</a>
                                     <a href=""class="btn btn-info mt-4 mr-2 p-2" id="reprint"><i class="fa-solid fa-copy"></i> Reprint</a>
@@ -336,14 +437,16 @@ include('function_pos_invoice.php');
                         </div>
                             <!-- Buttons: Close and Finalize Payment -->
                             <div class="d-flex justify-content-end gap-3 mb-4 mr-4">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="btnsave" class="btn btn-primary" id="finalize-payment">Finalize Payment</button>
+                                <button type="button" class="btn btn-secondary p-4" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" name="btnsave" class="btn btn-primary p-4" id="finalize-payment">Pay</button>
                             </div>
                     </div>
                 </div>
             </div>
         </form>
-        
+        <?php
+            print_r($_POST);
+        ?>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const cart = [];

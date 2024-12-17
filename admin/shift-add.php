@@ -1,37 +1,59 @@
 <?php
-// Include the database connection
+// Include the database connection and other necessary files
 include('include/head.php');
-include('function_shift.php'); // Include the functions
+include('function_shift.php'); // Include functions for shift handling
 
-// Fetching shift data for editing
+// Fetching shift data for editing if shiftId is provided in the URL
 $shiftId = '';
 $shiftName = '';
+$shiftCashUsd = '';
 
-if (isset($_GET['Id'])) {  // Using 'Id' from URL
+
+if (isset($_GET['Id'])) {  // Check if 'Id' is passed in the URL
     $shiftId = $_GET['Id'];
 
-    // Query to fetch old data based on the ID
+    // Query to fetch existing shift data based on the ID
     $sql = "SELECT * FROM shift WHERE Id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $shiftId);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if data exists
     if ($result->num_rows > 0) {
         $shift = $result->fetch_assoc();
-        $shiftName = isset($shift['Name']) ? htmlspecialchars($shift['Name']) : '';  // Handle null safely
+        $shiftName = $shift['Name'];
+        $shiftCashUsd = $shift['CashUSD'];
     } else {
         echo "Shift not found!";
     }
 }
 
-// Handle form submission
+// Handle form submission for shift update or insert
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['id'])) {
-        shift_update(); // Call update function if editing
+        shift_update(); // Call update function if editing an existing shift
     } else {
-        shift_insert(); // Call insert function if adding
+        shift_insert(); // Call insert function if adding a new shift
+    }
+}
+
+// Function to create a new shift (Open Shift) when clicked
+if (isset($_POST['open_shift'])) {
+    $createby = $_SESSION['UserId']; // Get the logged-in user (UserId)
+    $shiftName = 'New Shift'; // Set a default shift name or retrieve it from form if needed
+    $shiftCashUsd = 0; // Set default cash value for new shift
+
+    // Insert new shift with Open status
+    $sql = "INSERT INTO shift (Name, CashUSD,Status, CreateBy) VALUES (?, ?, 'Open', ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ssi', $shiftName, $shiftCashUsd, $createby);
+
+    if ($stmt->execute()) {
+        // After creating the shift, redirect to pos.php
+        header('Location: pos.php');
+        exit;
+    } else {
+        echo "Error: " . $stmt->error;
     }
 }
 
@@ -39,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $sql = "SELECT * FROM shift";
 $result = $conn->query($sql);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,39 +132,54 @@ $result = $conn->query($sql);
                         <div class="col-lg-12">
 
                             <div class="card shadow mb-4">
-                                <div class="card-body">
-                                    <form
-                                        action="shift-add.php<?php echo isset($_GET['Id']) ? '?Id=' . $shiftId : ''; ?>"
-                                        method="post">
+                            <div class="card-body">
+                                <form action="shift-add.php<?php echo isset($_GET['Id']) ? '?Id=' . $shiftId : ''; ?>" method="post">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <h5>Shift</h5>
+                                                <hr style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
 
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="row">
-                                                    <h5>Shift</h5>
-                                                    <hr
-                                                        style="display: block; color: red; border: none; height: 1px; width: 98%; background-color: blue;">
-                                                    <!-- Name -->
-                                                    <div class="col-4">
-                                                        <input type="hidden" name="id" value="<?php echo $shiftId; ?>">
-                                                        <label for="name">Name</label>
-                                                        <input type="text" class="form-control border-left-danger"
-                                                            id="name" name="name"
-                                                            value="<?php echo isset($shiftName) ? $shiftName : ''; ?>"
-                                                            required>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-3">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <?php echo isset($_GET['Id']) ? 'Update Shift' : 'Add Shift'; ?>
-                                                            </button>
-                                                        </div>
+                                                <div class="col-4">
+                                                    <input type="hidden" name="id" value="<?php echo $shiftId; ?>">
+                                                    <label for="name">Shift Code</label>
+                                                    <input type="text" class="form-control" id="name" name="name"
+                                                        value="<?php echo isset($shiftName) ? $shiftName : ''; ?>" placeholder="*New Shift*" readonly>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <label for="cashusd">Cash USD</label>
+                                                    <input type="number" min="0" class="form-control" id="cashusd" name="cashusd"
+                                                        value="<?php echo isset($shiftCashUsd) ? $shiftCashUsd : ''; ?>">
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <label for="createby">Create By</label>
+                                                    <select class="form-control mb-2" style="width: 100%;" name="createby">
+                                                        <?php
+                                                        $sqlcreateby = "SELECT * FROM `user` WHERE del=1";
+                                                        $qrcreateby = $conn->query($sqlcreateby);
+                                                        while ($rowcreateby = $qrcreateby->fetch_assoc()) {
+                                                            if ($rowcreateby['Id'] == $userId) $sel = 'selected';
+                                                            else $sel = '';
+                                                            echo '<option value="' . $rowcreateby['Id'] . '" ' . $sel . '>' . $rowcreateby['Username'] . '</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <?php echo isset($_GET['Id']) ? 'Update Shift' : 'Add Shift'; ?>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
-
-                                </div>
+                                    </div>
+                                </form>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -159,6 +198,7 @@ $result = $conn->query($sql);
         <!-- End of Content Wrapper -->
 
     </div>
+
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->

@@ -53,7 +53,10 @@ $result = $conn->query($sql);
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Shift Code</th>
+                                            <th>Cash USD</th>
+                                            <th>Create by</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -64,12 +67,15 @@ $result = $conn->query($sql);
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<tr>";
                                                 echo "<td>" . $row["Id"] . "</td>";
+                                                echo "<td>" . $row["CreateAt"] . "</td>";
                                                 echo "<td>" . $row["Name"] . "</td>";
+                                                echo "<td>" . $row["CashUSD"]."</td>";
+                                                echo "<td>" . $row["CreateBy"]."</td>";
                                                 echo "<td>";
                                                 if ($row['Status'] == 1) {
-                                                    echo '<p><a href="statusShift.php?Id=' . $row['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Enable</a></p>';
+                                                    echo '<p><a href="statusShift.php?Id=' . $row['Id'] . '&Status=0" class="badge badge-lg badge-success text-white">Open</a></p>';
                                                 } else {
-                                                    echo '<p><a href="statusShift.php?Id=' . $row['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Disable</a></p>';
+                                                    echo '<p><a href="statusShift.php?Id=' . $row['Id'] . '&Status=1" class="badge badge-secondary badge-lg text-white">Close</a></p>';
                                                 }
                                                 echo "</td>";
                                                 echo "<td>
