@@ -90,8 +90,9 @@ if (!empty($userId)) {
 <body id="page-top">
     <div id="wrapper">
         <?php include './include/sidebar.php' ?>
-        <form method="post" enctype="multipart/form-data" oninput="calculatePOS()">
+        <form method="post" enctype="multipart/form-data" action="function_pos_invoice.php">
         <?php
+        generateInvoiceNo();
     // Call function payroll insert
     pos_invoice_insert(); // Added the missing semicolon here
     
@@ -273,25 +274,27 @@ if (!empty($userId)) {
                                         </table>
                                         <!-- Scrollable body -->
                                         <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden;">
-                                        <input type="text" style="display: none;" name="invoiceno" value="<?php echo generateInvoiceNo(); ?>">
+                                        <input type="text" style="display: none;" name="invoiceno" value="<?php echo isset($rowFrm['InvoiceNo']) ? htmlspecialchars($rowFrm['InvoiceNo']) : ''; ?>">
                                             <table class="table table-hover">
                                                 <tbody id="order-list">
                                                     <!-- Dynamically generated content -->
                                                     <tr>
                                                         <td>
-                                                            <input type="text" name="CateName" class="form-control" 
-                                                                value="<?php echo htmlspecialchars($rowFrm['CateName']); ?>" readonly>
+                                                            <input type="hidden" name="catename" class="form-control" style="display: none;" value="<?php echo isset($rowFrm['CateName']) ? htmlspecialchars($rowFrm['CateName']) : ''; ?>">
+                                                            <input type="hidden" name="procode" class="form-control" style="display: none;" value="<?php echo isset($rowFrm['ProCode']) ? htmlspecialchars($rowFrm['ProCode']) : ''; ?>">
+                                                            <input type="text" name="proname" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['ProName']); ?>" readonly>
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="Price" class="form-control" 
+                                                            <input type="text" name="price" class="form-control" 
                                                                 value="<?php echo htmlspecialchars($rowFrm['Price']); ?>" readonly>
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="QTY" class="form-control" 
+                                                            <input type="text" name="qty" class="form-control" 
                                                                 value="<?php echo htmlspecialchars($rowFrm['QTY']); ?>" readonly>
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="Amount" class="form-control" 
+                                                            <input type="text" name="amount" class="form-control" 
                                                                 value="<?php echo htmlspecialchars($rowFrm['Amount']); ?>" readonly>
                                                         </td>
                                                     </tr>
@@ -302,15 +305,31 @@ if (!empty($userId)) {
                                     <div>
                                         <label for="discount" class="form-label fw-bold">Discount (%):</label>
                                         <input type="number" min="0" id="discount" class="form-control fw-bold" value="0">
-                                        <div class="mt-4">
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="5">5%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="10">10%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="15">15%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="20">20%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="25">25%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="30">30%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="50">50%</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn fw-bold" data-discount="100">100%</button>
+                                        <div class="mt-4 row g-2">
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="5">5%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="10">10%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="15">15%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="20">20%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="25">25%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="30">30%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="50">50%</button>
+                                            </div>
+                                            <div class="col-6">
+                                            <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="100">100%</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="mt-3">
@@ -402,7 +421,7 @@ if (!empty($userId)) {
                                     <!-- Centered Card Section: Payment Received -->
                                         <div class="card-body text-center">
                                             <label for="payment-received" class="form-label fw-bold fs-5">Payment Received</label>
-                                            <input type="number" min="0" id="payment-received" class="form-control fw-bold fs-5" name="paidinusd" value="<?php echo htmlspecialchars($rowFrm['PaidInUSD']); ?>" placeholder="Enter amount......">
+                                            <input type="number" min="0" id="payment-received" class="form-control fw-bold fs-5" step="0.01" name="paidinusd" value="<?php echo htmlspecialchars($rowFrm['PaidInUSD']); ?>" placeholder="Enter amount......">
                                             <button type="button" class="btn btn-success mt-3 w-100" id="remaining-payment">Add Remaining</button>
                                         </div>
                                     </div>
@@ -443,10 +462,10 @@ if (!empty($userId)) {
                     </div>
                 </div>
             </div>
+            <?php
+            echo $sqlposinvoiceinsert;
+            ?>
         </form>
-        <?php
-            print_r($_POST);
-        ?>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const cart = [];
@@ -625,10 +644,10 @@ if (!empty($userId)) {
                 modalChange.textContent = `$${change.toFixed(2)}`;
             });
 
-            document.getElementById('finalize-payment').addEventListener('click', () => {
-                alert('Payment finalized!');
-                paymentModal.hide();
-            });
+            // document.getElementById('finalize-payment').addEventListener('click', () => {
+            //     alert('Payment finalized!');
+            //     paymentModal.hide();
+            // });
 
         });
 
