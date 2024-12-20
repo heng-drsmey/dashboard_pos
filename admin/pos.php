@@ -1,7 +1,7 @@
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <?php
 // Include the database connection and other necessary files
 include('include/head.php');
-include('function_pos_invoice.php');
 include('function_shift.php');
 
 // Fetch the most recent shift record with Status = 1 (Open)
@@ -9,14 +9,14 @@ $sqlLatestShift = "SELECT * FROM `shift` WHERE Status = 1 ORDER BY CreateAt DESC
 $resultLatestShift = $conn->query($sqlLatestShift);
 
 // Initialize variables
-$shiftDetailsId = '';
+$shiftId = '';
 $userId = '';
 $status = 'Closed'; // Default status
 
 if ($resultLatestShift && $resultLatestShift->num_rows > 0) {
     $latestShift = $resultLatestShift->fetch_assoc();
-    $shiftDetailsId = $latestShift['Id'];
-    $shiftDetailsName = $latestShift['Name'];        // The ID of the shift
+    $shiftId = $latestShift['Id'];
+    $shiftName = $latestShift['Name'];        // The ID of the shift
     $userId = $latestShift['CreateBy'];          // The User ID who created the shift
     $status = $latestShift['Status'] == 1 ? 'Open' : 'Closed'; // Determine shift status
 }
@@ -35,8 +35,147 @@ if (!empty($userId)) {
     $stmtUser->close();
 }
 
+function generateInvoiceNo() {
+    global $conn;
+
+    // Query to get the latest invoice number
+    $sql = "SELECT InvoiceNo FROM invoice ORDER BY Id DESC LIMIT 1";
+    $result = $conn->query($sql);
+
+    // Initialize the next invoice number
+    $nextInvoiceNo = 'INV-00001';
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $latestInvoiceNo = $row['InvoiceNo'];
+
+        // Extract numeric part from the latest invoice number
+        if (preg_match('/^INV-(\d+)$/', $latestInvoiceNo, $matches)) {
+            $nextNumber = (int)$matches[1] + 1;
+            $nextInvoiceNo = 'INV-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+        }
+    }
+
+    return $nextInvoiceNo;
+}
+
+
+// Fetch tables
+$table = $conn->query("SELECT * FROM `table` WHERE del = 1");
+
+// Fetch customers
+$customer = $conn->query("SELECT * FROM `customer` WHERE del = 1");
+
+// Fetch branches
+$branch = $conn->query("SELECT * FROM `outlet` WHERE del = 1");
+
+// Fetch payment methods
+$payment = $conn->query("SELECT * FROM `paymentmethod` WHERE del = 1");
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
+    include('cn.php');
+
+    // Generate custom invoice number
+    $invoiceNo = generateInvoiceNo();
+
+    $sql = "INSERT INTO invoice (
+        InvoiceNo, OutletId, UserId, TableId, CustomerId, ShiftId, PaymentMethodId,
+        CateName, ProCode, ProName, UOM, Price, QTY, Amount,
+        TotalBeDis, DiscountPer, DiscountCur, AmountInUSD, PaidInUSD, ChangeUSD
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt) {
+        if (isset($_POST['items']) && is_array($_POST['items'])) {
+            foreach ($_POST['items'] as $item) {
+                // echo "<pre>";
+                // print_r($item);
+                // echo "</pre>";
+                // exit;
+                $branch = isset($_POST['items'][0]['branch']) ? intval($_POST['items'][0]['branch']) : 0;
+                $userid = isset($_POST['items'][0]['userid']) ? intval($_POST['items'][0]['userid']) : 0;
+                $table = isset($_POST['items'][0]['table']) ? intval($_POST['items'][0]['table']) : 0;
+                $customer = isset($_POST['items'][0]['customer']) ? intval($_POST['items'][0]['customer']) : 0;
+                $shift = isset($_POST['items'][0]['shift']) ? intval($_POST['items'][0]['shift']) : 0;
+                $payment = isset($_POST['items'][0]['payment']) ? intval($_POST['items'][0]['payment']) : 0;
+                
+                $catename = isset($item['catename']) ? htmlspecialchars($item['catename']) : '';
+                $procode = isset($item['procode']) ? htmlspecialchars($item['procode']) : '';
+                
+                
+                $proname = isset($item['proname']) ? htmlspecialchars($item['proname']) : '';
+                $uom = isset($item['uom']) ? htmlspecialchars($item['uom']) : '';
+                $price = isset($item['price']) ? floatval($item['price']) : 0.0;
+                $qty = isset($item['qty']) ? intval($item['qty']) : 0;
+                $amount = isset($item['amount']) ? floatval($item['amount']) : 0.0;
+                
+                
+                $totalbedis = isset($item['totalbedis']) ? floatval($item['totalbedis']) : 0.0;
+                $discountper = isset($item['discountper']) ? floatval($item['discountper']) : 0.0;
+                $discountcur = isset($item['discountcur']) ? floatval($item['discountcur']) : 0.0;
+                $totalaftdis = isset($item['totalaftdis']) ? floatval($item['totalaftdis']) : 0.0;
+
+                $paidinusd = isset($_POST['items'][0]['paidinusd']) ? floatval($_POST['items'][0]['paidinusd']) : 0.0;
+                $changeusd = isset($_POST['items'][0]['changeusd']) ? floatval($_POST['items'][0]['changeusd']) : 0.0;
+
+                $stmt->bind_param(
+                    'siiiiiissssddddddddd',
+                    $invoiceNo, $branch, $userid, $table, $customer, $shift, $payment,
+                    $catename, $procode, $proname, $uom, $price, $qty, $amount,
+                    $totalbedis, $discountper, $discountcur, $totalaftdis,
+                    $paidinusd, $changeusd
+                );  
+
+                // if (!$stmt->execute()) {
+                //     echo "<div class='alert alert-danger'>Error saving item: " . $stmt->error . "</div>";
+                //     break; // Stop the loop if an error occurs
+                // }
+                if ($stmt->execute()) {
+                                echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            swal({
+                                                title: "Success",
+                                                text: "Payment successfully processed.",
+                                                icon: "success"
+                                            }).then(function() {
+                                                window.location = "pos.php";
+                                            });
+                                        });
+                                      </script>';
+                            } else {
+                                echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            swal({
+                                                title: "Error",
+                                                text: "Error inserting data. ' . $stmt->error . '",
+                                                icon: "error"
+                                            }).then(function() {
+                                                window.location = "pos.php";
+                                            });
+                                        });
+                                      </script>';
+                            }
+            }
+            echo "<div class='alert alert-success'>All items saved successfully. Invoice No: $invoiceNo</div>";
+        } else {
+            echo "<div class='alert alert-warning'>No items to process.</div>";
+        }
+        $stmt->close();
+    } else {
+        echo "<div class='alert alert-danger'>Error preparing query: " . $conn->error . "</div>";
+    }
+
+    $conn->close();
+}
+
+
+
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,21 +229,20 @@ if (!empty($userId)) {
 <body id="page-top">
     <div id="wrapper">
         <?php include './include/sidebar.php' ?>
-        <form method="post" enctype="multipart/form-data" action="function_pos_invoice.php">
-        <?php
-        generateInvoiceNo();
-    // Call function payroll insert
-    pos_invoice_insert(); // Added the missing semicolon here
-    
+        <form method="post" enctype="multipart/form-data" action="">  
+            <?php
+                    // pos_invoice_insert();
     // Initialize an empty array for the form data
     $rowFrm = array(
         "Id" => "", "OutletId" => "", "UserId" => "", "TableId"  => "", "CustomerId"    => "", 
-        "ShiftDetailsId" => "", "PaymentMethodId" => "", "InvoiceNo" => "", 
+        "ShiftId" => "", "PaymentMethodId" => "", "InvoiceNo" => "", 
         "CateName" => "", "ProCode" => "", "ProName" => "", "UOM" => "", "Price" => "",
         "QTY" => "", "Amount" => "", "TotalBeDis" => "", "DiscountPer" => "", 
         "DiscountCur" => "", "AmountInUSD" => "", "PaidInUSD" => "", "ChangeUSD" => ""
     );
-?>
+            ?>
+
+
 
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
@@ -124,8 +262,8 @@ if (!empty($userId)) {
                                 </span>
                                 <span class="font-weight-bold text-white">|</span>
                                 <span class="font-weight-bold text-white">
-                                    <span id="shift" name="shift" value="<?php echo htmlspecialchars($shiftDetailsName); ?>">
-                                        <?php echo !empty($shiftDetailsName) ? htmlspecialchars($shiftDetailsName) : 'No Shift Found'; ?>
+                                    <span id="shift" name="shift" value="<?php echo htmlspecialchars($shiftName); ?>">
+                                        <?php echo !empty($shiftName) ? htmlspecialchars($shiftName) : 'No Shift Found'; ?>
                                     </span>
                                 </span>
                                 <span class="font-weight-bold text-white">|</span>
@@ -134,45 +272,30 @@ if (!empty($userId)) {
                                         <?php echo htmlspecialchars($status); ?>
                                     </span>
                                 </span>
-                                <input type="hidden" name="ShiftDetailsId" value="<?php echo htmlspecialchars($shiftDetailsId); ?>">
-                                <input type="hidden" name="UserId" value="<?php echo htmlspecialchars($userId); ?>">
+                                <input type="hidden" name="items[0][shift]" value="<?php echo htmlspecialchars($shiftId); ?>">
+                                <input type="hidden" name="items[0][userid]" value="<?php echo htmlspecialchars($userId); ?>">
                             </div>
                             <div class="col-lg-2">
                             <input type="text" style="display: none;" name="Id" value="<?php echo isset($rowFrm['Id']) ? htmlspecialchars($rowFrm['Id']) : ''; ?>">
-                                <select class="form-select" name="table" id="table">
+                                <select class="form-select" name="items[0][table]" id="table">
                                     <option value="" disabled selected>Select table...</option>
-                                        <?php
-                                                $sqltable = "SELECT * FROM `table` WHERE del=1";
-                                                $qrtable = $conn->query($sqltable);
-                                                while ($rowtable = $qrtable->fetch_assoc()){
-                                                $sel = ($rowtable['Id'] == $rowFrm['TableId']) ? 'selected' : '';
-                                                echo '<option value="' .htmlspecialchars($rowtable['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowtable['Name']) . '</option>';
-                                            }
-                                        ?>
+                                    <?php while ($row = $table->fetch_assoc()): ?>
+                                        <option value="<?= htmlspecialchars($row['Id']) ?>"><?= htmlspecialchars($row['Name']) ?></option>
+                                    <?php endwhile; ?>
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <select class="form-select" name="customer" id="customer">
-                                        <?php
-                                                $sqlcustomer = "SELECT * FROM `customer` WHERE del=1";
-                                                $qrcustomer = $conn->query($sqlcustomer);
-                                                while ($rowcustomer = $qrcustomer->fetch_assoc()){
-                                                $sel = ($rowcustomer['Id'] == $rowFrm['CustomerId']) ? 'selected' : '';
-                                                echo '<option value="' .htmlspecialchars($rowcustomer['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowcustomer['Lastname']) . '</option>';
-                                            }
-                                        ?>
+                                <select class="form-select" name="items[0][customer]" id="customer">
+                                <?php while ($row = $customer->fetch_assoc()): ?>
+                                    <option value="<?= htmlspecialchars($row['Id']) ?>"><?= htmlspecialchars($row['Lastname']) ?></option>
+                                <?php endwhile; ?>
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <select class="form-select" name="branch" id="branch">
-                                        <?php
-                                                $sqlbranch = "SELECT * FROM `outlet` WHERE del=1";
-                                                $qrbranch = $conn->query($sqlbranch);
-                                                while ($rowbranch = $qrbranch->fetch_assoc()){
-                                                $sel = ($rowbranch['Id'] == $rowFrm['OutletId']) ? 'selected' : '';
-                                                echo '<option value="' .htmlspecialchars($rowbranch['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowbranch['Name']) . '</option>';
-                                                }
-                                        ?>
+                                <select class="form-select" name="items[0][branch]" id="branch">
+                                <?php while ($row = $branch->fetch_assoc()): ?>
+                                    <option value="<?= htmlspecialchars($row['Id']) ?>"><?= htmlspecialchars($row['Name']) ?></option>
+                                <?php endwhile; ?>
                                 </select>
                             </div>
                         </div>
@@ -242,7 +365,8 @@ if (!empty($userId)) {
                                                                         <p class="card-text"><?= $row['ProductName'] ?></p>
                                                                         <h5 class="text-success"><?= $row['ProductPrice'] ?></h5>
                                                                         <p class="text-muted"><?= $row['UOMName'] ?></p>
-                                                                        <button class="btn btn-primary add-to-cart" type="button" data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>">
+                                                                        
+                                                                        <button class="btn btn-primary add-to-cart" type="button"  data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>" data-catename="<?= $categoryName ?>">
                                                                             <i class="fas fa-plus"></i> Add
                                                                         </button>
                                                                     </div>
@@ -274,28 +398,28 @@ if (!empty($userId)) {
                                         </table>
                                         <!-- Scrollable body -->
                                         <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden;">
-                                        <input type="text" style="display: none;" name="invoiceno" value="<?php echo isset($rowFrm['InvoiceNo']) ? htmlspecialchars($rowFrm['InvoiceNo']) : ''; ?>">
+                                        <input type="text" style="display: none;" name="items[0][invoiceNo]" value="<?php echo isset($rowFrm['InvoiceNo']) ? htmlspecialchars($rowFrm['InvoiceNo']) : ''; ?>">
                                             <table class="table table-hover">
                                                 <tbody id="order-list">
                                                     <!-- Dynamically generated content -->
                                                     <tr>
                                                         <td>
-                                                            <input type="hidden" name="catename" class="form-control" style="display: none;" value="<?php echo isset($rowFrm['CateName']) ? htmlspecialchars($rowFrm['CateName']) : ''; ?>">
-                                                            <input type="hidden" name="procode" class="form-control" style="display: none;" value="<?php echo isset($rowFrm['ProCode']) ? htmlspecialchars($rowFrm['ProCode']) : ''; ?>">
-                                                            <input type="text" name="proname" class="form-control" 
-                                                                value="<?php echo htmlspecialchars($rowFrm['ProName']); ?>" readonly>
+                                                            <!-- <input type="text" name="items[0][catename]" class="form-control" style="display: block;" value="<?php echo isset($rowFrm['CateName']) ? htmlspecialchars($rowFrm['CateName']) : ''; ?>">
+                                                            <input type="hidden" name="items[0][procode]" class="form-control" style="display: none;" value="<?php echo isset($rowFrm['ProCode']) ? htmlspecialchars($rowFrm['ProCode']) : ''; ?>">
+                                                            <input type="text" name="items[0][proname]" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['ProName']); ?>" readonly> -->
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="price" class="form-control" 
-                                                                value="<?php echo htmlspecialchars($rowFrm['Price']); ?>" readonly>
+                                                            <!-- <input type="text" name="items[0][price]" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['Price']); ?>" readonly> -->
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="qty" class="form-control" 
-                                                                value="<?php echo htmlspecialchars($rowFrm['QTY']); ?>" readonly>
+                                                            <!-- <input type="text" name="items[0][qty]" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['QTY']); ?>" readonly> -->
                                                         </td>
                                                         <td>
-                                                            <input type="text" name="amount" class="form-control" 
-                                                                value="<?php echo htmlspecialchars($rowFrm['Amount']); ?>" readonly>
+                                                            <!-- <input type="text" name="items[0][amount]" class="form-control" 
+                                                                value="<?php echo htmlspecialchars($rowFrm['Amount']); ?>" readonly> -->
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -304,7 +428,7 @@ if (!empty($userId)) {
                                     <hr>
                                     <div>
                                         <label for="discount" class="form-label fw-bold">Discount (%):</label>
-                                        <input type="number" min="0" id="discount" class="form-control fw-bold" value="0">
+                                        <input type="number" min="0" name="discount" id="discount" class="form-control fw-bold" value="0">
                                         <div class="mt-4 row g-2">
                                             <div class="col-6">
                                             <button type="button" class="btn btn-outline-primary btn-sm discount-btn w-100 fw-bold fs-5" data-discount="5">5%</button>
@@ -334,12 +458,16 @@ if (!empty($userId)) {
                                     </div>
                                     <div class="mt-3">
                                         <label for="discount-amount" class="form-label fw-bold">Discount ($):</label>
-                                        <input type="number" min="0" id="discount-amount" class="form-control fw-bold" value="0">
+                                        <input type="number" min="0.0" step="0.01" id="discount-amount" class="form-control fw-bold" value="0">
                                     </div>
                                     <hr>
                                     <div class="d-flex justify-content-between">
-                                        <label class="fw-bold fs-4">Total:</label>
+                                        <label class="fw-bold fs-4">Total USD:</label>
                                         <label class="fw-bold fs-4" id="total-price">$0.00</label>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <label class="fw-bold fs-4">Total KHR:</label>
+                                        <label class="fw-bold fs-4" id="total-price-kh">៛0.00</label>
                                     </div>
                                     <button class="btn btn-success mt-3" id="checkout" type="button"><i class="fa-brands fa-paypal"></i> Tender</button>
 
@@ -384,23 +512,28 @@ if (!empty($userId)) {
                                 <div class="mb-4" style="overflow-y: auto; max-height: 200px;">
                                     <div class="d-flex justify-content-between fw-bold fs-4">
                                         <span>Before Discount Total:</span>
-                                        <span id="modal-before-discount" name="totalbedis" value="<?php echo htmlspecialchars($rowFrm['TotalBeDis']); ?>">$0.00</span>
+                                        <span id="modal-before-discount" name="totalbedis" >$0.00</span>
+                                        <!-- <input type="text" style="display: block;" name="items[0][totalbedis]" value="<?php echo isset($rowFrm['TotalBeDis']) ? htmlspecialchars($rowFrm['TotalBeDis']) : ''; ?>"> -->
                                     </div>
                                     <div class="d-flex justify-content-between fw-bold fs-4">
                                         <span>Discount Percentage:</span>
-                                        <span id="modal-discount-percentage" name="discountper" value="<?php echo htmlspecialchars($rowFrm['DiscountPer']); ?>">0%</span>
+                                        <span id="modal-discount-percentage" name="discountper" >0%</span>
+                                        <!-- <input type="text" style="display: none;" name="items[0][discountper]" value="<?php echo isset($rowFrm['DiscountPer']) ? htmlspecialchars($rowFrm['DiscountPer']) : ''; ?>"> -->
                                     </div>
                                     <div class="d-flex justify-content-between fw-bold fs-4">
                                         <span>Discount Amount:</span>
-                                        <span id="modal-discount-amount" name="discountcur" value="<?php echo htmlspecialchars($rowFrm['DiscountCur']); ?>">$0.00</span>
+                                        <span id="modal-discount-amount" name="discountcur" >$0.00</span>
+                                        <!-- <input type="text" style="display: none;" name="items[0][discountcur]" value="<?php echo isset($rowFrm['DiscountCur']) ? htmlspecialchars($rowFrm['DiscountCur']) : ''; ?>"> -->
                                     </div>
                                     <div class="d-flex justify-content-between fw-bold fs-4">
                                         <span>Total After Discount:</span>
-                                        <span id="modal-total-after-discount" name="totalaftdis" value="<?php echo htmlspecialchars($rowFrm['AmountInUSD']); ?>">$0.00</span>
+                                        <span id="modal-total-after-discount" name="totalaftdis" >$0.00</span>
+                                        <!-- <input type="text" style="display: none;" id="totalaftdisValue"> -->
                                     </div>
                                     <div class="d-flex justify-content-between fw-bold fs-4">
                                         <span>Change:</span>
-                                        <span id="modal-change" name="changeusd" value="<?php echo htmlspecialchars($rowFrm['ChangeUSD']); ?>">$0.00</span>
+                                        <span id="modal-change" name="changeusd" >$0.00</span>
+                                        <input type="text" id="modelChangeUsdAmount" style="display: none;" name="items[0][changeusd]" value="<?php echo isset($rowFrm['ChangeUSD']) ? htmlspecialchars($rowFrm['ChangeUSD']) : ''; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -408,20 +541,15 @@ if (!empty($userId)) {
                                 <!-- Scrollable Section: Payment Method -->
                                     <label for="payment-method" class="modal-title mb-4 bg-success text-center rounded p-2 fs-4 text-white">Payment Method</label>
                                     <div class="d-flex justify-content-between">
-                                        <select id="payment-method" class="form-select fw-bold fs-5 mt-3 w-50 h-25" name="payment">
-                                            <?php
-                                                    $sqlpayment = "SELECT * FROM `paymentmethod` WHERE del=1";
-                                                    $qrpayment = $conn->query($sqlpayment);
-                                                    while ($rowpayment = $qrpayment->fetch_assoc()){
-                                                    $sel = ($rowpayment['Id'] == $rowFrm['PaymentMethodId']) ? 'selected' : '';
-                                                    echo '<option value="' .htmlspecialchars($rowpayment['Id']) .'" ' . $sel . '>' . htmlspecialchars($rowpayment['Name']) . '</option>';
-                                                }
-                                            ?>
+                                        <select id="payment-method" class="form-select fw-bold fs-5 mt-3 w-50 h-25" name="items[0][payment]">
+                                        <?php while ($row = $payment->fetch_assoc()): ?>
+                                            <option value="<?= htmlspecialchars($row['Id']) ?>"><?= htmlspecialchars($row['Name']) ?></option>
+                                        <?php endwhile; ?>
                                         </select>
                                     <!-- Centered Card Section: Payment Received -->
                                         <div class="card-body text-center">
                                             <label for="payment-received" class="form-label fw-bold fs-5">Payment Received</label>
-                                            <input type="number" min="0" id="payment-received" class="form-control fw-bold fs-5" step="0.01" name="paidinusd" value="<?php echo htmlspecialchars($rowFrm['PaidInUSD']); ?>" placeholder="Enter amount......">
+                                            <input type="number" min="0" id="payment-received" class="form-control fw-bold fs-5" step="0.01" name="items[0][paidinusd]" value="<?php echo htmlspecialchars($rowFrm['PaidInUSD']); ?>" placeholder="Enter amount......"​required>
                                             <button type="button" class="btn btn-success mt-3 w-100" id="remaining-payment">Add Remaining</button>
                                         </div>
                                     </div>
@@ -462,15 +590,13 @@ if (!empty($userId)) {
                     </div>
                 </div>
             </div>
-            <?php
-            echo $sqlposinvoiceinsert;
-            ?>
         </form>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const cart = [];
                 const orderList = document.getElementById('order-list');
                 const totalPrice = document.getElementById('total-price');
+                const totalPriceKH = document.getElementById('total-price-kh');
                 const discountInput = document.getElementById('discount');
                 const discountAmountInput = document.getElementById('discount-amount'); //new
                 const discountButtons = document.querySelectorAll('.discount-btn'); //new
@@ -486,14 +612,30 @@ if (!empty($userId)) {
 
             function updateCart() {
                 orderList.innerHTML = ''; // Clear the table body
-                let total = 0;
-
+                let total = 0.0;
+                const totalSum = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
                 cart.forEach((item, index) => {
+                    
+                    console.log(item)
+
                     const itemTotal = item.price * item.quantity;
                     total += itemTotal;
 
                     // Create a new row
                     const row = document.createElement('tr');
+
+                    let hiddenInputs = "<input type='hidden' name='items["+index+"][proname]' value='"+item.name+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][catename]' value='"+item.catename+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][catename]' value='"+item.catename+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][price]' value='"+item.price.toFixed(2)+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][qty]' value='"+item.quantity+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][amount]' value='"+itemTotal.toFixed(2)+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][totalbedis]' value='"+totalSum.toFixed(2)+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][discountper]' value='"+parseFloat(discountInput.value).toFixed(2)+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][discountcur]' value='"+parseFloat(totalSum * parseFloat(discountInput.value) /100.0).toFixed(2)+"'>";
+                    hiddenInputs += "<input type='hidden' name='items["+index+"][totalaftdis]' value='"+ (totalSum- parseFloat(totalSum * parseFloat(discountInput.value) /100.0).toFixed(2))+"'>";
+
+                    row.innerHTML += hiddenInputs;
 
                     // Description
                     const nameCell = document.createElement('td');
@@ -570,7 +712,11 @@ if (!empty($userId)) {
                 const discountFromPercentage = total * (discountPercentage / 100);
                 const discountedTotal = Math.max(total - discountFromPercentage - discountByAmount, 0);
 
+
+                document.getElementById('discount-amount').value  = parseFloat(parseFloat(discountFromPercentage).toFixed(2));
+
                 totalPrice.textContent = `$${discountedTotal.toFixed(2)}`;
+                totalPriceKH.textContent = `៛${parseFloat(discountedTotal * 4100).toFixed(2)}`;
             }
 
 
@@ -585,12 +731,13 @@ if (!empty($userId)) {
                 button.addEventListener('click', () => {
                     const itemName = button.getAttribute('data-item');
                     const itemPrice = parseFloat(button.getAttribute('data-price'));
+                    const itemCateName = button.getAttribute('data-catename');
                     const existingItem = cart.find(item => item.name === itemName);
-
+                    
                     if (existingItem) {
                         existingItem.quantity += 1;
                     } else {
-                        cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+                        cart.push({ name: itemName, price: itemPrice, quantity: 1, catename: itemCateName });
                     }
 
                     updateCart();
@@ -642,6 +789,9 @@ if (!empty($userId)) {
                 const change = received - totalAfterDiscount;
 
                 modalChange.textContent = `$${change.toFixed(2)}`;
+
+                document.getElementById("modelChangeUsdAmount").value = change.toFixed(2);
+
             });
 
             // document.getElementById('finalize-payment').addEventListener('click', () => {
@@ -711,8 +861,73 @@ if (!empty($userId)) {
 
         </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentReceivedInput = document.getElementById('payment-received');
+        const finalizePaymentButton = document.getElementById('finalize-payment');
+        const modalTotalAfterDiscount = document.getElementById('modal-total-after-discount');
+        const modalChange = document.getElementById('modal-change');
 
+        // Disable the "Pay" button initially
+        finalizePaymentButton.disabled = true;
 
+        // Listen for input changes in the payment-received field
+        paymentReceivedInput.addEventListener('input', function () {
+            const received = parseFloat(paymentReceivedInput.value) || 0;
+            const totalAfterDiscount = parseFloat(modalTotalAfterDiscount.textContent.replace('$', '')) || 0;
+            const change = received - totalAfterDiscount;
+
+            // Update change amount
+            modalChange.textContent = `$${change.toFixed(2)}`;
+            document.getElementById("modelChangeUsdAmount").value = change.toFixed(2);
+
+            // Check if payment is sufficient
+            if (received < totalAfterDiscount) {
+                finalizePaymentButton.disabled = true;
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Payment is not enough',
+                    text: `You need to pay at least $${totalAfterDiscount.toFixed(2)}.`,
+                });
+            } else {
+                finalizePaymentButton.disabled = false;
+            }
+        });
+
+        // Additional validation when attempting to submit payment
+        finalizePaymentButton.addEventListener('click', function (e) {
+            const received = parseFloat(paymentReceivedInput.value) || 0;
+            const totalAfterDiscount = parseFloat(modalTotalAfterDiscount.textContent.replace('$', '')) || 0;
+
+            if (received < totalAfterDiscount) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment is not enough',
+                    text: `You cannot proceed. Required amount: $${totalAfterDiscount.toFixed(2)}.`,
+                });
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const finalizePaymentButton = document.getElementById('finalize-payment');
+        const tableSelect = document.getElementById('table');
+
+        finalizePaymentButton.addEventListener('click', function (e) {
+            // Check if a table is selected
+            if (!tableSelect.value) {
+                e.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Table not selected',
+                    text: 'Please select a table before proceeding.',
+                });
+            }
+        });
+    });
+</script>
 
 
     </body>
