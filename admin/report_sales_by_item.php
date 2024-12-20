@@ -62,7 +62,7 @@ include('function_user.php');
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small; ">
+                                <!-- <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small; ">
                                     <thead>
                                         <tr>
                                             <th>Location</th>
@@ -95,8 +95,8 @@ include('function_user.php');
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        
-                                            $sqlInvoice = " SELECT 
+
+                                        $sqlInvoice = " SELECT 
                                                             invoice.InvoiceNo, 
                                                             DATE(invoice.CreateAt) AS InvoiceDate,
                                                             outlet.Name AS OutletName,
@@ -105,11 +105,11 @@ include('function_user.php');
                                                             uom.Name AS UOM, 
                                                             invoice.Price,
                                                             SUM(invoice.QTY) AS TotalQTY,
-                                                            SUM(invoice.TotalBeDis) AS TotalAmount, 
+                                                            SUM(invoice.QTY * invoice.Price) AS TotalAmount, 
                                                             SUM(invoice.DiscountCur) AS TotalDiscount,
                                                             CASE 
-                                                                WHEN SUM(invoice.DiscountCur) = 0 THEN SUM(invoice.TotalBeDis)
-                                                                ELSE SUM(invoice.TotalBeDis) - SUM(invoice.DiscountCur)
+                                                                WHEN SUM(invoice.DiscountCur) = 0 THEN SUM(invoice.QTY * invoice.Price)
+                                                                ELSE SUM(invoice.QTY * invoice.Price) - SUM(invoice.DiscountCur)
                                                             END AS TotalAfterDiscount
                                                         FROM invoice
                                                         INNER JOIN outlet ON invoice.OutletId = outlet.Id
@@ -123,7 +123,7 @@ include('function_user.php');
                                                             invoice.ProName, 
                                                             UOM, 
                                                             invoice.Price
-                                                        ORDER BY InvoiceDate ASC
+                                                        ORDER BY InvoiceDate DESC
                                                     ";
                                         $Invoice = $conn->query($sqlInvoice);
 
@@ -150,7 +150,87 @@ include('function_user.php');
                                         }
                                         ?>
                                     </tbody>
+                                </table> -->
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small;">
+                                    <thead>
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Invoice No</th>
+                                            <th>Date</th>
+                                            <th>Pro-code</th>
+                                            <th>Pro-Name</th>
+                                            <th>UOM</th>
+                                            <th>Price</th>
+                                            <th>QTY</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount</th>
+                                            <th>Total After Discount</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Invoice No</th>
+                                            <th>Date</th>
+                                            <th>Pro-code</th>
+                                            <th>Pro-Name</th>
+                                            <th>UOM</th>
+                                            <th>Price</th>
+                                            <th>QTY</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount</th>
+                                            <th>Total After Discount</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <?php
+                                        $sqlInvoice = " SELECT
+                                                         
+                                                            invoice.InvoiceNo, 
+                                                            DATE(invoice.CreateAt) AS InvoiceDate,
+                                                            outlet.Name AS OutletName,
+                                                            invoice.ProCode, 
+                                                            invoice.ProName, 
+                                                            uom.Name AS UOM, 
+                                                            invoice.Price,
+                                                            invoice.QTY,
+                                                            (invoice.QTY * invoice.Price) AS TotalAmount,  -- Calculate TotalAmount as QTY * Price
+                                                            invoice.DiscountCur AS TotalDiscount,
+                                                            ((invoice.QTY * invoice.Price) - invoice.DiscountCur) AS TotalAfterDiscount  -- Calculate TotalAfterDiscount
+                                                        FROM invoice
+                                                        INNER JOIN outlet ON invoice.OutletId = outlet.Id
+                                                        INNER JOIN uom ON invoice.UOM = uom.Id
+                                                        WHERE invoice.del = 1
+                                                        ORDER BY invoice.CreateAt DESC
+                                                    ";
+
+                                        $Invoice = $conn->query($sqlInvoice);
+
+                                        if ($Invoice && $Invoice->num_rows > 0) {
+                                            while ($rowInvoice = $Invoice->fetch_assoc()) {
+                                        ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($rowInvoice['OutletName']) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['InvoiceNo']) ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($rowInvoice['InvoiceDate'])) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['ProCode']) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['ProName']) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['UOM']) ?></td>
+                                                    <td><?= number_format($rowInvoice['Price'], 2) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['QTY']) ?></td>
+                                                    <td><?= number_format($rowInvoice['TotalAmount'], 2) ?></td>
+                                                    <td><?= number_format($rowInvoice['TotalDiscount'], 2) ?></td>
+                                                    <td><?= number_format($rowInvoice['TotalAfterDiscount'], 2) ?></td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='11'>No records found.</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
                                 </table>
+
 
                             </div>
                         </div>

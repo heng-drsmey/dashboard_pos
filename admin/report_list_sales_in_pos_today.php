@@ -14,7 +14,7 @@ include('function_user.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin - Report Daily Sales</title>
+    <title>Admin - Invoice List</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,61 +55,80 @@ include('function_user.php');
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Daily Sales</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Invoice List</h1>
                         <a href="pos.php" class="d-none d-sm-inline-block btn btn-success shadow-sm"><i class="fas fa-user text-white-50"></i> POS</a>
                     </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small; ">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small;">
                                     <thead>
                                         <tr>
-                                            <th>Location</th>
                                             <th>Date</th>
+                                            <th>Invoice Number</th>
                                             <th>Total Amount</th>
                                             <th>Discount</th>
                                             <th>Total After Discount</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Location</th>
                                             <th>Date</th>
+                                            <th>Invoice Number</th>
                                             <th>Total Amount</th>
                                             <th>Discount</th>
                                             <th>Total After Discount</th>
+                                            <th>Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        $sqlInvoice = "SELECT 
-                                                            outlet.Name AS OutletName, 
+                                        // $sqlInvoice = "SELECT 
+                                        //                     invoice.InvoiceNo AS InvoiceNumber, 
+                                        //                     DATE(invoice.CreateAt) AS InvoiceDate, 
+                                        //                     SUM(invoice.TotalBeDis) AS TotalAmount, 
+                                        //                     SUM(invoice.DiscountCur) AS Discount,
+                                        //                     CASE 
+                                        //                         WHEN SUM(invoice.DiscountCur) = 0 THEN SUM(invoice.TotalBeDis)
+                                        //                         ELSE SUM(invoice.TotalBeDis) - SUM(invoice.DiscountCur)
+                                        //                     END AS TotalAfterDiscount
+                                        //                 FROM `invoice` 
+                                        //                 WHERE invoice.del = 1 
+                                        //                 AND DATE(invoice.CreateAt) = CURDATE() -- Filter for the current date
+                                        //                 GROUP BY invoice.InvoiceNo, DATE(invoice.CreateAt)
+                                        //                 ORDER BY InvoiceDate ASC
+                                        //                 ";
+
+                                        $sqlInvoice = " SELECT 
+                                                            invoice.InvoiceNo AS InvoiceNumber, 
                                                             DATE(invoice.CreateAt) AS InvoiceDate, 
-                                                            SUM(invoice.QTY * invoice.Price) AS TotalAmount, -- Calculate TotalAmount dynamically
-                                                            MAX(invoice.DiscountCur) AS Discount, -- Show the maximum discount per group
+                                                            SUM(invoice.QTY * invoice.Price) AS TotalAmount, -- Sum of QTY * Price
+                                                            invoice.DiscountCur AS Discount, -- Show Discount directly (no sum)
                                                             CASE 
-                                                                WHEN MAX(invoice.DiscountCur) = 0 THEN SUM(invoice.QTY * invoice.Price) -- No discount, TotalAmount = TotalAfterDiscount
-                                                                ELSE SUM(invoice.QTY * invoice.Price) - MAX(invoice.DiscountCur) -- Subtract discount if present
+                                                                WHEN invoice.DiscountCur = 0 THEN SUM(invoice.QTY * invoice.Price)
+                                                                ELSE SUM(invoice.QTY * invoice.Price) - invoice.DiscountCur
                                                             END AS TotalAfterDiscount
                                                         FROM `invoice` 
-                                                        INNER JOIN `outlet` ON invoice.OutletId = outlet.Id 
                                                         WHERE invoice.del = 1 
-                                                        GROUP BY outlet.Name, DATE(invoice.CreateAt)
-                                                        ORDER BY InvoiceDate DESC;
+                                                        AND DATE(invoice.CreateAt) = CURDATE() -- Filter for the current date
+                                                        GROUP BY invoice.InvoiceNo, invoice.DiscountCur, DATE(invoice.CreateAt) -- Group by InvoiceNumber and DiscountCur
+                                                        ORDER BY InvoiceDate DESC
 
-                                                            ";
 
+                                                ";
                                         $Invoice = $conn->query($sqlInvoice);
                                         if ($Invoice) {
                                             while ($rowInvoice = $Invoice->fetch_assoc()) :
                                         ?>
                                                 <tr>
-                                                    <td><?= htmlspecialchars($rowInvoice['OutletName']) ?></td>
                                                     <td><?= date('d-m-Y', strtotime($rowInvoice['InvoiceDate'])) ?></td>
+                                                    <td><?= htmlspecialchars($rowInvoice['InvoiceNumber']) ?></td>
                                                     <td><?= number_format($rowInvoice['TotalAmount'], 2) ?></td>
                                                     <td><?= number_format($rowInvoice['Discount'], 2) ?></td>
                                                     <td><?= number_format($rowInvoice['TotalAfterDiscount'], 2) ?></td>
+                                                    <td><a href="format_receipt.php?InvoiceNo=<?= $rowInvoice['InvoiceNumber'] ?>" class="badge badge-success badge-lg " id="reprint" ><i class="fa-solid fa-print"></i> Reprint</a></td>
                                                 </tr>
                                         <?php endwhile;
                                         } else {
@@ -117,9 +136,7 @@ include('function_user.php');
                                         }
                                         ?>
                                     </tbody>
-                                    </table>
-
-
+                                </table>
 
                             </div>
                         </div>
