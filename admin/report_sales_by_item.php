@@ -203,7 +203,8 @@ include('function_user.php');
                                                             outlet.Name AS OutletName,
                                                             invoice.ProCode, 
                                                             invoice.ProName, 
-                                                            uom.Name AS UOM, 
+                                                            -- uom.Name AS UOM, 
+                                                            invoice.UOM,
                                                             invoice.Price,
                                                             invoice.QTY,
                                                             (invoice.QTY * invoice.Price) AS TotalAmount,  -- Calculate TotalAmount as QTY * Price
@@ -211,7 +212,7 @@ include('function_user.php');
                                                             ((invoice.QTY * invoice.Price) - invoice.DiscountCur) AS TotalAfterDiscount  -- Calculate TotalAfterDiscount
                                                         FROM invoice
                                                         INNER JOIN outlet ON invoice.OutletId = outlet.Id
-                                                        INNER JOIN uom ON invoice.UOM = uom.Id
+                                                        -- INNER JOIN uom ON invoice.UOM = uom.Id
                                                         WHERE invoice.del = 1
                                                         ORDER BY invoice.CreateAt DESC
                                                     ";

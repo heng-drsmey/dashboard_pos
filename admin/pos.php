@@ -151,17 +151,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                 //     break; // Stop the loop if an error occurs
                 // }
                 if ($stmt->execute()) {
-                    echo '<script>
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            swal({
-                                                title: "Success",
-                                                text: "Payment successfully processed.",
-                                                icon: "success"
-                                            }).then(function() {
-                                                window.location = "pos.php";
-                                            });
-                                        });
-                                      </script>';
+                    // echo '<script>
+                    //                     document.addEventListener("DOMContentLoaded", function() {
+                    //                         swal({
+                    //                             title: "Success",
+                    //                             text: "Payment successfully processed.",
+                    //                             icon: "success"
+                    //                         }).then(function() {
+                    //                             window.location = "pos.php";
+                    //                         });
+                    //                     });
+                    //                   </script>';
+
+                ?>
+                <?php
+                    // Fetch the last InvoiceNo from the database
+                    $sqlLastInvoice = "SELECT InvoiceNo FROM invoice ORDER BY CreateAt DESC LIMIT 1";
+                    $resultLastInvoice = $conn->query($sqlLastInvoice);
+                    
+                    if ($resultLastInvoice && $resultLastInvoice->num_rows > 0) {
+                        $rowLastInvoice = $resultLastInvoice->fetch_assoc();
+                        $lastInvoiceNo = htmlspecialchars($rowLastInvoice['InvoiceNo']); // Secure the value
+                    
+                        // Echo the script with a dynamically generated link
+                        echo '<script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                swal({
+                                    title: "Success",
+                                    text: "Payment successfully processed.",
+                                    icon: "success"
+                                }).then(function() {
+                                    window.location = "report_list_sales_in_pos_today.php";
+                                });
+                    
+                                
+                            });
+                        </script>';
+                    } else {
+                        // Handle cases where no invoice is found
+                        echo '<script>
+                            swal({
+                                title: "Error",
+                                text: "Failed to retrieve the last invoice number.",
+                                icon: "error"
+                            });
+                        </script>';
+                    }
+                    
+                    
+                    
                 } else {
                     echo '<script>
                                         document.addEventListener("DOMContentLoaded", function() {
@@ -206,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
 
     <title>Point of Sale</title>
     <!-- font awsome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -220,16 +258,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <style>
-    #wrapper {
-        display: flex;
-        height: 100vh;
-        overflow: hidden;
-    }
+        #wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    #page-content-wrapper {
-        flex-grow: 1;
-        overflow-y: auto;
-    }
+        #page-content-wrapper {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
 
         .nav-link.active {
             background-color: #007bff !important;
@@ -521,7 +559,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                                     </div>
                                     <button class="btn btn-success mt-3" id="checkout" type="button"><i class="fa-brands fa-paypal"></i> Tender</button>
 
-                                    <button class="btn btn-secondary mt-3" id="print-bill" type="button"><i class="fa-solid fa-print"></i> Print Bill</button>
+                                    <!-- <button class="btn btn-secondary mt-3" id="print-bill" type="button"><i class="fa-solid fa-print"></i> Print Bill</button> -->
                                 </div>
                                 <div id="receipt-preview" style="display: none;">
                                     <h5 class="text-center">Receipt</h5>
@@ -537,23 +575,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                                     <!-- Open Shift Button -->
 
                                     <?php
-                                        $SQLshift = "SELECT * FROM `shift` ";
-                                        $shift = $conn->query($SQLshift);
-                                        $rowshift = $shift->fetch_assoc();
+                                    $SQLshift = "SELECT * FROM `shift` ";
+                                    $shift = $conn->query($SQLshift);
+                                    $rowshift = $shift->fetch_assoc();
                                     ?>
                                     <?php foreach ($shift as $rowshift)
 
                                     ?>
                                     <?php
-                                        if ($rowshift['Status'] == 1)
-                                        {
-                                            echo '<a href="closeShift.php?Id='.$rowshift['Id'].'&Status=0   "class="btn btn-danger mt-4 mr-2 p-2" id="close-shift"><i class="fa-solid fa-door-closed"></i> Close Shift</a>';
-                                        }else{
-                                            echo '<a href="shift-add.php" class="btn btn-primary mt-4 mr-2 p-2" id="open-shift"><i class="fa-solid fa-door-open"></i> Open Shift</a>';
-                                        }
+                                if ($rowshift['Status'] == 1) {
+                                    echo '<a href="closeShift.php?Id=' . $rowshift['Id'] . '&Status=0   "class="btn btn-danger mt-4 mr-2 p-2" id="close-shift"><i class="fa-solid fa-door-closed"></i> Close Shift</a>';
+                                } else {
+                                    echo '<a href="shift-add.php" class="btn btn-primary mt-4 mr-2 p-2" id="open-shift"><i class="fa-solid fa-door-open"></i> Open Shift</a>';
+                                }
                                     ?>
                                     <a href="report_list_sales_in_pos_today.php" class="btn btn-warning mt-4 mr-2 p-2" id="delete-invoice"> </i> Invoice List</a>
-                                    <a href="format_receipt.php" class="btn btn-info mt-4 mr-2 p-2" id="reprint"><i class="fa-solid fa-copy"></i> Print</a>
+                                    <!-- <a href="format_receipt.php" class="btn btn-info mt-4 mr-2 p-2" id="reprint"><i class="fa-solid fa-copy"></i> Print</a> -->
                                 </div>
                             </div>
                         </div>

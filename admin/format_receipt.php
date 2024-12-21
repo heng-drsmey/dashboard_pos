@@ -68,6 +68,7 @@
 </head>
 
 <body>
+    <!-- <a href="pos.php">Back to POS</a> -->
     <div class="receipt">
         <?php
         include('cn.php'); // Database connection
@@ -78,7 +79,7 @@
         $storeResult = $conn->query($storeQuery);
         $store = $storeResult->fetch_assoc();
 
-        echo "<h2>" . htmlspecialchars($store['Name']) . "</h2>";
+        echo "<h2><a href='pos.php'>" . htmlspecialchars($store['Name']) . "</a></h2>";
         echo "<p>" . htmlspecialchars($store['Address']) . "</p>";
         echo "<p>Phone: " . htmlspecialchars($store['Telephone']) . "</p>";
         ?>

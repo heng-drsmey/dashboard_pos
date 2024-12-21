@@ -126,7 +126,9 @@ include('function_user.php');
                                                         WHERE invoice.del = 1 
                                                         AND DATE(invoice.CreateAt) = CURDATE() -- Filter for the current date
                                                         GROUP BY invoice.InvoiceNo, invoice.DiscountCur, DATE(invoice.CreateAt) -- Group by InvoiceNumber and DiscountCur
-                                                        ORDER BY InvoiceDate DESC
+                                                        -- ORDER BY InvoiceDate DESC
+                                                        ORDER BY invoice.CreateAt DESC
+                                                        
 
 
                                                 ";
