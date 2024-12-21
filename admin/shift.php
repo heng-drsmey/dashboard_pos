@@ -31,6 +31,18 @@ $result = $conn->query($sql);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+    #wrapper {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+</style>
 </head>
 
 <body id="page-top">

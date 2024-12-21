@@ -220,6 +220,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <style>
+    #wrapper {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+
         .nav-link.active {
             background-color: #007bff !important;
             color: white !important;
@@ -402,10 +413,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <p class="card-text"><?= $row['ProductName'] ?></p>
-                                                                    <h5 class="text-success"><?= $row['ProductPrice'] ?></h5>
+                                                                    <h5 class="text-success">$<?= $row['ProductPrice'] ?></h5>
                                                                     <p class="text-muted"><?= $row['UOMName'] ?></p>
 
-                                                                    <button class="btn btn-primary add-to-cart" type="button" data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>" data-catename="<?= $categoryName ?>">
+                                                                    <button class="btn btn-primary add-to-cart" type="button" data-item="<?= $row['ProductName'] ?>" data-price="<?= $row['ProductPrice'] ?>" data-catename="<?= $categoryName ?>" data-uom="<?= $row['UOMName'] ?>">
                                                                         <i class="fas fa-plus"></i> Add
                                                                     </button>
                                                                 </div>
@@ -678,6 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                         const row = document.createElement('tr');
 
                         let hiddenInputs = "<input type='hidden' name='items[" + index + "][proname]' value='" + item.name + "'>";
+                        hiddenInputs += "<input type='hidden' name='items[" + index + "][uom]' value='" + item.uom + "'>";
                         hiddenInputs += "<input type='hidden' name='items[" + index + "][catename]' value='" + item.catename + "'>";
                         hiddenInputs += "<input type='hidden' name='items[" + index + "][catename]' value='" + item.catename + "'>";
                         hiddenInputs += "<input type='hidden' name='items[" + index + "][price]' value='" + item.price.toFixed(2) + "'>";
@@ -783,6 +795,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                 document.querySelectorAll('.add-to-cart').forEach(button => {
                     button.addEventListener('click', () => {
                         const itemName = button.getAttribute('data-item');
+                        const itemUom = button.getAttribute('data-uom');
                         const itemPrice = parseFloat(button.getAttribute('data-price'));
                         const itemCateName = button.getAttribute('data-catename');
                         const existingItem = cart.find(item => item.name === itemName);
@@ -792,6 +805,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnsave'])) {
                         } else {
                             cart.push({
                                 name: itemName,
+                                uom: itemUom,
                                 price: itemPrice,
                                 quantity: 1,
                                 catename: itemCateName

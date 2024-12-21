@@ -29,6 +29,18 @@ include('function_pos_invoice.php');
     <link href="css/img-style.css" rel="stylesheet">
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    #wrapper {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+</style>
 </head>
 
 <body id="page-top">

@@ -26,7 +26,18 @@ include('function_payment_method.php');
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+    #wrapper {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
 
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+</style>
 </head>
 
 <body id="page-top">

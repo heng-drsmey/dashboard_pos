@@ -87,7 +87,18 @@ $logoPath = 'ImageCompany/' . htmlspecialchars($company['OutletLogo']);
     <!-- Custom styles -->
     <!-- <link rel="stylesheet" href="css/payroll-style.css"> Linking payroll-style.css -->
     <link rel="stylesheet" href="css/payroll-style.css?v=1.0">
+    <style>
+    #wrapper {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
 
+    #page-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+</style>
 </head>
 
 <body>
