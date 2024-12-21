@@ -172,9 +172,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div id="collapsePOS" class="collapse" aria-labelledby="headingSet" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="shift.php">Shift</a>
-                <a class="collapse-item" href="shift-details.php">Shift Details</a>
+                <!-- <a class="collapse-item" href="shift-details.php">Shift Details</a>
                 <a class="collapse-item" href="sale-details.php">Sales Details</a>
-                <a class="collapse-item" href="pos-invoice.php">POS Invoice</a>
+                <a class="collapse-item" href="pos-invoice.php">POS Invoice</a> -->
                 <a class="collapse-item" href="pos.php">POS</a>
             </div>
         </div>
